@@ -1,0 +1,23 @@
+[package]
+name = "paper5-core"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+repository.workspace = true
+description = "Multi-modal least-cost-path solver for the Paper 5 effective-distance panel."
+
+[dependencies]
+petgraph = { workspace = true }
+rayon = { workspace = true }
+serde = { workspace = true }
+bincode = { workspace = true }
+anyhow = { workspace = true }
+thiserror = { workspace = true }
+
+[dev-dependencies]
+criterion = "0.5"
+
+[[bench]]
+name = "dijkstra"
+harness = false

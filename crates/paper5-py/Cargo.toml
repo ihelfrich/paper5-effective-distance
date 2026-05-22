@@ -1,0 +1,17 @@
+[package]
+name = "paper5-py"
+version.workspace = true
+edition.workspace = true
+authors.workspace = true
+license.workspace = true
+description = "Python bindings for paper5-core (via PyO3)."
+
+[lib]
+name = "paper5_core"
+crate-type = ["cdylib"]
+
+[dependencies]
+paper5-core = { path = "../paper5-core" }
+pyo3 = { workspace = true }
+numpy = { workspace = true }
+ndarray = "0.16"

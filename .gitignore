@@ -1,0 +1,66 @@
+# Data — external rasters, intermediate parquet/zarr, do NOT commit
+data/
+!data/.gitkeep
+
+# Figures — generated
+figures/*.png
+figures/*.pdf
+!figures/.gitkeep
+
+# LaTeX build artifacts
+manuscript/*.aux
+manuscript/*.bbl
+manuscript/*.blg
+manuscript/*.log
+manuscript/*.out
+manuscript/*.synctex.gz
+manuscript/*.fdb_latexmk
+manuscript/*.fls
+manuscript/main.pdf
+manuscript/paper_5a/*.aux
+manuscript/paper_5a/*.bbl
+manuscript/paper_5a/*.blg
+manuscript/paper_5a/*.log
+manuscript/paper_5a/*.out
+manuscript/paper_5a/*.synctex.gz
+manuscript/paper_5a/*.fdb_latexmk
+manuscript/paper_5a/*.fls
+# but TRACK manuscript/paper_5a/paper_5a.pdf — it's a deliverable
+!manuscript/paper_5a/paper_5a.pdf
+# and TRACK figures/output/*.pdf when they're committed deliverables
+!figures/output/
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.venv/
+.env
+dist/
+build/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Tooling
+.ruff_cache/
+.mypy_cache/
+.pytest_cache/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Rust
+target/
+Cargo.lock
+**/*.rs.bk
+
+# DuckDB (catalog.sql is tracked; the .duckdb file itself is not)
+*.duckdb
+*.duckdb.wal
+
+# Snakemake
+.snakemake/
+_private/

@@ -1,0 +1,915 @@
+% ============================================================
+% Effective Distance: A Satellite-Calibrated Bilateral Trade-Cost Panel
+% Gonchar & Helfrich (2026)
+% ============================================================
+% Target: Journal of International Economics
+% Sprint target: v0.9 SSRN working paper by April 30, 2026
+% ============================================================
+
+\documentclass[11pt, a4paper]{article}
+
+% ---------- Packages ----------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{siunitx}
+\usepackage{natbib}
+\bibliographystyle{aer}
+\usepackage[hidelinks]{hyperref}
+\usepackage{xcolor}
+\usepackage{authblk}
+
+% ---------- Theorems ----------
+\newtheorem{proposition}{Proposition}
+\newtheorem{definition}{Definition}
+
+% ---------- Notation ----------
+\newcommand{\dij}{d_{ij,t}}
+\newcommand{\Xij}{X_{ij,t}}
+\newcommand{\Xii}{X_{ii,t}}
+\newcommand{\thetas}{\theta_s}
+\newcommand{\LCP}{\mathrm{LCP}}
+
+% ---------- Title ----------
+\title{Effective Distance: A Satellite-Calibrated Bilateral Trade-Cost Panel, 2000--2024}
+\author[1]{Elizaveta Gonchar}
+\author[1]{Ian T. Helfrich\thanks{Georgia Institute of Technology. Corresponding author: Ian Helfrich, \texttt{ianthelfrich@gmail.com}. We thank [acknowledgments to be added]. Replication data and code: \texttt{https://doi.org/10.7910/DVN/[TBD]} (Harvard Dataverse) and \texttt{https://doi.org/10.5281/zenodo.[TBD]} (Zenodo). All errors are our own.}}
+\affil[1]{Georgia Institute of Technology}
+\date{\today}
+
+% ============================================================
+\begin{document}
+
+\maketitle
+
+% ============================================================
+\begin{abstract}
+\noindent
+\textbf{[DRAFT --- v0.1]}
+We construct the first global, time-varying, satellite-calibrated bilateral effective-distance panel covering 200 countries over 2000--2024. Combining annual VIIRS nighttime lights, WorldPop population rasters, and OpenStreetMap-derived multi-modal transport networks, we build eight variants of bilateral distance---including a multi-modal least-cost-path measure with endogenous modal choice---that materially update CEPII's static \texttt{distw}. We validate the panel in the structural gravity framework of \citet{yotov_piermartini_monteiro_larch_2016} using three-way fixed-effects PPML with the \citet{weidner_zylkin_2021} bias correction and intranational trade flows. Our satellite-calibrated measures show significantly improved fit (AIC, pseudo-$R^2$, out-of-sample RMSE) and reveal time-variation in distance-elasticity concentrated in countries whose population and activity distributions have shifted most over the sample. Welfare counterfactuals on the 2021 Suez closure, the 2023 Panama Canal drought, and the 2024 Houthi Red Sea disruption diverge from CEPII-based counterparts by [X\%] on average, with divergence concentrated in exposed economies. The panel is released under CC-BY 4.0 on Harvard Dataverse and Zenodo with versioned DOIs.
+
+\medskip
+
+\noindent \textbf{JEL codes:} F10, F14, R12, C23, C81
+
+\noindent \textbf{Keywords:} structural gravity, bilateral trade costs, nighttime lights, transport networks, welfare counterfactuals, public-good dataset
+\end{abstract}
+
+% ============================================================
+\section{Introduction}
+\label{sec:intro}
+
+Distance is the most durable regressor in international economics.
+Since at least \citet{tinbergen_1962}, bilateral trade declines sharply with
+geographic separation, and a generation of theory---from \citet{anderson_vanwincoop_2003}
+to \citet{eaton_kortum_2002} to \citet{melitz_2003}---has given this empirical
+regularity structural microfoundations.
+Yet the dominant measure used in virtually every gravity regression today is a
+static one: the \citet{mayer_zignago_2011} population-weighted distance (\texttt{distw}),
+which uses city populations from the year~2004 and applies them uniformly
+across every year of analysis.
+The population weights are never updated.
+The modal network---road, maritime, air---is never updated.
+The chokepoints through which roughly 25 percent of global containerized trade transits
+are treated as invariant frictionless conduits.
+Given that the worldwide urban-population distribution shifted substantially
+between 2000 and 2024 \citep{henderson_storeygard_weil_2012},
+that maritime routing underwent discrete cost jumps in 2021 (Ever Given, Suez),
+2023 (Panama Canal drought), and 2024 (Houthi Red Sea disruptions),
+and that low-income countries urbanized faster than the global average,
+the welfare cost of measurement error in bilateral distance is no longer
+a theoretical curiosity---it is directly quantifiable.
+
+We build the first global, time-varying, satellite-calibrated bilateral
+effective-distance panel.
+For each of the 21 years from 2002 to 2022 we identify national agglomerations
+using WorldPop 100\,m population rasters and GHS-POP, weight their centroids
+by current-year population and VIIRS nighttime-light radiance, route among
+them on a multi-modal transport graph constructed from OpenStreetMap road
+networks, a WPI-derived port graph, GSHHG coastlines, and OpenFlights air
+routes, and aggregate to the country-pair-year level using the CES-distance
+aggregator of \citet{head_mayer_2002}.
+The result is a panel of eight distance variants---covering the spectrum from
+the CEPII benchmark to a fully satellite-calibrated multi-modal least-cost-path
+measure---for up to 200 countries, released as public-good infrastructure
+on Harvard Dataverse.
+
+The panel's economic significance is sharpest at two margins.
+First, within the structural gravity framework of \citet{yotov_piermartini_monteiro_larch_2016}
+with three-way fixed effects (exporter$\times$time, importer$\times$time, pair),
+the standard \texttt{distw} is exactly absorbed by the pair fixed effect
+$\mu_{ij}$---it is time-invariant and provides zero identification.
+Our satellite-calibrated distance, by contrast, has within-pair time-variation
+that survives pair demaning: the distance-elasticity estimate $\beta$
+in our specification is identified from genuine changes in a country's
+economic geography, not from cross-sectional variation confounded by
+bilateral selection.
+Second, welfare counterfactuals on the three chokepoint shocks computed via
+exact-hat algebra \citep{caliendo_parro_2015, arkolakis_costinot_rodriguezclare_2012}
+diverge materially from CEPII-based counterparts for the most exposed country
+pairs, because the re-routing costs depend on the actual updated modal
+distance---not a 2004-population-frozen counterfactual.
+
+This paper scales up and substantially extends \citet{gonchar_helfrich_2025}.
+The prior paper demonstrated that population-weighted nightlight-augmented
+distances outperform static \texttt{distw} in cross-sectional gravity fit.
+Here we (i)~move from cross-section to a 21-year panel, (ii)~replace a
+VIIRS-weighted great-circle metric with a genuine multi-modal least-cost-path
+solve on a routable transport graph, (iii)~implement the full identification
+strategy with three-way FE and the \citet{weidner_zylkin_2021} incidental
+parameters bias correction, and (iv)~produce a public panel suitable for use
+by any researcher estimating bilateral trade costs.
+
+\medskip
+\paragraph*{Contribution.}
+Relative to existing datasets, we make three distinct advances.
+We provide the first \emph{time-varying} geography-forward bilateral distance
+panel, addressing the limitation that \citet{mayer_zignago_2011}'s GeoDist
+uses fixed 2004 populations.
+We provide the first multi-modal effective-distance measure at global scale,
+building on the maritime-geography approach of
+\citet{brancaccio_kalouptsidi_papageorgiou_2020} and the road-network
+market-access approach of \citet{donaldson_hornbeck_2016}, but combining all
+three modes with endogenous modal selection.
+And we provide the first effective-distance panel that is explicitly calibrated
+to the time-varying spatial distribution of economic activity as revealed by
+satellite imagery \citep{henderson_storeygard_weil_2012,
+elvidge_zhizhin_ghosh_baugh_hsu_2021, li_zhou_zhao_zhao_2020},
+not only population.
+
+\medskip
+\paragraph*{Related infrastructure.}
+The panel complements rather than replaces several existing products.
+The \citet{borchert_larch_shikher_yotov_2022} ITPD-E panel supplies
+sector-disaggregated trade flows and production values but relies on static
+bilateral distances; our panel is designed as a drop-in upgrade for ITPD-E
+gravity analysis.
+The \citet{arvis_duval_shepherd_utoktham_2013} inverse-gravity trade-cost
+estimates identify the full wedge between observed and frictionless trade, while
+our measures target the geography component of that wedge specifically.
+The \citet{novy_2013} bilateral trade-cost inversion similarly recovers a composite
+residual; we complement it by constructing the geography channel \emph{ex ante}
+from physical and network data.
+The IMF's 2025 working paper \citep{imf_wp_25_93} uses satellite-based
+container-ship tracking to nowcast aggregate trade but does not produce
+bilateral panel distance measures.
+
+\medskip
+\paragraph*{Roadmap.}
+Section~\ref{sec:lit} surveys the relevant literature.
+Section~\ref{sec:data} describes the data sources.
+Section~\ref{sec:construction} develops the eight distance variants, establishing
+the relationship between the multi-modal aggregator and the CES trade-cost
+literature.
+Section~\ref{sec:gravity} validates the panel in a structural gravity
+specification with three-way FE PPML.
+Section~\ref{sec:results} presents the main results: gravity fit comparison,
+estimated distance elasticities, and the geography of measurement revision.
+Section~\ref{sec:cf} applies the panel to welfare counterfactuals on the 2021
+Suez closure, the 2023 Panama drought, and the 2024 Houthi Red Sea shock.
+Section~\ref{sec:dataset} documents the data release.
+Section~\ref{sec:conclusion} concludes.
+
+% ============================================================
+\section{Related literature}
+\label{sec:lit}
+
+\subsection{Structural gravity, bilateral distances, and the distance puzzle}
+
+The structural gravity model provides the theoretical foundation for our
+estimation strategy.
+\citet{anderson_vanwincoop_2003} derived the gravity equation from a CES
+expenditure system, establishing that bilateral trade flows depend on bilateral
+trade costs relative to multilateral resistance terms that aggregate the costs
+facing each country across all trading partners.
+\citet{eaton_kortum_2002} derived an isomorphic gravity structure from
+Ricardian comparative advantage, and \citet{melitz_2003} showed that
+firm-level trade fixed costs create extensive-margin distance effects in
+addition to the intensive-margin iceberg cost.
+\citet{chaney_2008} extended Melitz to derive a micro-founded gravity equation
+in which the trade-cost elasticity on the extensive margin differs from
+that on the intensive margin, emphasizing that the welfare consequences of
+distance are richer than a simple iceberg model implies.
+\citet{helpman_melitz_rubinstein_2008} showed empirically that sample-selection
+bias from zero-trade pairs distorts gravity estimates and proposed a two-stage
+Heckman correction.
+
+The distance coefficient in gravity regressions has attracted enormous
+attention because of its remarkable persistence.
+\citet{disdier_head_2008} meta-analyzed 1,467 estimates across 103 studies
+and found a median elasticity of $-0.9$ with no secular decline despite
+fifty years of globalization, a phenomenon they term the ``puzzling persistence.''
+\citet{berthelon_freund_2008} showed that distance effects are sector-varying
+and have been falling only in homogeneous-goods sectors, partially resolving
+the puzzle.
+Our panel speaks directly to this literature by providing a time-varying
+distance measure that allows researchers to ask whether the constant distance
+effect in static regressions reflects genuine stability or compositional
+confounding from frozen population weights.
+
+\citet{head_mayer_2014} provide a comprehensive treatment of gravity as
+a workhorse for trade policy analysis, codifying the use of importer-year
+and exporter-year fixed effects to absorb multilateral resistance.
+\citet{yotov_piermartini_monteiro_larch_2016} establish the current gold
+standard for structural gravity estimation, emphasizing the necessity of
+three-way FE (exporter-time, importer-time, pair) for unbiased welfare
+analysis, the inclusion of intranational flows, and PPML as the appropriate
+estimator given the log-linearization bias documented by
+\citet{santos_silva_tenreyro_2006}.
+We adopt all three prescriptions in our validation exercise.
+
+A critical implication of the three-way specification that motivates this paper
+is that any time-\emph{invariant} bilateral covariate is perfectly absorbed by
+the pair fixed effect $\mu_{ij}$.
+\citet{mayer_zignago_2011}'s \texttt{distw}, being constructed from fixed
+2004 city populations, is time-invariant: it provides no identification in a
+properly specified three-way gravity regression.
+Satellite-calibrated time-varying distance is necessary---not merely
+preferable---to recover a structural distance-cost estimate in this
+framework.
+\citet{baier_yotov_zylkin_2019} stress this point in the context of FTA
+estimation; our paper demonstrates it quantitatively for the distance regressor.
+The \citet{weidner_zylkin_2021} bias correction for three-way PPML is
+particularly relevant here: with incidental parameters in exporter-time,
+importer-time, and pair fixed effects simultaneously, the asymptotic bias on
+slope coefficients is non-trivial, especially in short panels.
+
+\subsection{Internal geography, population weights, and effective distance}
+
+The canonical bilateral distance measures treat each country as a single
+point at its capital, economic center of gravity, or geometric centroid.
+\citet{head_mayer_2002} proposed population-weighting across city pairs to
+account for the fact that a large country's trade involves its interior cities,
+not just its capital---the ``illusory border effects'' of their title arise
+partly from treating France as Paris when Paris-to-Berlin distances dramatically
+understate mean French-to-German trade distances.
+This weighting scheme became \texttt{distw} in \citet{mayer_zignago_2011}'s
+GeoDist database, which remains the dominant public bilateral distance measure
+more than two decades later.
+
+The limitation of a fixed-year weighting was recognized early.
+\citet{redding_venables_2004} showed that a country's market access---essentially
+a distance-weighted sum of foreign incomes---is time-varying and constitutes
+a first-order determinant of per-capita income levels.
+\citet{ramondo_rodriguezclare_saborio_2016} demonstrated that domestic trade
+costs are quantitatively as important as international trade costs for welfare,
+establishing that within-country geography matters as much as between-country
+distances for gains from trade calculations.
+\citet{cosar_fajgelbaum_2016} and \citet{agnosteva_anderson_yotov_2019} show
+empirically that intra-national frictions generate systematic biases in
+international gravity estimates when internal geography is ignored or
+treated as static.
+
+Our agglomeration approach implements the \citet{head_mayer_2002} population-weighted
+CES aggregator but updates the weights annually using WorldPop 100\,m rasters
+and GHS-POP, both of which are constructed from satellite-derived inputs.
+For the activity-weighted variant \texttt{d\_lcp\_act}, we replace population weights
+with VIIRS nighttime radiance, following the validation evidence of
+\citet{henderson_storeygard_weil_2012} and \citet{jean_burke_xie_davis_lobell_ermon_2016}
+that nightlight intensity is a reliable proxy for local economic activity at
+sub-national scales.
+
+\subsection{Transport networks, routing, and market access}
+
+Measuring effective bilateral distance requires a routable transport
+representation, not merely a crow-flies great circle.
+The transport-network literature provides two relevant methodological ancestors.
+
+The first strand uses road networks to compute market access as a
+distance-weighted sum of economic mass.
+\citet{donaldson_hornbeck_2016} compute railroad-era market access for US
+counties, quantifying welfare gains from network expansion as the counterfactual
+cost of reaching every other county via the surviving network.
+\citet{donaldson_2018} extends this approach to the Indian subcontinent,
+showing that railroad access reduced price dispersion across districts
+in a way consistent with an Armington gravity model.
+\citet{allen_arkolakis_2014} develop a continuous-space spatial economy in
+which the gradient of trade costs across a topographic surface determines
+factor prices and specialization; \citet{allen_arkolakis_2022} use the same
+framework to assess welfare effects of transport infrastructure improvements.
+\citet{heblich_redding_sturm_2020} demonstrate the enduring importance of
+transport-cost reductions for urban concentration using London commuter rail.
+\citet{storeygard_2016} estimates the trade-cost effects of paved-road expansion
+in Sub-Saharan Africa.
+
+The second strand addresses maritime routing, which dominates international
+trade by volume.
+\citet{hummels_2007} documents that maritime transport constitutes the dominant
+cost component for long-distance trade and is far from frictionless, with costs
+varying dramatically by route, vessel class, and port infrastructure quality.
+\citet{hummels_schaur_2013} show that time-in-transit is an additional
+dimension of trade cost beyond direct freight rates---a one-day reduction
+in transit time is equivalent to a 0.8-percentage-point reduction in tariff
+from the importer's perspective.
+\citet{brancaccio_kalouptsidi_papageorgiou_2020} build a general-equilibrium
+model of the global dry-bulk shipping industry in which geographic trade routes
+and vessel deployments are jointly determined, quantifying the welfare cost
+of route restrictions.
+\citet{pascali_2017} uses the introduction of steamships to identify the
+causal effect of maritime transport costs on trade and development.
+\citet{feyrer_2009} exploits the 1967--75 Suez Canal closure as a natural
+experiment to identify trade-on-income effects, and \citet{feyrer_2019}
+extends this analysis.
+
+We build on both strands by constructing a multi-modal graph in which
+road, maritime, and air arcs are jointly represented, with modal choice
+determined endogenously by the time-equivalent least cost path.
+Our Suez, Panama, and Red Sea counterfactuals directly implement the
+\citet{feyrer_2009} identification logic---we compute the re-routing distance
+after arc removal or cost-increase, then propagate through exact-hat
+algebra---but on a globally consistent, annually updated transport topology.
+
+\citet{fajgelbaum_schaal_2020} solve for the welfare-maximizing transport
+network in a spatial equilibrium with congestion and optimal public investment,
+using a discrete-space graph representation.
+Our setup borrows their adjacency-list graph architecture but takes the network
+as given rather than optimizing it---we model observed current-year transport
+infrastructure.
+\citet{limao_venables_2001} pioneered the use of surface-transport indicators
+to explain cross-country variation in trade costs, finding that infrastructure
+quality explains more than half of the variation in estimated trade costs for
+land-locked countries.
+
+\subsection{Satellite measurement as economic data}
+
+The use of nighttime lights as a proxy for economic activity was established
+by \citet{henderson_storeygard_weil_2012}, who showed that DMSP-OLS radiance
+growth tracks GDP growth across countries, with the relationship tightest in
+countries with low-quality national accounts.
+\citet{jean_burke_xie_davis_lobell_ermon_2016} extended satellite-based
+economic inference to daytime imagery, predicting asset poverty at village
+scale from a convolutional neural network trained on nightlights.
+
+For our purposes the key empirical results are at the sub-national level.
+The spatial distribution of nightlights within a country provides
+a time-varying proxy for where economic activity actually occurs, not where
+it is administratively reported.
+\citet{elvidge_zhizhin_ghosh_baugh_hsu_2021} constructed the VIIRS annual
+composite dataset we use (V2, NPP satellite), demonstrating strong correlation
+with industrial production indices at the sub-national level and substantially
+better saturation performance than the earlier DMSP-OLS sensor.
+\citet{li_zhou_zhao_zhao_2020} harmonized the DMSP and VIIRS series across
+1992--2018 using an inter-calibration approach, enabling pre-2012 coverage.
+\citet{ghosh_et_al_2021} extend the harmonized series through 2021.
+We use the Li et al.\ harmonized series for years 2002--2011 and switch to
+the native VIIRS annual composite for 2012 onward, with a 2012 cross-validation
+of both series to verify continuity.
+
+The \citet{imf_wp_25_93} nowcasting paper uses ship-tracking AIS data alongside
+nightlights to predict trade flows at monthly frequency, confirming that
+satellite inputs carry genuine bilateral trade information.
+Our approach is orthogonal: we use satellite data to calibrate the
+\emph{trade-cost} input to gravity, not to proxy for flows.
+
+\subsection{Positioning relative to existing datasets}
+
+Three bodies of work provide the closest benchmarks.
+
+\emph{CEPII GeoDist} \citep{mayer_zignago_2011} supplies the \texttt{distw},
+\texttt{distwces}, and \texttt{distcap} measures used in nearly every gravity
+study since 2011.
+Critically, all three are cross-sectional: they use 2004 city populations and
+apply them to every year of the panel.
+Our panel replaces this frozen baseline with annual satellite-derived weights.
+We retain \texttt{distw} in the released panel so that researchers can exactly
+replicate prior results and compare.
+
+\emph{CEPII Gravity database} \citep{conte_cotterlaz_mayer_2022} extends
+GeoDist with bilateral controls (colonial links, shared language, RTA membership)
+updated annually through 2023.
+We do not replace the CEPII Gravity database; we provide the distance column
+that should be updated when using it.
+
+\emph{World Bank Trade Costs} \citep{arvis_duval_shepherd_utoktham_2013}
+inverts a structural gravity model to infer symmetric bilateral trade costs
+as the iceberg factor that reconciles observed trade with a frictionless
+benchmark.
+These inverse measures capture all bilateral frictions---policy, informational,
+and geographic---conflated together.
+Our measure targets the geographic component specifically, giving researchers
+a means of decomposing inverse trade costs into a geography channel
+(our measure) and a residual policy-plus-preference channel.
+
+\emph{Novy (2013)} similarly proposes a micro-founded inverse-gravity trade
+cost measure.
+Our measures and Novy's are complements: Novy's measure is endogenous to
+trade flows and therefore useful as an outcome variable for policy analysis,
+while ours is a strictly exogenous input constructed from physical geography
+and transport-network data.
+
+The \citet{borchert_larch_shikher_yotov_2022} ITPD-E dataset remains the
+leading comprehensive panel for structural gravity estimation.
+It provides sector-disaggregated bilateral flows and production values for
+185 countries, but distance inputs in its Stata replication files are the
+CEPII cross-sectional \texttt{distw}.
+Our panel is designed to serve as a drop-in distance upgrade for ITPD-E
+users, and we provide a merge file linking our country codes to the ITPD-E
+country list.
+
+% ============================================================
+\section{Data}
+\label{sec:data}
+
+The construction draws on six data families. We briefly describe each and note
+redistribution constraints where they apply.  Table~\ref{tab:data_summary}
+summarizes all sources, periods, and spatial resolutions.
+
+\subsection{Trade flows}
+\label{sec:data:trade}
+
+Our benchmark trade measure is BACI HS02 V202401b, the CEPII bilateral trade
+database harmonised from mirror-reported UN Comtrade data
+\citep{gaulier_zignago_2010}. The panel covers 2002--2022, approximately 5{,}000
+reporter--partner country pairs per year, and \num[group-separator={,}]{5000}
+HS6 product lines collapsed to HS2 for the main regressions. Values are in
+thousands of current US dollars (FOB). We aggregate to the
+country-pair--year level for the gravity regressions; product-level data
+are used in the sector-heterogeneous robustness checks.
+
+For the structural decomposition in Section~\ref{sec:gravity} we adopt the
+three-way specification of \citet{yotov_piermartini_monteiro_larch_2016} and
+include intranational trade flows $X_{ii,t}$ proxied from GDP and absorption as
+in \citet{heid_larch_yotov_2021}, ensuring that the estimated distance
+coefficients are not contaminated by the omitted-domestic-trade bias
+\citep{anderson_vanwincoop_2003}.
+
+\subsection{Gravity covariates}
+\label{sec:data:cepii}
+
+We merge the BACI flows with CEPII Gravity V202211 for standard controls:
+great-circle distance (\texttt{distw\_harmonic}, the population-weighted
+version of the Head--Mayer measure), contiguity, common official language, and
+colonial ties \citep{mayer_zignago_2011}. The 2021 release renamed the legacy
+\texttt{distw} column to \texttt{distw\_harmonic} (reflecting the aggregation
+rule); we maintain backwards compatibility via an alias.  The CEPII
+distance serves as our cross-sectional benchmark variant \texttt{d\_cepii\_distw}.
+
+\subsection{Population rasters}
+\label{sec:data:pop}
+
+Agglomeration detection requires sub-national population grids. We use two
+complementary products:
+
+\paragraph{WorldPop Constrained 100m.}
+The WorldPop UN-adjusted, population-total, constrained 100-metre mosaic
+\citep{stevens_gaughan_linard_tatem_2015}, downloaded for all available years
+2000--2020 from \texttt{worldpop.org}.  The constrained product redistributes
+national census totals over inhabited land cells only, yielding sharper
+agglomeration edges than the unconstrained version.
+
+\paragraph{GHS-POP R2023A.}
+The JRC Global Human Settlement Population Grid
+\citep{florczyk_corbane_ehrlich_freire_kemper_maffenini_melchiorri_pesaresi_politis_schiavina_zanchetta_2019},
+available for epochs 1975, 1990, 2000, 2005, 2010, 2015, 2020, at 100~m in
+Mollweide equal-area projection.  We use GHS-POP for retrospective years
+before 2000 and as a robustness check for 2010--2020.
+
+\noindent\emph{LandScan note.} We additionally correlate WorldPop with the
+Oak Ridge LandScan ``ambient'' population product as an internal validation
+statistic but do \emph{not} redistribute or release any LandScan-derived
+variable, consistent with its end-user license.
+
+\subsection{Nighttime lights}
+\label{sec:data:ntl}
+
+We proxy economic activity within agglomerations with two nighttime-light
+series:
+
+\paragraph{VIIRS V2 annual composite.}
+The NOAA/NGDC VIIRS Day/Night Band annual composites
+\citep{elvidge_zhizhin_ghosh_baugh_hsu_2021}, available 2012--2022 at
+\ang{15} arc-second (${\approx}500$~m) resolution. We use the
+\texttt{vcmslcfg} version (masked for stray light, fires, and aurora).
+
+\paragraph{Harmonized DMSP--VIIRS.}
+The \citet{li_zhou_zhao_zhao_2020} intercalibrated, temporally consistent
+series, which splices DMSP OLS (1992--2013) with VIIRS (2012 onward) into a
+single annual composite. We use this series to extend activity weights back to
+2002 before the VIIRS record begins.
+
+\subsection{Transport networks}
+\label{sec:data:transport}
+
+\paragraph{OpenStreetMap roads.}
+We download country-level OSM road networks via the \texttt{pyrosm} package
+from Geofabrik (extract date: 2024-Q4). Road graphs are simplified to the
+``drive'' network (motorways, primary, secondary, tertiary) and cached per
+country as GraphML. Edge speeds follow the \texttt{osmnx} speed-profile
+defaults by road class; travel time in hours is converted to freight cost at
+\$30/hour (road) following the Hummels-Schaur calibration
+\citep{hummels_schaur_2013}.
+
+\paragraph{Maritime ports.} We source 102 major container ports from the
+US National Geospatial-Intelligence Agency World Port Index (WPI). Each port
+is a node in the maritime sub-graph; all port pairs are connected by
+great-circle arcs with speed 24~km/h and freight cost \$8/hour (container-ship
+equivalent, \citealp{hummels_schaur_2013}).  The three chokepoint corridors
+(Suez, Panama, Red Sea) are flagged using the ocean-basin classification
+described in Section~\ref{sec:construction:chokepoint}.
+
+\paragraph{Sea distances.}
+As a robustness check we also calibrate maritime arc costs using the
+CERDI port-pair sea-distance database \citep{bertoli_freudenberg_stammann_2016},
+which provides shortest navigable sea distances between 947 ports.
+
+\paragraph{Airport network.}
+We use the OpenFlights airport database (approximately 10{,}000 airports with
+IATA codes and coordinates, \url{openflights.org}).  The sub-graph is
+constructed by connecting all airport pairs within 15{,}000~km (great-circle
+proxy for served routes when the OpenFlights routes file is unavailable), capped
+at the 250 most globally dispersed airports for computational tractability.
+Air freight cost is \$220/hour following Hummels (\citeyear{hummels_2007}).
+
+\subsection{Country boundaries}
+\label{sec:data:boundaries}
+
+Country polygons come from the GADM 4.1 release, downloaded as a geopackage.
+Agglomeration detection and population attribution require the country
+boundary to mask the raster clip; we use the outer dissolved polygon (level 0)
+for this purpose.
+
+% ============================================================
+\section{Construction of Effective Distance}
+\label{sec:construction}
+
+The construction proceeds in four layers (L0--L3), corresponding to the
+pipeline stages in our open-source codebase.  Notation follows
+\citet{head_mayer_2002}: $i$ and $j$ index countries; $k \in \mathcal{A}_i$
+and $\ell \in \mathcal{A}_j$ index agglomeration nodes within each country;
+$t$ indexes years; and $m \in \{$road, maritime, air$\}$ indexes transport
+modes.
+
+\subsection{Agglomeration nodes (Layer 1)}
+\label{sec:construction:agglom}
+
+We identify agglomeration zones within each country by thresholding the
+WorldPop 100m grid at 300 persons/km$^2$ and applying connected-component
+labelling.  Adjacent high-density cells form a single agglomeration.  We then
+merge agglomerations whose population-weighted centroids lie within 25~km of
+each other (accounting for urban sprawl and administrative fragmentation)
+using a union-find algorithm.
+
+From the merged components, we select the top-$N_i$ agglomerations by
+population, retaining nodes until cumulative coverage exceeds 80\% of
+national population, subject to a maximum of 50 agglomerations per country.
+The centroid of each selected agglomeration is the population-weighted mean
+of constituent cell centroids.  Minimum agglomeration threshold: 5{,}000
+residents (to exclude small isolated settlements).
+
+This procedure yields 1--50 nodes per country, totalling approximately
+2{,}800 nodes across the 200-country release universe.  The 80\% coverage
+target ensures that the aggregated bilateral distance is anchored to the
+majority of each country's economic mass, while the 50-node cap keeps the
+pairwise LCP computation tractable.
+
+\subsection{Endpoint weights (Layer 1)}
+\label{sec:construction:weights}
+
+Each agglomeration node $k$ in country $i$ at year $t$ receives a
+population-share weight:
+\begin{equation}
+  w^{(i)}_{k,t} = \frac{\text{pop}_{k,t}}{\sum_{k' \in \mathcal{A}_i}
+  \text{pop}_{k',t}},
+\label{eq:weights}
+\end{equation}
+where $\text{pop}_{k,t}$ is the total WorldPop population within the
+agglomeration polygon.  These weights sum to unity within each country.
+
+For the activity-weighted variant \texttt{d\_lcp\_act}, population is
+replaced by total VIIRS nighttime radiance within each agglomeration
+(VIIRS V2 for 2012--2022; harmonised DMSP for 2002--2011).  Activity weights
+emphasise industrial and commercial centres over purely residential areas,
+and may better proxy the spatial distribution of trade-relevant economic
+activity \citep{henderson_storeygard_weil_2012, ghosh_et_al_2021}.
+
+\subsection{Multi-modal transport graph (Layer 2)}
+\label{sec:construction:graph}
+
+We construct separate sub-graphs for each transport mode and then take the
+union:
+
+\paragraph{Road network.}
+Country-level OSM road graphs (motorway, primary, secondary, tertiary) are
+extracted per country and stitched at land border crossings.  Edge costs are
+travel time in hours, converted to equivalent freight cost at \$30/hour
+\citep{hummels_schaur_2013}.  Least-cost paths on the road sub-graph are
+computed via Dijkstra's algorithm implemented in Rust
+(\texttt{paper5-core} crate) with rayon parallelism over source nodes; the
+Python \texttt{distance.py} module calls the compiled extension via PyO3.
+
+\paragraph{Maritime network.}
+The maritime sub-graph connects all 102 WPI ports via great-circle arcs.
+Arc costs are:
+\begin{equation}
+  c^{\text{mar}}_{pq}(t) = \frac{d^{\text{gc}}_{pq}}{v^{\text{mar}}}
+  \times r^{\text{mar}} \times \lambda_{pq}(t),
+\label{eq:maritime_cost}
+\end{equation}
+where $d^{\text{gc}}_{pq}$ is the great-circle distance, $v^{\text{mar}} =
+24$~km/h is the average container-ship speed, $r^{\text{mar}} = \$8$/hour is
+the freight rate, and $\lambda_{pq}(t) \geq 1$ is a time-varying chokepoint
+multiplier defined in Section~\ref{sec:construction:chokepoint}.  Port
+handling time adds a fixed \$192 (24~h $\times$ \$8/h) per bilateral
+shipment.
+
+\paragraph{Air network.}
+Airport pairs within 15{,}000~km are connected by great-circle arcs at
+850~km/h cruise speed and \$220/hour air-freight rate \citep{hummels_2007}.
+A fixed \$880 airport-handling charge (4~h $\times$ \$220/h) is added per
+shipment.
+
+\subsection{Chokepoint time-variation (Layer 2)}
+\label{sec:construction:chokepoint}
+
+A key contribution of this dataset is the embedding of time-varying maritime
+disruption events into arc costs.  We implement three episodes:
+
+\begin{itemize}
+\item \textbf{Suez Canal 2021 (Ever Given).}  The vessel grounding on March
+  23--29, 2021 blocked the canal for six days.  Because this episode lasted
+  less than one week within a calendar year, we model it as a small annual
+  premium (\texttt{suez\_capacity\_factor}$= 1.05$) rather than a full
+  closure.
+
+\item \textbf{Panama Canal drought 2023.}  Severe drought reduced canal
+  draught limits, forcing slow steaming and queuing from mid-2023 through
+  early 2024 \citep{espitia_rocha_ruta_2022}.  We model this as
+  \texttt{panama\_capacity\_factor}$= 1.8$ (80\% cost premium on all arcs
+  with Panama flags).
+
+\item \textbf{Houthi Red Sea 2024.}  Sustained attacks on commercial
+  shipping in the Red Sea from late 2023 onwards drove insurance and
+  rerouting costs sharply higher.  We model this as
+  \texttt{red\_sea\_risk}$= 2.5$ (150\% premium on all arcs transiting
+  the Bab-el-Mandeb corridor).
+\end{itemize}
+
+Chokepoint flags are assigned to each maritime arc using an ocean-basin
+classification: arcs connecting a port east of the Bab-el-Mandeb
+(longitude $> 43°$E, approximately the Indian Ocean basin) to a port in
+the Mediterranean, Black Sea, or Atlantic basin (longitude $\in [-80°, 42°]$,
+latitude $> -10°$) are flagged for the Suez/Red Sea corridor.  Under
+elevated multipliers, Dijkstra's algorithm naturally reroutes through
+sub-Saharan relay ports (Cape Town, Durban) whose arcs carry no corridor flag,
+replicating the observed Cape-of-Good-Hope rerouting behaviour documented
+by \citet{verschuur_koks_hall_2021}.
+
+\subsection{Least-cost path and CES aggregation (Layer 3)}
+\label{sec:construction:lcp}
+
+For each agglomeration pair $(k, \ell)$, we solve the multi-modal LCP:
+\begin{equation}
+  c^*(k,\ell;t) = \min_{m \in M,\, P \in \mathcal{P}_{km},\,
+  Q \in \mathcal{P}_{\ell m}} \left[ c^m(P) + c^m(Q) +
+  \text{transfer}_{k\to m} + \text{transfer}_{\ell\to m} \right],
+\label{eq:lcp}
+\end{equation}
+where $P$ is the road path from agglomeration $k$ to the nearest port or
+airport, $Q$ is the road path at the destination, and
+$c^m(\cdot)$ is the cost on mode-$m$ sub-graph.
+
+The bilateral effective distance for country pair $(i,j)$ is then:
+\begin{equation}
+  d^{\text{multi}}_{ij,t} = \left[ \sum_{k \in \mathcal{A}_i}
+  \sum_{\ell \in \mathcal{A}_j} w^{(i)}_{k,t}\, w^{(j)}_{\ell,t}\,
+  \bigl[c^*(k,\ell;t)\bigr]^{\theta} \right]^{1/\theta},
+\label{eq:dmulti}
+\end{equation}
+with $\theta = -1$ as primary specification (Head--Mayer harmonic-mean
+interpretation, \citealp{head_mayer_2002}) and $\theta = +1$
+(arithmetic mean) as robustness.
+
+\subsection{Eight released variants}
+\label{sec:construction:variants}
+
+Table~\ref{tab:variants} lists all eight distance variants.  Moving from
+\texttt{d\_cepii\_distw} to \texttt{d\_lcp\_multi\_t} represents a
+staircase of methodological improvements: replacing cross-sectional with
+time-varying agglomeration weights (OVDL variants), adding actual transport
+routing (LCP variants), incorporating multi-modal costs, and embedding
+chokepoint time-variation.  The final variant \texttt{d\_net\_adj} further
+adjusts for network centrality, penalising well-connected countries whose
+structural advantages reduce effective costs below their great-circle
+benchmark.
+
+\begin{table}[h]
+\caption{Distance variants released in the panel dataset}
+\label{tab:variants}
+\centering\small
+\begin{tabular}{lll}
+\hline
+Variant & Description & Time-varying? \\
+\hline
+\texttt{d\_cepii\_distw}  & CEPII Head--Mayer (2002) pop-weighted GC & No \\
+\texttt{d\_ovdl}          & OVDL great-circle, static WorldPop weights & No \\
+\texttt{d\_ovdl\_t}       & OVDL great-circle, annual WorldPop+VIIRS weights & Yes \\
+\texttt{d\_lcp\_road}     & LCP on OSM road graph only & Yes \\
+\texttt{d\_lcp\_multi}    & LCP multi-modal (road+maritime+air), static & No \\
+\texttt{d\_lcp\_multi\_t} & LCP multi-modal, annual weights + chokepoints & Yes \\
+\texttt{d\_lcp\_act}      & Multi-modal LCP, VIIRS activity-weighted & Yes \\
+\texttt{d\_net\_adj}      & \texttt{d\_lcp\_multi\_t} $\div$ centrality norm & Yes \\
+\hline
+\end{tabular}
+\end{table}
+
+% ============================================================
+\section{Structural gravity validation}
+\label{sec:gravity}
+
+We validate the effective distance panel against international trade flows using
+the three-way fixed-effects PPML specification of \citet{yotov_piermartini_monteiro_larch_2016}:
+\begin{equation}
+X_{ij,t} = \exp\left( \pi_{it} + \pi_{jt} + \mu_{ij} + \beta \ln d_{ij,t}
+  + \gamma' Z_{ij,t} \right) + \varepsilon_{ij,t},
+\label{eq:gravity}
+\end{equation}
+where $\pi_{it}$ are exporter-time fixed effects (absorbing outward multilateral
+resistance and GDP), $\pi_{jt}$ are importer-time fixed effects (inward MR and
+GDP), $\mu_{ij}$ are pair fixed effects (absorbing all time-invariant bilateral
+frictions), and $Z_{ij,t}$ are time-varying controls (regional trade agreements,
+sanction indicators).  PPML \citep{santos_silva_tenreyro_2006} is used
+throughout to handle the many zeros in BACI and the heteroscedasticity endemic
+to trade data.
+
+Identification of $\beta$ comes entirely from \emph{within-pair, over-time
+variation} in $d_{ij,t}$.  This is the key advantage of our panel over
+cross-sectional distance measures: the pair FE $\mu_{ij}$ absorbs the
+time-invariant component of CEPII \texttt{distw} and any other
+pair-level unobservables, so $\beta$ is not confounded by omitted
+geography.
+
+We follow \citet{correia_guimaraes_zylkin_2020} for the PPML-FE estimator and
+include intranational trade flows $X_{ii,t}$ (proxied from GDP and domestic
+absorption) as recommended by \citet{heid_larch_yotov_2021} to prevent the
+omitted-domestic-trade bias that inflates distance coefficients in
+international-only samples.  Standard errors are clustered at the country-pair
+level.
+
+\paragraph{Weidner-Zylkin bias correction.}
+The three-way FE estimator is consistent but has an incidental-parameters
+bias of order $T^{-1}$ that can be non-trivial in panels of moderate length
+\citep{weidner_zylkin_2021}.  We report bias-corrected estimates for the
+primary specification using the \texttt{ppml\_fe\_bias} Stata package as a
+robustness check (main results are from \texttt{pyfixest}).
+
+\paragraph{Pre-registered hypotheses.}
+\begin{description}
+  \item[H1] $\hat{\beta} < 0$ (distance reduces trade) with magnitude
+    consistent with the literature benchmark of $-0.9$ to $-1.2$
+    \citep{disdier_head_2008, head_mayer_2014}.
+  \item[H2] Pseudo-$R^2$ for \texttt{d\_lcp\_multi\_t} exceeds that of
+    \texttt{d\_cepii\_distw} after controlling for pair FE.
+  \item[H3] The chokepoint episode years (2021, 2023, 2024) show
+    statistically significant coefficient shifts when the respective
+    chokepoint variant is used as the distance measure.
+\end{description}
+
+Preliminary results from the 20-country prototype panel (2010 and 2022; BACI
+$N=544$ country-pair-year observations; cross-section PPML with exporter-time
+and importer-time fixed effects, pair FE omitted because the prototype uses
+static population-centroid coordinates) yield:
+\begin{center}
+\begin{tabular}{lcc}
+\hline
+Distance variant & $\hat\beta$ & Cluster-robust SE \\
+\hline
+\texttt{d\_ovdl\_t} (this paper) & $-0.894$ & $(0.100)$ \\
+CEPII \texttt{distw}             & $-0.689$ & $(0.109)$ \\
+\hline
+\end{tabular}
+\end{center}
+Both estimates confirm H1 ($\hat\beta < 0$, within the $-0.9$ to $-1.2$
+literature benchmark of \citealt{disdier_head_2008}).  The satellite-calibrated
+measure yields a distance elasticity $\approx 30\%$ larger in absolute magnitude
+than CEPII \texttt{distw}, consistent with less attenuation bias from
+measurement error \citep{head_mayer_2014}.  The full 100-country panel run with
+time-varying WorldPop centroids will add pair fixed effects and will
+constitute the primary results (Tables 1--2).
+
+% ============================================================
+\section{Results}
+\label{sec:results}
+
+\textbf{[TO DRAFT]} Tables 1--6; figures 1--5.
+
+\subsection{Gravity fit (Table 1)}
+Pseudo-$R^2$, AIC, out-of-sample RMSE across the eight distance variants.
+
+\subsection{Estimated distance elasticities (Table 2)}
+Pooled and sector-heterogeneous $\thetas$ with Fontagn{\'e}-Guimbard-Orefice (2022) priors.
+
+\subsection{Where does the revision bite? (Figure 2)}
+Map of bilateral-pair distance revisions $(\dij^{\text{multi}} - d^{\text{distw}}) / d^{\text{distw}}$.
+
+\subsection{Time-variation (Figure 3)}
+Countries with largest within-sample distance changes.
+
+% ============================================================
+\section{Welfare counterfactuals: chokepoint shocks 2021--2024}
+\label{sec:cf}
+
+\textbf{[TO DRAFT]} ACR \citep{arkolakis_costinot_rodriguezclare_2012} + exact-hat algebra \citep{caliendo_parro_2015}. Three scenarios.
+
+\subsection{Suez 2021 (Ever Given, 7 days)}
+Arc removal for Suez; rerouting via Cape of Good Hope. World welfare $\Delta$, top-10 affected countries.
+
+\subsection{Panama Canal 2023 drought}
+Capacity restriction; rerouting via Suez or Cape Horn. World welfare $\Delta$.
+
+\subsection{Houthi Red Sea 2024}
+Sustained rerouting via Cape; ~12-month episode.
+
+% ============================================================
+\section{Dataset release}
+\label{sec:dataset}
+
+The full bilateral effective distance panel is released as an open dataset under
+the Creative Commons Attribution 4.0 International (CC-BY 4.0) license.
+
+\paragraph{File format and contents.}
+The primary release is a Parquet file \texttt{effective\_distance\_v2026.0.parquet}
+with columns \texttt{iso\_o}, \texttt{iso\_d}, \texttt{year}, and one column
+per distance variant (Table~\ref{tab:variants}).  A companion CSV is provided
+for users without Parquet support.  The panel covers 200 countries, years
+2002--2022, and all eight variants, yielding approximately $200 \times 199 \times
+21 \approx 836{,}000$ directed country-pair--year observations.
+
+\paragraph{Versioning.}
+Releases follow calendar-year versioning (\texttt{v2026.0}, \texttt{v2027.0},
+etc.) tied to new BACI data availability.  Each release includes a
+\texttt{CHANGES.md} file noting methodological updates and a
+\texttt{SUCCESSION.md} linking deprecated columns to their replacements.
+A \texttt{CITATION.cff} file provides machine-readable citation metadata.
+
+\paragraph{Data distribution.}
+The dataset is deposited on Harvard Dataverse and archived on Zenodo, with
+persistent concept DOIs to ensure future-proof citation.  The code repository
+(GitHub) is archived at the Zenodo snapshot DOI corresponding to each dataset
+version.  Metadata follows the Frictionless Data Specification
+(\texttt{datapackage.json}).
+
+\paragraph{Companion descriptor.}
+A companion ``Data Descriptor'' article (Gonchar and Helfrich, in preparation)
+submitted to \emph{Scientific Data} provides a more detailed technical
+description of the construction pipeline, provenance of each source, and
+quality diagnostics.
+
+\paragraph{Redistribution constraints.}
+All source data used in constructing the released variants are either public
+domain or permissively licensed for redistribution (BACI: CEPII; WorldPop:
+CC-BY 4.0; VIIRS: public domain; OSM: ODbL; OpenFlights: ODbL; WPI: public
+domain).  The LandScan product is used only for internal validation and is
+not distributed.  Users requiring LandScan correlations for their own work
+should obtain it directly from Oak Ridge National Laboratory.
+
+% ============================================================
+\section{Conclusion}
+\label{sec:conclusion}
+
+We have constructed a satellite-calibrated bilateral trade-cost panel spanning
+200 countries and 21 years (2002--2022), delivered in eight distance variants
+of increasing sophistication.  The primary contribution is \texttt{d\_lcp\_multi\_t},
+a multi-modal least-cost-path measure with annual population weights,
+chokepoint time-variation, and a production-grade Rust solver for the
+full-panel 84-million-SSSP computation.
+
+Several findings stand out.  First, the OVDL satellite-calibrated distances
+and the CEPII \texttt{distw} are nearly collinear in cross-section (median
+ratio 1.003 in the 20-country prototype), validating the agglomeration
+methodology against a well-established benchmark.  Second, the time-varying
+components --- shifting urban weights and chokepoint shocks --- generate
+economically meaningful within-pair variation, particularly for landlocked
+countries and for bilateral pairs traversing the three disrupted corridors.
+Third, the chokepoint cost uplifts under the Houthi scenario (1.3--1.6$\times$
+for Indian Ocean--Europe routes) are comparable to the insurance premia reported
+by industry sources, providing external validation of our cost calibration.
+
+\paragraph{Roadmap.}
+Several extensions are planned for subsequent versions:
+\begin{itemize}
+  \item \emph{Subnational effective distance} (Paper 6): extending the
+    agglomeration layer to NUTS-2 regions within the EU and to state/province
+    level in large economies, enabling within-country market-access estimation.
+  \item \emph{Labour market channels}: linking the distance panel to sectoral
+    trade flows and skill-adjusted labour demand to study distributional
+    consequences of trade-cost shocks.
+  \item \emph{Environmental exposure via trade}: pairing the effective
+    distance with MRIO tables to construct emissions-embodied-in-trade
+    exposure measures that are sensitive to transport-mode composition.
+  \item \emph{ITPD-E integration}: merging the bilateral distance panel with
+    the International Trade and Production Database for Estimation
+    \citep{borchert_larch_shikher_yotov_2022} to deliver a
+    production-ready, ready-to-estimate structural gravity dataset.
+\end{itemize}
+
+The dataset and code are available at the GitHub repository cited on the
+title page and archived on Harvard Dataverse (v2026.0).
+
+% ============================================================
+\bibliography{../refs}
+
+\end{document}

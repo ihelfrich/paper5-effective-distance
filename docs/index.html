@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Untaken Limit · Ian T. Helfrich</title>
+  <meta name="description" content="A pole at θ=-2 in the Head-Mayer closed form for intra-national distance. SSRN preprint by Ian T. Helfrich, Georgia Tech.">
+  <meta property="og:title" content="The Untaken Limit · A Pole at θ = -2 in the Head-Mayer Closed Form">
+  <meta property="og:description" content="Every gravity regression since 2005 uses a closed-form intra-national distance that has a pole at gravity-consistent θ. The 'border puzzle' lives inside the measurement window.">
+  <meta property="og:type" content="article">
+  <meta name="twitter:card" content="summary_large_image">
+
+  <!-- MathJax for math rendering -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$','$'], ['\\(','\\)']],
+        displayMath: [['$$','$$'], ['\\[','\\]']],
+        processEscapes: true,
+        macros: {
+          dii: 'd_{ii}',
+          dij: 'd_{ij}',
+          eff: '{\\mathrm{eff}}',
+          E: '\\mathbb{E}',
+          R: '\\mathbb{R}'
+        }
+      },
+      svg: { fontCache: 'global' },
+      options: {
+        renderActions: { addMenu: [0, '', ''] }
+      }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,700;1,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --ink: #1d1d1d;
+      --paper: #fafaf6;
+      --paper-deep: #f1efe6;
+      --rust: #b5482a;
+      --rust-deep: #8a341f;
+      --sage: #4c7066;
+      --sage-light: #6e8f86;
+      --gold: #c28b25;
+      --violet: #5e4f7a;
+      --dim: #6a6a6a;
+      --rule: #d6d2c4;
+      --max-w: 760px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --ink: #f0ece2;
+        --paper: #161613;
+        --paper-deep: #1f1f1b;
+        --rust: #d77152;
+        --rust-deep: #b5482a;
+        --sage: #87a89e;
+        --sage-light: #6e8f86;
+        --gold: #e1b15e;
+        --violet: #9d8cc4;
+        --dim: #9d9d96;
+        --rule: #34342f;
+      }
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Lora', Charter, Georgia, serif;
+      font-size: 17px;
+      line-height: 1.6;
+      color: var(--ink);
+      background: var(--paper);
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: var(--max-w);
+      margin: 0 auto;
+      padding: 3rem 1.5rem 6rem;
+    }
+
+    /* Header */
+    header.hero {
+      border-bottom: 2px solid var(--rust);
+      padding-bottom: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .eyebrow {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.78rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--rust);
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    h1.title {
+      font-size: 2.15rem;
+      line-height: 1.15;
+      margin: 0 0 0.4rem;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+
+    h1 .subtitle {
+      display: block;
+      font-size: 1.25rem;
+      font-weight: 400;
+      color: var(--rust);
+      font-style: italic;
+      margin-top: 0.5rem;
+      letter-spacing: 0;
+    }
+
+    .byline {
+      color: var(--dim);
+      font-size: 0.95rem;
+      margin-top: 1rem;
+    }
+
+    .byline strong {
+      color: var(--ink);
+    }
+
+    /* Download row */
+    .downloads {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.55rem;
+      margin: 1.8rem 0 0.5rem;
+    }
+    .downloads a {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      background: var(--rust);
+      color: white;
+      padding: 0.5rem 0.95rem;
+      border-radius: 4px;
+      text-decoration: none;
+      font-family: 'Inter', sans-serif;
+      font-weight: 600;
+      font-size: 0.85rem;
+      letter-spacing: 0.01em;
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+    .downloads a:hover {
+      background: var(--rust-deep);
+      transform: translateY(-1px);
+    }
+    .downloads a.alt-sage { background: var(--sage); }
+    .downloads a.alt-sage:hover { background: var(--sage-light); }
+    .downloads a.alt-gold { background: var(--gold); }
+    .downloads a.alt-violet { background: var(--violet); }
+
+    /* Section headings */
+    h2 {
+      margin-top: 3rem;
+      margin-bottom: 1rem;
+      font-size: 1.65rem;
+      font-weight: 700;
+      color: var(--ink);
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 0.4rem;
+      letter-spacing: -0.005em;
+    }
+    h2::before {
+      content: "§ ";
+      color: var(--rust);
+      font-weight: 400;
+    }
+    h3 {
+      margin-top: 2rem;
+      font-size: 1.2rem;
+      color: var(--sage);
+      font-weight: 600;
+    }
+    h4 {
+      font-size: 1.05rem;
+      margin-top: 1.5rem;
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    p { margin: 0 0 1rem; }
+    p + p { margin-top: 0.5em; }
+
+    a { color: var(--sage); text-decoration-color: rgba(76,112,102,0.4); text-underline-offset: 2px; }
+    a:hover { color: var(--rust); }
+
+    /* Quote */
+    blockquote {
+      border-left: 3px solid var(--gold);
+      margin: 1.5rem 0;
+      padding: 0.4rem 1rem;
+      background: rgba(194, 139, 37, 0.05);
+      font-style: italic;
+      color: var(--ink);
+      font-size: 0.96rem;
+    }
+    blockquote cite {
+      display: block;
+      margin-top: 0.5rem;
+      font-size: 0.85rem;
+      font-style: normal;
+      color: var(--dim);
+      font-family: 'Inter', sans-serif;
+    }
+
+    /* Code */
+    code {
+      font-family: 'JetBrains Mono', Menlo, monospace;
+      font-size: 0.85em;
+      background: var(--paper-deep);
+      padding: 0.08em 0.35em;
+      border-radius: 3px;
+      color: var(--rust);
+    }
+    pre {
+      background: var(--paper-deep);
+      padding: 1rem;
+      border-left: 3px solid var(--rust);
+      border-radius: 4px;
+      overflow-x: auto;
+      font-family: 'JetBrains Mono', Menlo, monospace;
+      font-size: 0.83rem;
+      line-height: 1.55;
+    }
+    pre code { background: transparent; padding: 0; color: var(--ink); }
+
+    /* Callout boxes */
+    .callout {
+      margin: 1.5rem 0;
+      padding: 1rem 1.2rem;
+      border-radius: 5px;
+      font-size: 0.96rem;
+    }
+    .callout-finding {
+      background: rgba(181, 72, 42, 0.06);
+      border-left: 3px solid var(--rust);
+    }
+    .callout-finding .label {
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      color: var(--rust);
+      letter-spacing: 0.04em;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+    .callout-math {
+      background: rgba(194, 139, 37, 0.06);
+      border-left: 3px solid var(--gold);
+    }
+    .callout-math .label {
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      color: var(--gold);
+      letter-spacing: 0.04em;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+    .callout-takeaway {
+      background: rgba(76, 112, 102, 0.07);
+      border-left: 3px solid var(--sage);
+    }
+    .callout-takeaway .label {
+      font-family: 'Inter', sans-serif;
+      font-weight: 700;
+      color: var(--sage);
+      letter-spacing: 0.04em;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+
+    /* Figures */
+    figure {
+      margin: 2rem 0;
+      text-align: center;
+    }
+    figure img {
+      max-width: 100%;
+      height: auto;
+      border: 1px solid var(--rule);
+      border-radius: 4px;
+      background: white;
+    }
+    figcaption {
+      font-size: 0.85rem;
+      color: var(--dim);
+      font-style: italic;
+      margin-top: 0.6rem;
+      text-align: left;
+      padding: 0 0.5rem;
+    }
+
+    /* Tables */
+    .table-wrap {
+      overflow-x: auto;
+      margin: 1.5rem 0;
+      border: 1px solid var(--rule);
+      border-radius: 4px;
+    }
+    table {
+      border-collapse: collapse;
+      width: 100%;
+      font-size: 0.88rem;
+      font-family: 'Inter', sans-serif;
+    }
+    th, td {
+      padding: 0.55rem 0.85rem;
+      text-align: left;
+      border-bottom: 1px solid var(--rule);
+    }
+    thead th {
+      background: var(--paper-deep);
+      font-weight: 600;
+      color: var(--ink);
+      border-bottom: 2px solid var(--rule);
+    }
+    tbody tr:last-child td { border-bottom: 0; }
+    tbody tr:hover { background: rgba(76, 112, 102, 0.04); }
+    td.num { font-variant-numeric: tabular-nums; }
+    td.highlight, tr.highlight td {
+      background: rgba(181, 72, 42, 0.07);
+      font-weight: 600;
+    }
+
+    /* TOC */
+    nav.toc {
+      background: var(--paper-deep);
+      padding: 1rem 1.3rem;
+      border-radius: 5px;
+      margin: 2rem 0;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+    }
+    nav.toc .toc-label {
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: var(--rust);
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+    }
+    nav.toc ol {
+      padding-left: 1.2rem;
+      margin: 0;
+    }
+    nav.toc li { margin: 0.25rem 0; }
+    nav.toc a { text-decoration: none; color: var(--ink); }
+    nav.toc a:hover { color: var(--rust); }
+
+    /* Footer */
+    footer {
+      margin-top: 4rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--rule);
+      font-size: 0.82rem;
+      color: var(--dim);
+      font-family: 'Inter', sans-serif;
+    }
+    footer a { color: var(--sage); }
+    footer .footer-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+    @media (max-width: 600px) {
+      footer .footer-grid { grid-template-columns: 1fr; }
+      h1.title { font-size: 1.7rem; }
+      h1 .subtitle { font-size: 1.05rem; }
+      .container { padding: 2rem 1rem 4rem; }
+    }
+
+    /* Math display blocks */
+    mjx-container[display="true"] {
+      margin: 1.2rem 0 !important;
+      overflow-x: auto;
+      overflow-y: hidden;
+      max-width: 100%;
+    }
+  </style>
+</head>
+<body>
+
+<div class="container">
+
+<header class="hero">
+  <div class="eyebrow">SSRN preprint · Methodology in international trade</div>
+  <h1 class="title">
+    The Untaken Limit
+    <span class="subtitle">A Pole at $\theta = -2$ in the Head-Mayer Closed Form for Intra-National Distance</span>
+  </h1>
+  <p class="byline">
+    <strong>Ian T. Helfrich</strong> &middot; Georgia Institute of Technology &middot;
+    <span id="date">May 2026</span>
+  </p>
+
+  <div class="downloads">
+    <a href="paper_5a.pdf">📄 Paper (PDF, 16 pp)</a>
+    <a class="alt-sage" href="visual_abstract.pdf">🪟 Visual summary (3 pp)</a>
+    <a class="alt-gold" href="master_guide_vol1.pdf">📘 Teaching guide vol 1 (35 pp)</a>
+    <a class="alt-gold" href="master_guide_vol2.pdf">📘 Teaching guide vol 2 (53 pp)</a>
+    <a class="alt-violet" href="CRITICAL_ASSESSMENT.md">🧭 Critical self-assessment</a>
+    <a class="alt-sage" href="https://github.com/ihelfrich/paper5-effective-distance">💻 Code on GitHub</a>
+  </div>
+</header>
+
+<nav class="toc">
+  <div class="toc-label">Contents</div>
+  <ol>
+    <li><a href="#headline">The headline finding</a></li>
+    <li><a href="#setup">The setup, in plain English</a></li>
+    <li><a href="#pole">The pole at $\theta = -2$</a></li>
+    <li><a href="#divergence">The 2D integral divergence</a></li>
+    <li><a href="#regularization">The regularization curve</a></li>
+    <li><a href="#empirics">The empirical consequence</a></li>
+    <li><a href="#implications">What this means for the literature</a></li>
+    <li><a href="#novelty">Why nobody noticed</a></li>
+    <li><a href="#limitations">Limitations and what's next</a></li>
+    <li><a href="#read">How to read the paper</a></li>
+  </ol>
+</nav>
+
+<!-- ============================================================ -->
+<h2 id="headline">The headline finding</h2>
+
+<p>
+Every gravity regression published since 2005 uses a closed-form
+expression for intra-national distance that has a <strong>pole at the
+parameter value implied by the structural CES gravity model</strong>.
+At the empirically defensible elasticity of substitution
+$\sigma \in [4, 8]$ with the standard iceberg-cost exponent $\delta = 1$,
+the closed form is complex-valued and the underlying integral
+diverges in two dimensions.
+</p>
+
+<p>
+CEPII's <code>distw_harmonic</code> evaluates the formula one unit
+above the pole, at $\theta = -1$, and justifies the choice as
+<em>"the usual coefficient estimated from gravity models"</em>
+(Mayer and Zignago, 2011, p.~7). This is the reduced-form regression
+slope, not the structural integration parameter. The conflation
+originates in Head and Mayer (2002) themselves, on lines 502-505 of
+their CEPII Working Paper, and has propagated into essentially every
+applied gravity study for two decades without anyone documenting that
+it produces a pole.
+</p>
+
+<div class="callout callout-finding">
+  <span class="label">Result</span>
+  In a pooled panel PPML regression on BACI-CEPII data for
+  2010-2015-2020 with origin-year and destination-year fixed effects
+  absorbed via the Correia-Guimarães-Zylkin (2020) algorithm, the
+  home-bias coefficient $\hat{\gamma}$ moves <strong>3.8 log
+  units</strong> across the structurally consistent
+  $(\theta, d_{\min})$ space. The cross-sectional log-OLS robustness
+  check reproduces the McCallum-Anderson-van Wincoop
+  $\sim 8\times$ multiplier at the CEPII baseline and the same
+  monotonic regularization dependence with a sign-flip threshold
+  between $d_{\min} = 1$ and $d_{\min} = 2$ km. <strong>A material
+  share of the conventional border-puzzle multiplier is a measurement
+  artifact of the regularization choice rather than a structural
+  trade barrier.</strong>
+</div>
+
+<!-- ============================================================ -->
+<h2 id="setup">The setup, in plain English</h2>
+
+<p>
+The <strong>border puzzle</strong> is the empirical finding (McCallum
+1995) that intra-Canadian trade is roughly 22 times larger than
+trade between a Canadian province and a US state of similar size and
+distance. Anderson and van Wincoop (2003) reduced this multiplier to
+$\sim 5\times$ via the multilateral-resistance correction. A
+generation of gravity papers has used the AvW correction to estimate
+$\sim 5$-$10\times$ border-effect multipliers in applied work.
+</p>
+
+<p>
+Every one of those regressions requires a number called
+<strong>intra-national distance</strong>: the typical distance from
+producers to consumers <em>inside</em> a country's borders. For
+the US, this is around 1,000 km. For Belgium, around 50 km. The
+number comes from CEPII's GeoDist database, built by Thierry Mayer and
+Soledad Zignago in 2005 and updated in 2011.
+</p>
+
+<p>
+CEPII's intra-national distance is the Head-Mayer (2002) closed form
+evaluated at a parameter $\theta$:
+</p>
+
+<div class="callout callout-math">
+  <span class="label">The closed form</span>
+  $$d_{ii}(\theta) = \left(\frac{2}{\theta + 2}\right)^{1/\theta} \cdot R$$
+  where $R = \sqrt{A/\pi}$ is the equivalent-disk radius of the
+  country (the radius of a circle with the same area), and $\theta$
+  is a parameter the analyst must choose.
+</div>
+
+<p>
+The choice CEPII made: $\theta = -1$. The reason, in their own words,
+was that $\theta \approx -1$ is "the usual coefficient estimated from
+gravity models of bilateral trade flows." Mayer and Zignago (2011)
+state this on page 7 of their methodology paper.
+</p>
+
+<p>
+But the $\theta$ that the gravity-regression coefficient estimates and
+the $\theta$ in the closed-form derivation are <strong>not the same
+quantity</strong>. The formula's $\theta$ comes from a structural CES
+expectation:
+$\theta = \delta (1 - \sigma)$,
+where $\delta$ is the iceberg-cost exponent and $\sigma$ is the
+elasticity of substitution. For empirically defensible
+$\sigma \in [4, 8]$ with $\delta = 1$, the structural $\theta$ is in
+$[-7, -3]$, far below CEPII's $-1$.
+</p>
+
+<!-- ============================================================ -->
+<h2 id="pole">The pole at $\theta = -2$</h2>
+
+<p>
+The closed-form expression has a pole at $\theta = -2$. The factor
+$2/(\theta+2)$ diverges. For $\theta < -2$, the base $2/(\theta+2)$ is
+negative and the exponent $1/\theta$ is a non-integer, so on the
+principal branch the expression takes complex values.
+</p>
+
+<p>
+Direct numerical evaluation makes this concrete. For a country of
+radius $R = 1{,}000$ km:
+</p>
+
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr><th>$\theta$</th><th>$d_{ii}(\theta)$ (km)</th><th>Status</th></tr>
+  </thead>
+  <tbody>
+    <tr><td class="num">+1</td><td class="num">666.7</td><td>Arithmetic mean ($2R/3$)</td></tr>
+    <tr><td class="num">-1</td><td class="num">500.0</td><td><strong>CEPII evaluation</strong> (harmonic mean, $R/2$)</td></tr>
+    <tr><td class="num">-1.5</td><td class="num">384.9</td><td>Last value HM 2002 tabulates</td></tr>
+    <tr><td class="num">-1.99</td><td class="num">9.5</td><td>Approaching the pole</td></tr>
+    <tr class="highlight"><td class="num">-2.0</td><td>—</td><td>POLE</td></tr>
+    <tr><td class="num">-3</td><td>complex</td><td>$\sigma = 4, \delta = 1$</td></tr>
+    <tr><td class="num">-5</td><td>complex</td><td>$\sigma = 6, \delta = 1$</td></tr>
+    <tr><td class="num">-7</td><td>complex</td><td>$\sigma = 8, \delta = 1$</td></tr>
+  </tbody>
+</table>
+</div>
+
+<p>
+The structurally consistent values produce complex outputs. CEPII's
+$\theta = -1$ produces $R/2$, which is exactly the harmonic mean of
+the radial coordinate on a uniform disk. It is a perfectly defensible
+geometric statistic. It is <em>not</em> the structural CES expected
+pairwise distance at gravity-consistent $\sigma$.
+</p>
+
+<!-- ============================================================ -->
+<h2 id="divergence">The 2D integral divergence</h2>
+
+<p>
+The closed form is the analytical evaluation of an integral over the
+CES kernel on a uniform disk:
+</p>
+
+$$d_{ii}(\theta) = \left( \int_0^R \frac{2\pi r}{\pi R^2} \cdot r^\theta\, dr \right)^{1/\theta}$$
+
+<p>
+For $\theta > -2$, the integral evaluates to
+$R^{\theta+2} / (\theta + 2)$, giving the closed form. For
+$\theta \leq -2$, the integral diverges at the lower limit
+($r = 0$). Direct power-counting: the integrand is
+$r^{\theta + 1}$, which is integrable at $0$ only when
+$\theta + 1 > -1$, i.e., $\theta > -2$.
+</p>
+
+<div class="callout callout-math">
+  <span class="label">Theorem 3.1 (2D intra-national integral divergence)</span>
+  Let $\Omega \subset \mathbb{R}^2$ be a bounded measurable region of
+  positive Lebesgue measure with a bounded-and-bounded-away-from-zero
+  density $f: \Omega \to \mathbb{R}_+$. The CES expected pairwise
+  distance
+  $$d_{ii}(\theta) = \left( \int_\Omega \int_\Omega \|x - y\|^\theta f(x) f(y)\, dx\, dy \right)^{1/\theta}$$
+  is finite if and only if $\theta > -2$. For $\theta \leq -2$ the
+  integral diverges.
+
+  <p style="margin-top: 0.8rem;"><em>Proof sketch:</em> the
+  pairwise-distance density $g(r)$ on $[0, D]$ (where $D = \text{diam}(\Omega)$)
+  has small-$r$ asymptotic $g(r) \sim r$ in 2D (linear in $r$ near zero,
+  because we're in 2 dimensions; in $d$ dimensions the asymptotic is
+  $r^{d-1}$). Then $\int r^\theta g(r) dr \sim \int r^{\theta + 1} dr$,
+  which converges at $0$ iff $\theta + 1 > -1$. ∎</p>
+</div>
+
+<p>
+The dimension dependence matters. In 1D the divergence threshold is
+$\theta = -1$; in 2D it is $\theta = -2$; in 3D it is $\theta = -3$.
+The Head-Mayer formula is a 2D evaluation (uniform disk). The 1D
+analog, which Head and Mayer also derive in their paper for the
+bilateral case, has its own removable singularity at $\theta = -1$
+that they evaluate around by setting $\theta = -1.0001$ in their
+numerical examples.
+</p>
+
+<!-- ============================================================ -->
+<h2 id="regularization">The regularization curve</h2>
+
+<p>
+What happens if you take the integral seriously and try to evaluate it
+numerically at the structurally consistent $\theta$? You sample atoms
+within the disk and compute the empirical CES distance. You get a
+finite number, but the number depends on the spatial grain
+$d_{\min}$ (the smallest pairwise distance retained in the
+discretization). As you sample more finely, the number gets smaller
+without bound.
+</p>
+
+<figure>
+  <img src="fig1_regularization_curve.png" alt="Regularization curve: implied d_ii at theta=-5 on a uniform disk, vs spatial grain d_min, log-log axes.">
+  <figcaption>
+    <strong>Figure 1.</strong> Implied $d_{ii}^{\rm eff}(\theta = -5)$
+    on a uniform disk of radius $R = 1{,}000$ km, as a function of the
+    spatial grain $d_{\min}$. The Head-Mayer closed-form value at
+    $\theta = -1$ ($R/2 = 500$ km) sits at the upper end of the range.
+    At $d_{\min} = 1$ km the implied distance is roughly 6 km; at
+    $d_{\min} = 500$ km it is roughly 640 km, a two-order-of-magnitude
+    range determined entirely by the grain.
+  </figcaption>
+</figure>
+
+<p>
+The scaling exponent of $d_{ii}^{\rm eff}$ with respect to $d_{\min}$
+at small $d_{\min}$ is $\alpha(\theta) = (\theta + 2)/\theta$ in 2D.
+At $\theta = -3$, $\alpha = 1/3$ (weak scaling). At $\theta = -7$,
+$\alpha = 5/7$ (near-linear). The pole at $\theta = -2$ is the
+sign-change of the regularization-elasticity: above the pole the
+implied distance decreases with $d_{\min}$ (the standard
+convergent-integral case); below the pole the implied distance is
+locked to $d_{\min}$ and has no fixed point.
+</p>
+
+<!-- ============================================================ -->
+<h2 id="empirics">The empirical consequence</h2>
+
+<p>
+If the intra-national distance is a function of $d_{\min}$, then so
+is everything downstream. The home-bias coefficient in a gravity
+regression depends on $d_{\min}$ via the $\log d_{ii}$ regressor.
+The McCallum-Anderson-van Wincoop "border puzzle" multiplier inherits
+the regularization choice.
+</p>
+
+<p>
+The primary empirical specification is the canonical
+Yotov-Piermartini-Monteiro-Larch (2016) panel PPML:
+</p>
+
+$$X_{ij,t} = \exp\Bigl( \alpha + \beta \log d_{ij,t} + \gamma \cdot \mathbf{1}\{i=j\} + \eta_{i,t} + \mu_{j,t} \Bigr) \cdot \varepsilon_{ij,t}$$
+
+<p>
+with origin-year ($\eta_{i,t}$) and destination-year ($\mu_{j,t}$)
+fixed effects absorbed via the Correia-Guimarães-Zylkin (2020)
+alternating-projection algorithm (implemented in Python via the
+<code>pyfixest</code> library). Years 2010, 2015, and 2020 stacked.
+Bilateral trade flows from BACI HS02 v202401b; pair-year covariates
+from CEPII Gravity v202211; intra-national flows from the
+Wei (1996) proxy. Total observations: 165,621 (including 27,000+
+zero-trade rows that log-OLS cannot use).
+</p>
+
+<figure>
+  <img src="fig2_panel_home_bias_vs_dmin.png" alt="Panel PPML home-bias coefficient versus regularization grain, by structural theta.">
+  <figcaption>
+    <strong>Figure 2.</strong> Pooled panel PPML home-bias coefficient
+    $\hat\gamma$ across the regularization grain $d_{\min}$, by
+    structural $\theta$. Years 2010-2015-2020 stacked, origin-year
+    and destination-year FE absorbed. CEPII baseline shown as the
+    dashed horizontal line. The coefficient is strongly negative
+    across the entire sweep and moves $\sim 4$ log units between
+    coarse ($d_{\min} = 500$ km) and fine ($d_{\min} = 0.5$ km)
+    spatial grain.
+  </figcaption>
+</figure>
+
+<h3>Panel PPML headline numbers</h3>
+
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr><th>$d_{\min}$ (km)</th><th>$\hat\gamma$ at $\theta = -3$</th><th>$\hat\gamma$ at $\theta = -5$</th><th>$\hat\gamma$ at $\theta = -7$</th></tr>
+  </thead>
+  <tbody>
+    <tr><td class="num">0.5</td><td class="num">-8.233</td><td class="num">-9.208</td><td class="num">-9.446</td></tr>
+    <tr><td class="num">1.0</td><td class="num">-7.675</td><td class="num">-8.650</td><td class="num">-8.888</td></tr>
+    <tr><td class="num">5.0</td><td class="num">-6.527</td><td class="num">-7.485</td><td class="num">-7.723</td></tr>
+    <tr><td class="num">10</td><td class="num">-6.102</td><td class="num">-7.043</td><td class="num">-7.281</td></tr>
+    <tr><td class="num">100</td><td class="num">-5.215</td><td class="num">-5.868</td><td class="num">-6.106</td></tr>
+    <tr><td class="num">500</td><td class="num">-5.112</td><td class="num">-5.462</td><td class="num">-5.699</td></tr>
+    <tr class="highlight"><td>CEPII baseline ($\theta = -1$)</td><td class="num" colspan="3"><strong>$-5.636$</strong> (panel PPML), <strong>$+2.132$</strong> (cross-section OLS)</td></tr>
+  </tbody>
+</table>
+</div>
+
+<h3>Cross-section log-OLS robustness check (2010, McCallum-AvW range)</h3>
+
+<div class="table-wrap">
+<table>
+  <thead>
+    <tr><th>$d_{\min}$ (km)</th><th>$\hat\gamma$ at $\theta = -3$</th><th>OLS multiplier</th></tr>
+  </thead>
+  <tbody>
+    <tr><td class="num">0.5</td><td class="num">-1.155</td><td class="num">$0.32\times$</td></tr>
+    <tr><td class="num">1.0</td><td class="num">-0.365</td><td class="num">$0.69\times$</td></tr>
+    <tr><td class="num">2.0</td><td class="num">+0.308</td><td class="num">$1.36\times$ (sign flip)</td></tr>
+    <tr><td class="num">10</td><td class="num">+1.601</td><td class="num">$4.96\times$</td></tr>
+    <tr><td class="num">500</td><td class="num">+2.610</td><td class="num">$13.6\times$</td></tr>
+    <tr class="highlight"><td>CEPII baseline ($\theta = -1$)</td><td class="num"><strong>$+2.132$</strong></td><td class="num"><strong>$8.43\times$</strong> (McCallum-AvW)</td></tr>
+  </tbody>
+</table>
+</div>
+
+<p>
+The two estimators disagree on the absolute level of $\hat\gamma$
+(PPML estimates $\log \mathbb{E}[X|Z]$; OLS estimates
+$\mathbb{E}[\log X|Z]$; the Jensen-inequality wedge is large for
+high-variance trade flows) but agree on the direction: in both, the
+home coefficient moves more negative as $d_{\min}$ shrinks. The
+regularization-sensitivity finding is robust to estimator choice;
+the absolute level of the McCallum-AvW border-puzzle multiplier is
+not.
+</p>
+
+<!-- ============================================================ -->
+<h2 id="implications">What this means for the literature</h2>
+
+<h3>For applied gravity practice</h3>
+<p>
+Three operational implications.
+</p>
+
+<p>
+<strong>First</strong>, papers that report border-puzzle multipliers
+should report the spatial resolution at which intra-national distance
+was computed. A multiplier of $10\times$ at $d_{\min} = 100$ km and
+$5\times$ at $d_{\min} = 10$ km are not contradictory results; they
+are the same regression conditional on different measurement choices.
+</p>
+
+<p>
+<strong>Second</strong>, replacing CEPII's static
+<code>distw_harmonic</code> with a satellite-calibrated time-varying
+alternative does not resolve the underlying inconsistency. It
+substitutes one regularization choice for another. (This is the
+methodological scaffolding for the companion
+<a href="https://github.com/ihelfrich/effective-distance-panel">Gonchar-Helfrich satellite-distance panel</a>.)
+</p>
+
+<p>
+<strong>Third</strong>, the convention of treating intra-national
+distance as a fixed property of a country's geometry, rather than as a
+discretization choice, has misrepresented the literature's empirical
+content. Future work should acknowledge the
+structural-versus-reduced-form distinction in $\theta$.
+</p>
+
+<h3>For the broader structural-gravity literature</h3>
+<p>
+The critique applies specifically to the Head-Mayer-CEPII tradition,
+which is the only structural-gravity tradition that constructs
+$d_{ii}$ from a CES spatial integral. Other traditions side-step the
+issue:
+</p>
+
+<ul>
+  <li><strong>Eaton & Kortum (2002)</strong> normalize $d_{ii} = 1$ by
+    assumption; no spatial integration over country geometry.</li>
+  <li><strong>Caliendo & Parro (2015)</strong> use a tetrad estimator
+    that cancels distance entirely; domestic sales constructed as a
+    Wei-style residual without geometric distance.</li>
+  <li><strong>Costinot, Donaldson & Komunjer (2012)</strong> identify
+    $\theta$ off cross-industry productivity, absorbing all bilateral
+    trade costs in importer-exporter FE.</li>
+</ul>
+
+<p>
+These traditions are immune to the critique because they don't
+construct the divergent object in the first place. The Head-Mayer-CEPII
+tradition is the dominant applied workhorse and is the one that
+inherits the pathology.
+</p>
+
+<!-- ============================================================ -->
+<h2 id="novelty">Why nobody noticed</h2>
+
+<p>
+The pole has been sitting in the published literature for 24 years.
+The structural-versus-reduced-form $\theta$ conflation is on lines
+502-505 of Head and Mayer (2002), in plain English. CEPII's choice of
+$\theta = -1$ has been documented since 2005. Nobody appears to have
+connected the dots.
+</p>
+
+<p>
+Three reasons, in increasing order of severity:
+</p>
+
+<p>
+<strong>1.</strong> The pole is invisible if you evaluate the formula
+at $\theta = -1$ (one unit above) and never push to the structurally
+consistent range. The applied literature has used the CEPII number as
+a number, not as an evaluation of an integral at gravity-consistent
+$\sigma$.
+</p>
+
+<p>
+<strong>2.</strong> The symbol overloading was formalized by the
+original authors themselves. The Head and Mayer (2014) Handbook
+chapter uses $\theta$ for both the Pareto/Fréchet productivity shape
+parameter (positive) and the 2002 integration parameter (negative),
+and notes explicitly on line 1287: "we retain the symbol to
+emphasize the similarity in resulting terms." Once the notation is
+established, the conflation feels mechanical, not substantive.
+</p>
+
+<p>
+<strong>3.</strong> The empirical implications are large enough that
+a reasonable referee would ask "if this is right, why hasn't it shown
+up?" The answer: because the literature has been comparing
+apples to apples (everyone uses CEPII's specific number, so the
+between-paper variation is small). The paper shows the regularization
+sensitivity by varying the spatial grain within a single
+specification, which the literature has not done.
+</p>
+
+<blockquote>
+<strong>The single line on lines 502-505 of Head &amp; Mayer (2002):</strong>
+"Unfortunately for that formula, there are hundreds of gravity
+equation estimates of $\theta$ that show it is not equal to one.
+Rather our review of recent papers suggests that in most cases
+$\theta \approx -1$."
+<cite>This is the wrong-$\theta$ conflation. Head and Mayer used
+reduced-form regression estimates to parameterize a structural
+integral. The literature has followed.</cite>
+</blockquote>
+
+<!-- ============================================================ -->
+<h2 id="limitations">Limitations and what's next</h2>
+
+<p>
+The paper has six honest limitations and four follow-up projects. The
+limitations are documented in §7 of the PDF; a critical
+self-assessment is available
+<a href="CRITICAL_ASSESSMENT.md">here</a>. The headline limitations:
+</p>
+
+<ul>
+  <li>The empirical demonstration uses the Wei (1996) intra-national
+    flow proxy; the YPMM (2016) "trade for production" proxy is the
+    modern standard and would tighten the result.</li>
+  <li>The structural critique depends on the iceberg-cost exponent
+    $\delta = 1$; under $\delta \ll 1$, the structurally consistent
+    $\theta$ can be above the pole and the critique dissolves. The
+    literature has been quiet on $\delta$.</li>
+  <li>The sample is three years; a full annual panel (2000-2022) is
+    the natural extension.</li>
+  <li>The regularization sweep uses a uniform-disk approximation; real
+    country polygons are the next computational step.</li>
+</ul>
+
+<p>
+Follow-up projects:
+</p>
+
+<ul>
+  <li><strong>Paper 5b:</strong> Regularization-aware structural
+    estimation. Estimators that take $d_{\min}$ as an explicit input
+    parameter.</li>
+  <li><strong>Paper 5c:</strong> Welfare counterfactuals when
+    $d_{ii}$ does not exist as a fixed object. Apply Caliendo-Parro
+    exact-hat to a regularization-sensitive trade-cost panel.</li>
+  <li><strong>Paper 5d:</strong> Honest re-estimation of the
+    Anderson-van Wincoop multilateral-resistance system with
+    structurally consistent $\theta$.</li>
+  <li><strong>Gonchar-Helfrich satellite panel:</strong> the
+    companion bilateral effective-distance panel paper, 2000-2024,
+    target Journal of International Economics.</li>
+</ul>
+
+<!-- ============================================================ -->
+<h2 id="read">How to read the paper</h2>
+
+<ul>
+  <li>If you want the executive summary: open the
+    <a href="visual_abstract.pdf">3-page visual abstract</a>.</li>
+  <li>If you want the technical paper: open the
+    <a href="paper_5a.pdf">16-page preprint</a>.</li>
+  <li>If you want to understand the math from first principles:
+    open <a href="master_guide_vol1.pdf">Volume 1 of the teaching guide</a>
+    (gravity foundations, CES preferences, the Head-Mayer derivation,
+    generalized means, the divergence theorem).</li>
+  <li>If you want to understand the empirical pipeline and the
+    regression specification: open
+    <a href="master_guide_vol2.pdf">Volume 2 of the teaching guide</a>
+    (BACI, CEPII, population rasters, OLS pitfalls, PPML).</li>
+  <li>If you want my honest self-critique of the paper:
+    <a href="CRITICAL_ASSESSMENT.md">CRITICAL_ASSESSMENT.md</a>.</li>
+  <li>If you want the replication code:
+    <a href="https://github.com/ihelfrich/paper5-effective-distance">GitHub</a>.</li>
+</ul>
+
+<div class="callout callout-takeaway">
+  <span class="label">Bottom line</span>
+  Border-puzzle multipliers have been reported as structural objects
+  for 30 years. They are not. They are functions of an analyst-chosen
+  discretization grain. The structurally consistent procedure is to
+  acknowledge that $d_{ii}$ is not a well-defined object at
+  gravity-consistent $\sigma$, and to estimate the model in a way
+  that does not pin it to a single number.
+</div>
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <p><strong>Ian T. Helfrich</strong><br>
+      Georgia Institute of Technology<br>
+      PhD Economics, 2024<br>
+      <a href="mailto:ianthelfrich@gmail.com">ianthelfrich@gmail.com</a></p>
+    </div>
+    <div>
+      <p><strong>This work is open</strong><br>
+      Paper: <a href="https://creativecommons.org/licenses/by/4.0/">CC-BY 4.0</a><br>
+      Code: <a href="https://opensource.org/licenses/MIT">MIT</a><br>
+      Replication: <a href="https://github.com/ihelfrich/paper5-effective-distance">GitHub</a><br>
+      <em>Last updated: May 22, 2026.</em></p>
+    </div>
+  </div>
+</footer>
+
+</div>
+</body>
+</html>

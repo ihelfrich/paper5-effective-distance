@@ -1,0 +1,645 @@
+% ============================================================
+% refs.bib — Paper 5, Effective Distance
+% Gonchar & Helfrich (2026)
+% ============================================================
+% Organized into:
+%   1. Direct predecessor (Gonchar-Helfrich 2025 SSRN)
+%   2. Foundational structural gravity + distance
+%   3. Internal geography, domestic frictions, effective distance
+%   4. Transport networks, infrastructure, market access
+%   5. Estimation frontier (PPML, bias corrections, fixed effects)
+%   6. Welfare, counterfactuals, exact-hat algebra
+%   7. Competitor and benchmark datasets
+%   8. Chokepoint shocks and geopolitical fragmentation
+%   9. Satellite remote sensing and GDP proxies
+%  10. Firm heterogeneity, extensive margin, time costs
+%  11. Subnational and urban economics (for robustness section)
+% ============================================================
+
+% ==================== 1. DIRECT PREDECESSOR ====================
+
+@techreport{gonchar_helfrich_2025,
+  author = {Gonchar, Elizaveta and Helfrich, Ian T.},
+  title  = {Trade in the Spotlight: Enhancing Gravity Model Predictions with Nightlights and Population-Weighted Distance Measures},
+  type   = {{SSRN} Working Paper},
+  number = {5202676},
+  year   = {2025},
+  month  = {April},
+  doi    = {10.2139/ssrn.5202676},
+  url    = {https://papers.ssrn.com/sol3/papers.cfm?abstract_id=5202676}
+}
+
+% ==================== 2. FOUNDATIONAL STRUCTURAL GRAVITY ====================
+
+@book{tinbergen_1962,
+  author    = {Tinbergen, Jan},
+  title     = {Shaping the World Economy: Suggestions for an International Economic Policy},
+  publisher = {Twentieth Century Fund},
+  address   = {New York},
+  year      = {1962}
+}
+
+@article{anderson_vanwincoop_2003,
+  author  = {Anderson, James E. and van Wincoop, Eric},
+  title   = {Gravity with Gravitas: A Solution to the Border Puzzle},
+  journal = {American Economic Review},
+  volume  = {93}, number = {1}, pages = {170--192}, year = {2003}
+}
+
+@article{anderson_vanwincoop_2004,
+  author  = {Anderson, James E. and van Wincoop, Eric},
+  title   = {Trade Costs},
+  journal = {Journal of Economic Literature},
+  volume  = {42}, number = {3}, pages = {691--751}, year = {2004}
+}
+
+@article{eaton_kortum_2002,
+  author  = {Eaton, Jonathan and Kortum, Samuel},
+  title   = {Technology, Geography, and Trade},
+  journal = {Econometrica},
+  volume  = {70}, number = {5}, pages = {1741--1779}, year = {2002}
+}
+
+@techreport{head_mayer_2002,
+  author = {Head, Keith and Mayer, Thierry},
+  title  = {Illusory Border Effects: Distance Mismeasurement Inflates Estimates of Home Bias in Trade},
+  type   = {{CEPII} Working Paper},
+  number = {2002-01}, year = {2002}
+}
+
+@incollection{head_mayer_2014,
+  author    = {Head, Keith and Mayer, Thierry},
+  title     = {Gravity Equations: Workhorse, Toolkit, and Cookbook},
+  booktitle = {Handbook of International Economics, Vol. 4},
+  editor    = {Gopinath, Gita and Helpman, Elhanan and Rogoff, Kenneth},
+  publisher = {Elsevier}, pages = {131--195}, year = {2014}
+}
+
+@techreport{mayer_zignago_2011,
+  author = {Mayer, Thierry and Zignago, Soledad},
+  title  = {Notes on {CEPII}'s Distances Measures: The {GeoDist} Database},
+  type   = {{CEPII} Working Paper},
+  number = {2011-25}, year = {2011}
+}
+
+@article{santos_silva_tenreyro_2006,
+  author  = {Santos Silva, J. M. C. and Tenreyro, Silvana},
+  title   = {The Log of Gravity},
+  journal = {Review of Economics and Statistics},
+  volume  = {88}, number = {4}, pages = {641--658}, year = {2006}
+}
+
+@article{disdier_head_2008,
+  author  = {Disdier, Anne-C{\'e}lia and Head, Keith},
+  title   = {The Puzzling Persistence of the Distance Effect on Bilateral Trade},
+  journal = {Review of Economics and Statistics},
+  volume  = {90}, number = {1}, pages = {37--48}, year = {2008}
+}
+
+@article{chaney_2008,
+  author  = {Chaney, Thomas},
+  title   = {Distorted Gravity: The Intensive and Extensive Margins of International Trade},
+  journal = {American Economic Review},
+  volume  = {98}, number = {4}, pages = {1707--1721}, year = {2008}
+}
+
+@article{melitz_2003,
+  author  = {Melitz, Marc J.},
+  title   = {The Impact of Trade on Intra-Industry Reallocations and Aggregate Industry Productivity},
+  journal = {Econometrica},
+  volume  = {71}, number = {6}, pages = {1695--1725}, year = {2003}
+}
+
+@article{hummels_2007,
+  author  = {Hummels, David},
+  title   = {Transportation Costs and International Trade in the Second Era of Globalization},
+  journal = {Journal of Economic Perspectives},
+  volume  = {21}, number = {3}, pages = {131--154}, year = {2007}
+}
+
+@article{redding_venables_2004,
+  author  = {Redding, Stephen and Venables, Anthony J.},
+  title   = {Economic Geography and International Inequality},
+  journal = {Journal of International Economics},
+  volume  = {62}, number = {1}, pages = {53--82}, year = {2004}
+}
+
+@article{helpman_melitz_rubinstein_2008,
+  author  = {Helpman, Elhanan and Melitz, Marc and Rubinstein, Yona},
+  title   = {Estimating Trade Flows: Trading Partners and Trading Volumes},
+  journal = {Quarterly Journal of Economics},
+  volume  = {123}, number = {2}, pages = {441--487}, year = {2008}
+}
+
+@article{head_mayer_ries_2010,
+  author  = {Head, Keith and Mayer, Thierry and Ries, John},
+  title   = {The Erosion of Colonial Trade Linkages After Independence},
+  journal = {Journal of International Economics},
+  volume  = {81}, number = {1}, pages = {1--14}, year = {2010}
+}
+
+@article{limao_venables_2001,
+  author  = {Lim{\~a}o, Nuno and Venables, Anthony J.},
+  title   = {Infrastructure, Geographical Disadvantage, Transport Costs, and Trade},
+  journal = {World Bank Economic Review},
+  volume  = {15}, number = {3}, pages = {451--479}, year = {2001}
+}
+
+@article{berthelon_freund_2008,
+  author  = {Berthelon, Matias and Freund, Caroline},
+  title   = {On the Conservation of Distance in International Trade},
+  journal = {Journal of International Economics},
+  volume  = {75}, number = {2}, pages = {310--320}, year = {2008}
+}
+
+% ==================== 3. INTERNAL GEOGRAPHY / DOMESTIC FRICTIONS ====================
+
+@article{ramondo_rodriguezclare_saborio_2016,
+  author  = {Ramondo, Natalia and Rodr{\'\i}guez-Clare, Andr{\'e}s and Saborio-Rodriguez, Milagro},
+  title   = {Trade, Domestic Frictions, and Scale Effects},
+  journal = {American Economic Review},
+  volume  = {106}, number = {10}, pages = {3159--3184}, year = {2016}
+}
+
+@article{agnosteva_anderson_yotov_2019,
+  author  = {Agnosteva, Delina E. and Anderson, James E. and Yotov, Yoto V.},
+  title   = {Intra-National Trade Costs: Assaying Regional Frictions},
+  journal = {European Economic Review},
+  volume  = {112}, pages = {32--50}, year = {2019}
+}
+
+@article{cosar_fajgelbaum_2016,
+  author  = {Co{\c s}ar, A. Kerem and Fajgelbaum, Pablo D.},
+  title   = {Internal Geography, International Trade, and Regional Specialization},
+  journal = {American Economic Journal: Microeconomics},
+  volume  = {8}, number = {1}, pages = {24--56}, year = {2016}
+}
+
+@article{donaldson_2018,
+  author  = {Donaldson, Dave},
+  title   = {Railroads of the {R}aj: Estimating the Impact of Transportation Infrastructure},
+  journal = {American Economic Review},
+  volume  = {108}, number = {4-5}, pages = {899--934}, year = {2018}
+}
+
+@article{feyrer_2019,
+  author  = {Feyrer, James},
+  title   = {Trade and Income---Exploiting Time Series in Geography},
+  journal = {American Economic Journal: Applied Economics},
+  volume  = {11}, number = {4}, pages = {1--35}, year = {2019}
+}
+
+@article{feyrer_2009,
+  author  = {Feyrer, James},
+  title   = {Distance, Trade, and Income---The 1967 to 1975 Closing of the {S}uez Canal as a Natural Experiment},
+  type    = {{NBER} Working Paper},
+  number  = {15557}, year = {2009}
+}
+
+@article{pascali_2017,
+  author  = {Pascali, Luigi},
+  title   = {The Wind of Change: Maritime Technology, Trade, and Economic Development},
+  journal = {American Economic Review},
+  volume  = {107}, number = {9}, pages = {2821--2854}, year = {2017}
+}
+
+@article{morales_sheu_zahler_2019,
+  author  = {Morales, Eduardo and Sheu, Gloria and Zahler, Andres},
+  title   = {Extended Gravity},
+  journal = {Review of Economic Studies},
+  volume  = {86}, number = {6}, pages = {2668--2712}, year = {2019}
+}
+
+% ==================== 4. TRANSPORT NETWORKS / MARKET ACCESS ====================
+
+@article{donaldson_hornbeck_2016,
+  author  = {Donaldson, Dave and Hornbeck, Richard},
+  title   = {Railroads and American Economic Growth: A ``{M}arket Access'' Approach},
+  journal = {Quarterly Journal of Economics},
+  volume  = {131}, number = {2}, pages = {799--858}, year = {2016}
+}
+
+@article{allen_arkolakis_2014,
+  author  = {Allen, Treb and Arkolakis, Costas},
+  title   = {Trade and the Topography of the Spatial Economy},
+  journal = {Quarterly Journal of Economics},
+  volume  = {129}, number = {3}, pages = {1085--1140}, year = {2014}
+}
+
+@article{allen_arkolakis_2022,
+  author  = {Allen, Treb and Arkolakis, Costas},
+  title   = {The Welfare Effects of Transportation Infrastructure Improvements},
+  journal = {Review of Economic Studies},
+  volume  = {89}, number = {6}, pages = {2911--2957}, year = {2022}
+}
+
+@article{fajgelbaum_schaal_2020,
+  author  = {Fajgelbaum, Pablo D. and Schaal, Edouard},
+  title   = {Optimal Transport Networks in Spatial Equilibrium},
+  journal = {Econometrica},
+  volume  = {88}, number = {4}, pages = {1411--1452}, year = {2020}
+}
+
+@article{brancaccio_kalouptsidi_papageorgiou_2020,
+  author  = {Brancaccio, Giulia and Kalouptsidi, Myrto and Papageorgiou, Theodore},
+  title   = {Geography, Transportation, and Endogenous Trade Costs},
+  journal = {Econometrica},
+  volume  = {88}, number = {2}, pages = {657--691}, year = {2020}
+}
+
+@article{heblich_redding_sturm_2020,
+  author  = {Heblich, Stephan and Redding, Stephen J. and Sturm, Daniel M.},
+  title   = {The Making of the Modern Metropolis: Evidence from {L}ondon},
+  journal = {Quarterly Journal of Economics},
+  volume  = {135}, number = {4}, pages = {2059--2133}, year = {2020}
+}
+
+@article{hummels_schaur_2013,
+  author  = {Hummels, David and Schaur, Georg},
+  title   = {Time as a Trade Barrier},
+  journal = {American Economic Review},
+  volume  = {103}, number = {7}, pages = {2935--2959}, year = {2013}
+}
+
+@incollection{redding_turner_2015,
+  author    = {Redding, Stephen J. and Turner, Matthew A.},
+  title     = {Transportation Costs and the Spatial Organization of Economic Activity},
+  booktitle = {Handbook of Regional and Urban Economics, Vol. 5},
+  editor    = {Duranton, Gilles and Henderson, J. Vernon and Strange, William C.},
+  publisher = {Elsevier}, pages = {1339--1398}, year = {2015}
+}
+
+@article{heiland_2022,
+  author  = {Heiland, Inga and Larch, Mario and Pr{\"o}ll, Steffen and Yotov, Yoto V.},
+  title   = {Modelling Trade in Services: A Structural Gravity Approach},
+  journal = {Journal of International Economics},
+  volume  = {138}, pages = {103626}, year = {2022},
+  note    = {Also used as calibration for mode-specific cost priors}
+}
+
+% ==================== 5. ESTIMATION FRONTIER ====================
+
+@book{yotov_piermartini_monteiro_larch_2016,
+  author    = {Yotov, Yoto V. and Piermartini, Roberta and Monteiro, Jos{\'e}-Antonio and Larch, Mario},
+  title     = {An Advanced Guide to Trade Policy Analysis: The Structural Gravity Model},
+  publisher = {World Trade Organization / UNCTAD},
+  year      = {2016}
+}
+
+@article{weidner_zylkin_2021,
+  author  = {Weidner, Martin and Zylkin, Thomas},
+  title   = {Bias and Consistency in Three-Way Gravity Models},
+  journal = {Journal of International Economics},
+  volume  = {132}, pages = {103513}, year = {2021}
+}
+
+@article{correia_guimaraes_zylkin_2020,
+  author  = {Correia, Sergio and Guimar{\~a}es, Paulo and Zylkin, Thomas},
+  title   = {Fast {P}oisson Estimation with High-Dimensional Fixed Effects},
+  journal = {Stata Journal},
+  volume  = {20}, number = {1}, pages = {95--115}, year = {2020}
+}
+
+@article{heid_larch_yotov_2021,
+  author  = {Heid, Benedikt and Larch, Mario and Yotov, Yoto V.},
+  title   = {Estimating the Effects of Non-Discriminatory Trade Policies within Structural Gravity Models},
+  journal = {Canadian Journal of Economics},
+  volume  = {54}, number = {1}, pages = {376--415}, year = {2021}
+}
+
+@article{santos_silva_tenreyro_2011,
+  author  = {Santos Silva, J. M. C. and Tenreyro, Silvana},
+  title   = {Further Simulation Evidence on the Performance of the {P}oisson Pseudo-Maximum Likelihood Estimator},
+  journal = {Economics Letters},
+  volume  = {112}, number = {2}, pages = {220--222}, year = {2011}
+}
+
+@article{fontagne_guimbard_orefice_2022,
+  author  = {Fontagn{\'e}, Lionel and Guimbard, Houssein and Orefice, Gianluca},
+  title   = {Tariff-Based Product-Level Trade Elasticities},
+  journal = {Journal of International Economics},
+  volume  = {137}, pages = {103593}, year = {2022}
+}
+
+@article{larch_yotov_2024,
+  author  = {Larch, Mario and Yotov, Yoto V.},
+  title   = {Estimating the Effects of Trade Agreements: Lessons From 60 Years of Methods and Data},
+  journal = {The World Economy},
+  year    = {2024}
+}
+
+@article{bergstrand_larch_yotov_2015,
+  author  = {Bergstrand, Jeffrey H. and Larch, Mario and Yotov, Yoto V.},
+  title   = {Economic Integration Agreements, Border Effects, and Distance Elasticities in the Gravity Equation},
+  journal = {European Economic Review},
+  volume  = {78}, pages = {307--327}, year = {2015}
+}
+
+@article{baier_bergstrand_2009,
+  author  = {Baier, Scott L. and Bergstrand, Jeffrey H.},
+  title   = {Bonus Vetus {OLS}: A Simple Method for Approximating International Trade-Cost Effects Using the Gravity Equation},
+  journal = {Journal of International Economics},
+  volume  = {77}, number = {1}, pages = {77--85}, year = {2009}
+}
+
+@article{baier_yotov_zylkin_2019,
+  author  = {Baier, Scott L. and Yotov, Yoto V. and Zylkin, Thomas},
+  title   = {On the Widely Differing Effects of Free Trade Agreements: Lessons from Twenty Years of Trade Integration},
+  journal = {Journal of International Economics},
+  volume  = {116}, pages = {206--226}, year = {2019}
+}
+
+@article{baldwin_taglioni_2006,
+  author  = {Baldwin, Richard and Taglioni, Daria},
+  title   = {Gravity for Dummies and Dummies for Gravity Equations},
+  type    = {{NBER} Working Paper}, number = {12516}, year = {2006}
+}
+
+% ==================== 6. WELFARE / COUNTERFACTUALS / EXACT-HAT ====================
+
+@article{arkolakis_costinot_rodriguezclare_2012,
+  author  = {Arkolakis, Costas and Costinot, Arnaud and Rodr{\'\i}guez-Clare, Andr{\'e}s},
+  title   = {New Trade Models, Same Old Gains?},
+  journal = {American Economic Review},
+  volume  = {102}, number = {1}, pages = {94--130}, year = {2012}
+}
+
+@article{caliendo_parro_2015,
+  author  = {Caliendo, Lorenzo and Parro, Fernando},
+  title   = {Estimates of the Trade and Welfare Effects of {NAFTA}},
+  journal = {Review of Economic Studies},
+  volume  = {82}, number = {1}, pages = {1--44}, year = {2015}
+}
+
+@incollection{costinot_rodriguezclare_2014,
+  author    = {Costinot, Arnaud and Rodr{\'\i}guez-Clare, Andr{\'e}s},
+  title     = {Trade Theory with Numbers: Quantifying the Consequences of Globalization},
+  booktitle = {Handbook of International Economics, Vol. 4},
+  publisher = {Elsevier}, pages = {197--261}, year = {2014}
+}
+
+@article{ossa_2015,
+  author  = {Ossa, Ralph},
+  title   = {Why Trade Matters After All},
+  journal = {Journal of International Economics},
+  volume  = {97}, number = {2}, pages = {266--277}, year = {2015}
+}
+
+@article{melitz_redding_2014,
+  author  = {Melitz, Marc J. and Redding, Stephen J.},
+  title   = {Missing Gains from Trade?},
+  journal = {American Economic Review: Papers \& Proceedings},
+  volume  = {104}, number = {5}, pages = {317--321}, year = {2014}
+}
+
+@article{dekle_eaton_kortum_2008,
+  author  = {Dekle, Robert and Eaton, Jonathan and Kortum, Samuel},
+  title   = {Global Rebalancing with Gravity: Measuring the Burden of Adjustment},
+  journal = {IMF Staff Papers},
+  volume  = {55}, number = {3}, pages = {511--540}, year = {2008}
+}
+
+% ==================== 7. COMPETITOR / BENCHMARK DATASETS ====================
+
+@techreport{borchert_larch_shikher_yotov_2022,
+  author = {Borchert, Ingo and Larch, Mario and Shikher, Serge and Yotov, Yoto V.},
+  title  = {The International Trade and Production Database for Estimation ({ITPD-E})},
+  type   = {{USITC} Working Paper},
+  year   = {2022},
+  note   = {See also ITPD-E Release 3, 2025 update}
+}
+
+@article{arvis_duval_shepherd_utoktham_2013,
+  author  = {Arvis, Jean-Fran{\c c}ois and Duval, Yann and Shepherd, Ben and Utoktham, Chorthip},
+  title   = {Trade Costs in the Developing World: 1996--2010},
+  journal = {World Bank Economic Review},
+  year    = {2013},
+  note    = {Database updated July 2024}
+}
+
+@article{novy_2013,
+  author  = {Novy, Dennis},
+  title   = {Gravity Redux: Measuring International Trade Costs with Panel Data},
+  journal = {Economic Inquiry},
+  volume  = {51}, number = {1}, pages = {101--121}, year = {2013}
+}
+
+@techreport{conte_cotterlaz_mayer_2022,
+  author = {Conte, Maddalena and Cotterlaz, Pierre and Mayer, Thierry},
+  title  = {The {CEPII} Gravity Database},
+  type   = {{CEPII} Working Paper},
+  number = {2022-05}, year = {2022}
+}
+
+@techreport{imf_wp_25_93,
+  author = {International Monetary Fund},
+  title  = {Nowcasting Global Trade from Space},
+  type   = {{IMF} Working Paper},
+  number = {25/93}, year = {2025}
+}
+
+@article{russ_2020,
+  author  = {Russ, Katheryn N.},
+  title   = {Comments on {ITPD-E} Gravity Database},
+  journal = {Review of International Economics},
+  year    = {2020},
+  note    = {Context for ITPD-E benchmark}
+}
+
+% ==================== 8. CHOKEPOINT SHOCKS / FRAGMENTATION ====================
+
+@techreport{boe_swp_1160,
+  author = {Bank of England},
+  title  = {Climate Change Increases Bilateral Trade Costs},
+  type   = {{Bank of England} Staff Working Paper},
+  number = {1160}, year = {2025}
+}
+
+@article{lafrogne_joussier_2024,
+  author  = {Lafrogne-Joussier, Raphael and Martin, Julien and Mejean, Isabelle},
+  title   = {Supply Shocks in Global Value Chains: Too Small, Too Large, or Just Right?},
+  journal = {Journal of International Economics},
+  volume  = {145}, pages = {103823}, year = {2024}
+}
+
+@article{gaulier_martin_mejean_zignago_2008,
+  author  = {Gaulier, Guillaume and Martin, Julien and M{\'e}jean, Isabelle and Zignago, Soledad},
+  title   = {International Trade Price Indices},
+  journal = {Banque de France Working Paper}, year = {2008},
+  note    = {Useful for freight-cost index construction}
+}
+
+@techreport{espitia_rocha_ruta_2022,
+  author = {Espitia, Alvaro and Rocha, Nadia and Ruta, Michele},
+  title  = {Trade Frictions along Supply Chains: Conflict, Sanctions, and Diversification},
+  type   = {{World Bank} Policy Research Working Paper},
+  year   = {2022}
+}
+
+@article{verschuur_koks_hall_2021,
+  author  = {Verschuur, Jasper and Koks, Elco E. and Hall, Jim W.},
+  title   = {Observed Impacts of the {COVID}-19 Pandemic on Global Trade},
+  journal = {Nature Human Behaviour},
+  volume  = {5}, pages = {305--307}, year = {2021}
+}
+
+@article{storeygard_2016,
+  author  = {Storeygard, Adam},
+  title   = {Farther on Down the Road: Transport Costs, Trade and Urban Growth in Sub-{S}aharan {A}frica},
+  journal = {Review of Economic Studies},
+  volume  = {83}, number = {3}, pages = {1263--1295}, year = {2016}
+}
+
+% ==================== 9. SATELLITE / REMOTE SENSING ====================
+
+@article{li_zhou_zhao_zhao_2020,
+  author  = {Li, Xuecao and Zhou, Yuyu and Zhao, Min and Zhao, Xia},
+  title   = {A Harmonized Global Nighttime Light Dataset 1992--2018},
+  journal = {Scientific Data},
+  volume  = {7}, pages = {168}, year = {2020}
+}
+
+@article{elvidge_zhizhin_ghosh_baugh_hsu_2021,
+  author  = {Elvidge, Christopher D. and Zhizhin, Mikhail and Ghosh, Tilottama and Hsu, Feng-Chi and Taneja, Jay},
+  title   = {Annual Time Series of Global {VIIRS} Nighttime Lights Derived from Monthly Averages: 2012 to 2019},
+  journal = {Remote Sensing},
+  volume  = {13}, number = {5}, pages = {922}, year = {2021}
+}
+
+@article{henderson_storeygard_weil_2012,
+  author  = {Henderson, J. Vernon and Storeygard, Adam and Weil, David N.},
+  title   = {Measuring Economic Growth from Outer Space},
+  journal = {American Economic Review},
+  volume  = {102}, number = {2}, pages = {994--1028}, year = {2012}
+}
+
+@article{jean_burke_xie_davis_lobell_ermon_2016,
+  author  = {Jean, Neal and Burke, Marshall and Xie, Michael and Davis, W. Matthew and Lobell, David B. and Ermon, Stefano},
+  title   = {Combining Satellite Imagery and Machine Learning to Predict Poverty},
+  journal = {Science},
+  volume  = {353}, number = {6301}, pages = {790--794}, year = {2016}
+}
+
+@article{wenz_et_al_2023,
+  author  = {Wenz, Leonie and others},
+  title   = {{DOSE}: Global Data Set of Reported Sub-National Economic Output},
+  journal = {Scientific Data},
+  volume  = {10}, pages = {425}, year = {2023}
+}
+
+@article{storeygard_balk_2013,
+  author  = {Storeygard, Adam and Balk, Deborah},
+  title   = {Satellite Luminosity and City-Level Data as Proxies for Local Economic Activity},
+  journal = {Economic Geography},
+  year    = {2013},
+  note    = {Confirms VIIRS fidelity to local manufacturing output}
+}
+
+@article{levin_et_al_2020,
+  author  = {Levin, Noam and Kyba, Christopher C. M. and Zhang, Qingling and de Miguel, Alejandro Sánchez and Román, Miguel O. and Li, Xi and Portnov, Boris A. and Molthan, Andrew L. and Jechow, Andreas and Miller, Steven D. and Wang, Zhuosen and Shrestha, Ranjay M. and Elvidge, Christopher D.},
+  title   = {Remote Sensing of Night Lights: A Review and an Outlook for the Future},
+  journal = {Remote Sensing of Environment},
+  volume  = {237}, pages = {111443}, year = {2020}
+}
+
+% ==================== 10. FIRM HETEROGENEITY / EXTENSIVE MARGIN / TIME COSTS ====================
+
+@article{hummels_schaur_2013,
+  author  = {Hummels, David and Schaur, Georg},
+  title   = {Time as a Trade Barrier},
+  journal = {American Economic Review},
+  volume  = {103}, number = {7}, pages = {2935--2959}, year = {2013}
+}
+
+@article{eaton_kortum_kramarz_2011,
+  author  = {Eaton, Jonathan and Kortum, Samuel and Kramarz, Francis},
+  title   = {An Anatomy of International Trade: Evidence from {F}rench Firms},
+  journal = {Econometrica},
+  volume  = {79}, number = {5}, pages = {1453--1498}, year = {2011}
+}
+
+@article{rauch_1999,
+  author  = {Rauch, James E.},
+  title   = {Networks versus Markets in International Trade},
+  journal = {Journal of International Economics},
+  volume  = {48}, number = {1}, pages = {7--35}, year = {1999}
+}
+
+@article{freund_weinhold_2004,
+  author  = {Freund, Caroline L. and Weinhold, Diana},
+  title   = {The Effect of the {I}nternet on International Trade},
+  journal = {Journal of International Economics},
+  volume  = {62}, number = {1}, pages = {171--189}, year = {2004}
+}
+
+@article{lashkaripour_lugovskyy_2023,
+  author  = {Lashkaripour, Ahmad and Lugovskyy, Volodymyr},
+  title   = {Scale Economies and the Structure of Trade and Industrial Policy},
+  journal = {American Economic Review},
+  volume  = {113}, number = {2}, pages = {476--526}, year = {2023}
+}
+
+% ==================== 11. SUBNATIONAL / URBAN (robustness) ====================
+
+@article{redding_rossi_hansberg_2017,
+  author  = {Redding, Stephen J. and Rossi-Hansberg, Esteban},
+  title   = {Quantitative Spatial Economics},
+  journal = {Annual Review of Economics},
+  volume  = {9}, pages = {21--58}, year = {2017}
+}
+
+@article{jedwab_storeygard_2022,
+  author  = {Jedwab, Remi and Storeygard, Adam},
+  title   = {The Average and Heterogeneous Effects of Transportation Investments: Evidence from Sub-{S}aharan {A}frica 1960--2010},
+  journal = {Journal of the European Economic Association},
+  volume  = {20}, number = {1}, pages = {1--38}, year = {2022}
+}
+
+@article{ghosh_et_al_2021,
+  author  = {Ghosh, Tilottama and Baugh, Kimberly and Elvidge, Christopher D. and Zhizhin, Mikhail and Pettit, Dorota},
+  title   = {Extending the {DMSP} Nighttime Lights Time Series beyond 2013},
+  journal = {Remote Sensing},
+  volume  = {13}, number = {24}, pages = {5004}, year = {2021},
+  note    = {Extends harmonized series to 2021; cross-validates with VIIRS}
+}
+
+% ── Data sources: Trade ──────────────────────────────────────────────────────
+
+@techreport{gaulier_zignago_2010,
+  author      = {Gaulier, Guillaume and Zignago, Soledad},
+  title       = {{BACI}: International Trade Database at the Product-Level --- The 1994--2007 Version},
+  institution = {CEPII},
+  type        = {Working Paper},
+  number      = {2010-23},
+  year        = {2010},
+  note        = {BACI HS02 V202401b used in this paper covers 2002--2022}
+}
+
+% ── Data sources: Population ─────────────────────────────────────────────────
+
+@article{stevens_gaughan_linard_tatem_2015,
+  author  = {Stevens, Forrest R. and Gaughan, Andrea E. and Linard, Catherine and Tatem, Andrew J.},
+  title   = {Disaggregating Census Data for Population Mapping Using Random Forests with Remotely-Sensed and Ancillary Data},
+  journal = {PLOS ONE},
+  volume  = {10}, number = {2}, pages = {e0107042}, year = {2015},
+  note    = {WorldPop constrained 100m}
+}
+
+@article{florczyk_corbane_ehrlich_freire_kemper_maffenini_melchiorri_pesaresi_politis_schiavina_zanchetta_2019,
+  author  = {Florczyk, Aneta J. and Corbane, Christina and Ehrlich, Daniele and Freire, S{\'{e}}rgio and Kemper, Thomas and Maffenini, Luca and Melchiorri, Michele and Pesaresi, Martino and Politis, Panagiotis and Schiavina, Marcello and Zanchetta, Michele},
+  title   = {{GHSL} Data Package 2019},
+  journal = {Publications Office of the European Union},
+  year    = {2019},
+  note    = {GHS-POP R2023A used in this paper}
+}
+
+% ── Data sources: Sea distance ───────────────────────────────────────────────
+
+@techreport{bertoli_freudenberg_stammann_2016,
+  author      = {Bertoli, Simone and Freudenberg, Matthieu and Stammann, Amrei},
+  title       = {{CERDI-SeaDistance.org}: A Global Dataset of Sea Distances},
+  institution = {CERDI},
+  year        = {2016},
+  note        = {Port-pair sea distances; baseline for maritime cost calibration}
+}
+

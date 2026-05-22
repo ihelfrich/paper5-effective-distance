@@ -1,0 +1,20 @@
+[build-system]
+requires = ["maturin>=1.5,<2.0"]
+build-backend = "maturin"
+
+[project]
+name = "paper5-core"
+version = "0.1.0.dev0"
+description = "Rust-backed multi-modal LCP solver for the Paper 5 Effective Distance panel."
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [
+  { name = "Ian T. Helfrich", email = "ianthelfrich@gmail.com" },
+  { name = "Elizaveta Gonchar" },
+]
+dependencies = ["numpy>=1.26"]
+
+[tool.maturin]
+manifest-path = "Cargo.toml"
+module-name = "paper5_core"
+strip = true

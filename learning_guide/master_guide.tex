@@ -1,0 +1,780 @@
+% !TeX program = xelatex
+% A Working Guide to the Wrong-θ Critique of Conventional Intra-National Distance
+% Ian T. Helfrich
+
+\documentclass[11pt,letterpaper,oneside]{book}
+
+% ── Fonts and layout ────────────────────────────────────────────────────────
+\usepackage{fontspec}
+\usepackage[margin=1in,top=1.05in,bottom=1.05in]{geometry}
+\setmainfont{Charter}
+\setsansfont{Helvetica Neue}[Scale=0.93]
+\setmonofont{Menlo}[Scale=0.82]
+\linespread{1.16}
+\setlength{\parskip}{0.45em}
+\setlength{\parindent}{0pt}
+
+% ── Math and symbols ────────────────────────────────────────────────────────
+\usepackage{amsmath,amssymb,amsthm,mathtools,bm}
+\usepackage{siunitx}
+\usepackage{enumitem}
+\setlist{itemsep=0.15em,topsep=0.3em}
+
+\newtheorem{thm}{Theorem}[chapter]
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{cor}[thm]{Corollary}
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definition}
+\theoremstyle{remark}
+\newtheorem*{rem}{Remark}
+\newtheorem*{exa}{Example}
+
+\DeclareMathOperator*{\essinf}{ess\,inf}
+\DeclareMathOperator*{\esssup}{ess\,sup}
+\DeclareMathOperator{\supp}{supp}
+\DeclareMathOperator{\vol}{vol}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\diff}{\mathrm{d}}
+\newcommand{\eff}{\mathrm{eff}}
+\newcommand{\HM}{\mathrm{HM}}
+
+% ── Colors ──────────────────────────────────────────────────────────────────
+\usepackage[dvipsnames,table]{xcolor}
+\definecolor{ink}{HTML}{1B1F23}
+\definecolor{rust}{HTML}{B5482A}
+\definecolor{sage}{HTML}{4C7066}
+\definecolor{gold}{HTML}{C28B25}
+\definecolor{dim}{HTML}{6C757D}
+
+% ── Chapter/section formatting ──────────────────────────────────────────────
+\usepackage{titlesec}
+\titleformat{\chapter}[display]
+  {\sffamily\Huge\bfseries\color{ink}}
+  {\normalfont\sffamily\large\color{dim}Chapter \thechapter}
+  {0.6em}{}
+\titleformat{\section}{\Large\sffamily\bfseries\color{ink}}{\thesection\hspace{0.55em}}{0pt}{}
+\titleformat{\subsection}{\large\sffamily\bfseries\color{rust}}{\thesubsection\hspace{0.45em}}{0pt}{}
+\titleformat{\subsubsection}{\sffamily\bfseries\color{sage}}{}{0pt}{}
+\titlespacing*{\chapter}{0pt}{-1em}{2em}
+\titlespacing*{\section}{0pt}{1.5em}{0.6em}
+\titlespacing*{\subsection}{0pt}{1.0em}{0.4em}
+
+% ── Boxes ───────────────────────────────────────────────────────────────────
+\usepackage[most]{tcolorbox}
+\tcbset{
+  nobox/.style={colback=white,colframe=white,boxrule=0pt,
+                left=0pt,right=0pt,top=2pt,bottom=2pt},
+  insight/.style={enhanced,boxrule=0pt,colback=sage!8,colframe=sage!8,
+                  borderline west={3pt}{0pt}{sage},
+                  left=10pt,right=10pt,top=6pt,bottom=6pt,sharp corners,
+                  title=Insight,coltitle=sage,fonttitle=\sffamily\bfseries},
+  warning/.style={enhanced,boxrule=0pt,colback=rust!8,colframe=rust!8,
+                  borderline west={3pt}{0pt}{rust},
+                  left=10pt,right=10pt,top=6pt,bottom=6pt,sharp corners,
+                  title=Watch out,coltitle=rust,fonttitle=\sffamily\bfseries},
+  history/.style={enhanced,boxrule=0pt,colback=gold!10,colframe=gold!10,
+                  borderline west={3pt}{0pt}{gold},
+                  left=10pt,right=10pt,top=6pt,bottom=6pt,sharp corners,
+                  title=Historical note,coltitle=gold!70!black,fonttitle=\sffamily\bfseries}
+}
+
+% ── Page furniture ─────────────────────────────────────────────────────────
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\sffamily\color{dim}\leftmark}
+\fancyhead[R]{\small\sffamily\color{dim}A working guide}
+\fancyfoot[C]{\small\thepage}
+\renewcommand{\headrulewidth}{0pt}
+
+\renewcommand{\chaptermark}[1]{\markboth{Chapter \thechapter. #1}{}}
+
+% ── Hyperlinks ─────────────────────────────────────────────────────────────
+\usepackage[colorlinks=true,linkcolor=rust,citecolor=sage,urlcolor=rust]{hyperref}
+
+\usepackage{booktabs}
+\usepackage{array}
+\usepackage{caption}
+\captionsetup{font=small,labelfont={bf,sf},labelsep=period}
+
+\title{\sffamily\bfseries A Working Guide to the Wrong-$\theta$ Critique\\
+       {\Large Internal Distance in CES Gravity, from the Ground Up}}
+\author{Ian T.~Helfrich \\
+        \small Georgia Institute of Technology}
+\date{\small Working draft, May 2026}
+
+\begin{document}
+
+\frontmatter
+
+\maketitle
+\thispagestyle{empty}
+
+\begin{tcolorbox}[nobox]
+\sffamily\small\color{dim}
+This is a working manual intended to teach the analytical chain behind Paper~5 (\emph{The Divergent Intra-National Distance in CES Gravity}) from scratch. The intent is that a reader who finishes the book can reconstruct the analysis without referring to any other source, including this one --- the test is that they could have invented it themselves with the same data and the same questions. The mathematics is built up rigorously; the economics is built up historically; the geospatial pipeline is built up operationally. Every figure and number can be regenerated from the code in \texttt{Paper5\_EffectiveDistance/}.
+
+The book is structured in eight parts. Parts~I and~II build the trade-economics foundations and the CES gravity model. Part~III introduces the internal-distance problem and Head and Mayer's 2002 closed-form formula. Part~IV is the heart of the contribution: generalized means, the 2D integral divergence, and the pole at $\theta = -2$ that the literature has been sitting one unit above for twenty-five years. Part~V is the geospatial pipeline. Part~VI is empirical methodology. Part~VII walks through the Paper~5 contributions in order. Part~VIII is where the research goes next.
+
+The intended reader has a first-year PhD background in economics and is comfortable with calculus, basic measure theory, and a programming environment. No prior knowledge of structural gravity, GIS, or optimal transport is required.
+\end{tcolorbox}
+
+\tableofcontents
+
+% =============================================================================
+\mainmatter
+
+\part{Trade economics foundations}
+
+% =============================================================================
+\chapter{The gravity equation and what it is telling us}
+
+\section{An empirical regularity in search of a model}
+
+If you take any large bilateral trade dataset --- BACI, the COMTRADE files it is built from, CEPII Gravity, ITPD-E --- and you regress the log of bilateral trade volume on the log of geographic distance and the logs of the trading partners' GDPs, you get the same answer every time. The coefficient on log distance is approximately $-1$. The coefficients on the two log GDPs are approximately $+1$ each. The fit is unreasonably good for an empirical relationship in macroeconomics, with an $R^2$ typically in the range $0.6$--$0.8$ once you include the standard covariates (contiguity, common language, free-trade agreement membership, colonial history).
+
+This is the gravity equation. It is called gravity because the form of the relationship --- flow proportional to the product of masses, inversely proportional to distance --- is the same as Newton's law of universal gravitation. Tinbergen formalized the empirical pattern in 1962 (\emph{Shaping the World Economy}). Linnemann extended it in 1966. By the 1980s the regularity was so robust that the joke in the trade literature was that the gravity equation was the most successful theoretical model in economics if only it had a theory underneath it.
+
+\begin{tcolorbox}[insight]
+The empirical gravity regularity predates any structural derivation by nearly forty years. The story we tell about \emph{why} trade obeys this form (CES preferences, iceberg costs, multilateral resistance) is reverse-engineered to explain a robust empirical fact that was discovered first.
+\end{tcolorbox}
+
+The reverse-engineering project produced three major structural derivations between 1979 and 2003:
+
+\begin{enumerate}
+\item Anderson (1979, \emph{AER}) derived gravity from CES expenditure preferences across nationally-differentiated varieties.
+\item Bergstrand (1985, \emph{REStat}) extended the derivation to include monopolistic competition.
+\item Eaton and Kortum (2002, \emph{Econometrica}) gave a fundamentally different derivation based on Ricardian comparative advantage, with goods differentiated by productivity draws rather than by nationality of origin.
+\end{enumerate}
+
+The Anderson--Bergstrand line and the Eaton--Kortum line both produce the gravity equation as a reduced-form, but they imply different parameters and different interpretations of those parameters. The unification came in Anderson and van Wincoop (2003, \emph{AER}), whose \emph{multilateral resistance} formulation revealed that the older empirical gravity regressions had been systematically biased by the omission of two general-equilibrium terms. We treat the AvW derivation in Chapter~3.
+
+\section{The shape of the relationship in numbers}
+
+It is worth grounding the abstract claim --- ``coefficient on log distance is approximately $-1$'' --- in real numbers, because this guide will repeatedly return to the question of whether that coefficient is the right object to anchor on. Table~\ref{tab:gravity-stylized} lists representative point estimates from a few well-cited recent gravity estimations, all using PPML with three-way fixed effects (the modern standard, see Chapter~17).
+
+\begin{table}[h]
+\centering
+\small
+\begin{tabular}{lcccc}
+\toprule
+Source & Sample & Log distance & FTA & Contig \\
+\midrule
+Head \& Mayer (2014), Table 3.4 & 1965--2006 & $-1.10$ & $+0.42$ & $+0.66$ \\
+Anderson, Larch \& Yotov (2024) & 2000--2020 & $-0.98$ & $+0.36$ & $+0.55$ \\
+Larch, Borchert, Shikher \& Yotov (2022) & ITPD-E, 170 industries & $-1.03$ (median) & $+0.39$ & $+0.51$ \\
+\bottomrule
+\end{tabular}
+\caption{Representative gravity coefficients across recent specifications. The log-distance coefficient sits tightly around $-1$ regardless of the estimator, the FE structure, or the panel window.}
+\label{tab:gravity-stylized}
+\end{table}
+
+The log-distance coefficient is, across decades and across data vintages, approximately $-1$. This is the empirical anchor for what follows. We will see in Chapter~5 that in the CES structural derivation this coefficient corresponds to a composite parameter $\theta = \delta(1-\sigma)$ where $\delta$ is the trade-cost elasticity to distance and $\sigma$ is the elasticity of substitution across varieties. The story of Paper~5 begins with the observation that CEPII's choice to set $\theta = -1$ when building the intra-national distance variable mechanically matches this empirical regularity --- but for structurally consistent CES gravity at the empirically defensible $\sigma$, the right $\theta$ is far from $-1$, and the formula CEPII uses has a pole and a divergent integral at the right $\theta$ that no one has discussed.
+
+\section{What the gravity equation does not yet explain}
+
+Three loose threads will follow us through the rest of Part~I:
+
+\textbf{1. The McCallum/border puzzle.} McCallum (1995, \emph{AER}) showed that intra-Canadian trade is approximately twenty times larger than equivalent Canada--U.S. trade conditional on distance and economic size. This was implausible. AvW (2003) showed that the apparent puzzle was driven by the omission of multilateral-resistance terms, and once those terms were included the implied home-bias multiplier dropped to roughly tenfold. But tenfold is still implausibly high, and the literature has been chipping at the residual for twenty years.
+
+\textbf{2. The missing-globalization puzzle.} Disdier and Head (2008, \emph{REStat}) meta-analyzed about a thousand gravity estimations from 1870 to the present and showed that the distance coefficient has been remarkably stable around $-1$ across more than a century. This is implausible. Transport costs collapsed enormously in the 20th century (steam shipping, containerization, air freight, the internet) but the distance coefficient does not move. Standard explanations (heterogeneous-firm composition changes, intermediates) are partial but unconvincing.
+
+\textbf{3. The internal-distance ambiguity.} Wei (1996) introduced a method for estimating gravity equations that include intra-national observations, taking $X_{ii} = Y_i - \sum_{j \neq i} X_{ij}$. To make this work you need a value for $d_{ii}$, the intra-national distance. Head and Mayer (2002) derived a closed-form expression on geometric grounds. CEPII adopted it. Whether the formula is the right object at gravity-consistent $\sigma$ is the question Paper~5 asks --- and the answer is no.
+
+\section{Roadmap}
+
+The rest of Part~I covers the structural derivation in Chapter~2 (CES preferences and the demand function) and the AvW multilateral-resistance system in Chapter~3. Part~II derives the gravity reduced form and isolates the distance term. Part~III introduces the internal-distance problem and Head and Mayer's closed form. Part~IV is the contribution: the integral divergence, the pole, the harmonic limit. Parts~V--VIII operationalize the analysis on real data.
+
+% =============================================================================
+\chapter{Why CES preferences win as the workhorse}
+
+\section{Differentiated varieties and the love-of-variety motive}
+
+The structural derivation of gravity in Anderson (1979) starts with a representative consumer in each country who has constant-elasticity-of-substitution (CES) preferences over a continuum of differentiated varieties. Each variety is associated with a country of origin, and consumers care about which country it came from --- so a Japanese car and a German car are distinct varieties even if they have similar characteristics. This is the Armington (1969) nationality-of-origin assumption.
+
+Let $\Omega_i$ be the set of varieties produced in country $i$, and let $q_j(\omega)$ denote the consumption in country $j$ of variety $\omega$. The country-$j$ representative consumer has CES utility
+\begin{equation}
+U_j = \left( \sum_i \int_{\omega \in \Omega_i} q_j(\omega)^{(\sigma-1)/\sigma} \, \diff \omega \right)^{\sigma/(\sigma-1)}
+\label{eq:ces-utility}
+\end{equation}
+where $\sigma > 1$ is the elasticity of substitution across varieties. The case $\sigma \to \infty$ collapses CES to perfect-substitutes (Cobb--Douglas-like utility); $\sigma \to 1$ approaches Cobb--Douglas; $\sigma$ slightly above $1$ implies extreme love of variety. The empirically defensible range for international-trade applications is $\sigma \in [4, 8]$, established through multiple independent estimation strategies including Eaton--Kortum's (2002) gravity-residual approach, Caliendo--Parro's (2015) tariff-shock identification, and Simonovska--Waugh's (2014) micro-price approach. We will come back to the importance of this range repeatedly.
+
+\begin{tcolorbox}[insight]
+Three things to remember about $\sigma$. First, it is the central trade elasticity --- almost every counterfactual in modern trade economics uses it. Second, the empirically defensible range is $[4, 8]$ regardless of estimation strategy. Third, the choice of $\sigma$ propagates directly into the distance integration parameter $\theta = \delta(1-\sigma)$, which is the central object in Paper~5.
+\end{tcolorbox}
+
+\section{The demand function}
+
+Given the CES utility \eqref{eq:ces-utility} and a budget constraint $\sum_i \int p_{ij}(\omega) q_j(\omega) \diff \omega = E_j$ where $p_{ij}(\omega)$ is the price of variety $\omega$ from origin $i$ delivered to country $j$ and $E_j$ is total expenditure in $j$, the standard CES demand function is
+\begin{equation}
+q_j(\omega) = \left( \frac{p_{ij}(\omega)}{P_j} \right)^{-\sigma} \frac{E_j}{P_j}
+\label{eq:ces-demand}
+\end{equation}
+where $P_j$ is the CES price index in country $j$:
+\begin{equation}
+P_j = \left( \sum_i \int_{\omega \in \Omega_i} p_{ij}(\omega)^{1-\sigma} \diff \omega \right)^{1/(1-\sigma)}.
+\label{eq:ces-price-index}
+\end{equation}
+
+The interpretation: demand for any specific variety from origin $i$ in destination $j$ falls with its price elasticity $\sigma$, scaled by destination expenditure and inversely by the destination's overall price level. The CES price index is the cost-of-living deflator for the representative consumer.
+
+\section{The trade-flow expression}
+
+To convert demand into bilateral trade volumes, we aggregate over varieties. Let $n_i$ denote the mass of varieties produced in country $i$ (we treat this as exogenous for now; in Melitz-style extensions it is endogenous through firm entry). Assume varieties within a country are symmetric: $p_{ij}(\omega) = p_{ij}$ for all $\omega \in \Omega_i$. The expenditure of country~$j$ on country-$i$ varieties is
+\begin{equation}
+X_{ij} = n_i \cdot p_{ij} \cdot q_j(\omega) = n_i p_{ij}^{1-\sigma} \frac{E_j}{P_j^{1-\sigma}}.
+\label{eq:trade-flow-prelim}
+\end{equation}
+
+The delivered price $p_{ij}$ is the mill price $p_i$ multiplied by the iceberg trade cost $\tau_{ij} \geq 1$:
+\begin{equation}
+p_{ij} = \tau_{ij} \, p_i.
+\label{eq:delivered-price}
+\end{equation}
+
+Iceberg costs are the standard way of modeling trade frictions in modern trade theory. The story: to deliver one unit of variety $\omega$ from origin $i$ to destination $j$, the producer must ship $\tau_{ij}$ units, of which $\tau_{ij} - 1$ ``melts away'' in transit. This is a clean way of absorbing all the trade-cost wedges (freight, time, customs, distribution) into one ad-valorem multiplier without modeling the underlying friction processes. The cost is real but it accrues to no one --- a stylization that economists tolerate because the alternative (modeling actual logistics) is much harder.
+
+Substituting \eqref{eq:delivered-price} into \eqref{eq:trade-flow-prelim}:
+\begin{equation}
+X_{ij} = n_i p_i^{1-\sigma} \tau_{ij}^{1-\sigma} \frac{E_j}{P_j^{1-\sigma}}.
+\label{eq:trade-flow-with-iceberg}
+\end{equation}
+
+This is the trade-flow expression with iceberg costs explicit. The next step is to relate $n_i p_i^{1-\sigma}$ to observable country-level quantities (output $Y_i$), and to derive the equilibrium price-index $P_j$. That is the AvW system, which we cover in the next chapter.
+
+\section{The iceberg-cost parametrization}
+
+For Paper~5 the central object is how the iceberg cost depends on bilateral distance. The conventional parametrization is
+\begin{equation}
+\tau_{ij} = d_{ij}^{\delta} \cdot Z_{ij}
+\label{eq:iceberg-parametrization}
+\end{equation}
+where $d_{ij}$ is bilateral distance in kilometres, $\delta > 0$ is the trade-cost elasticity to distance (typically taken as $\delta \approx 1$), and $Z_{ij}$ absorbs non-distance components (contiguity, common language, FTA, etc.). The choice $\delta = 1$ corresponds to constant per-kilometer freight costs in ad-valorem terms.
+
+The trade-flow expression then becomes
+\begin{equation}
+X_{ij} = n_i p_i^{1-\sigma} \, d_{ij}^{\delta(1-\sigma)} \, Z_{ij}^{1-\sigma} \, \frac{E_j}{P_j^{1-\sigma}}.
+\label{eq:trade-flow-with-distance}
+\end{equation}
+
+The crucial composite parameter is
+\begin{equation}
+\boxed{\theta \equiv \delta(1 - \sigma)}
+\label{eq:theta-def}
+\end{equation}
+which is the elasticity of bilateral trade with respect to distance. For $\delta = 1$ and $\sigma \in [4, 8]$, this is $\theta \in [-7, -3]$.
+
+\begin{tcolorbox}[warning]
+This $\theta$ is the structural parameter inside the trade-cost integral. It is \emph{not} the reduced-form coefficient on log distance that appears in gravity regressions. The reduced-form coefficient \emph{equals} this $\theta$ in the trivial case where multilateral-resistance terms do not adjust, but the AvW system shows that in general the reduced-form coefficient is a smaller-magnitude attenuation of the structural $\theta$. This distinction is the seed of the wrong-$\theta$ critique that Paper~5 develops.
+\end{tcolorbox}
+
+% =============================================================================
+\chapter{Anderson--van Wincoop and the multilateral-resistance system}
+
+\section{The hidden general-equilibrium structure}
+
+Anderson and van Wincoop's (2003) contribution was to show that the older gravity regressions had been missing two general-equilibrium price terms. The intuition is that the trade flow from $i$ to $j$ depends not only on the bilateral trade cost $\tau_{ij}$ but also on how trade costs to $j$ compare to trade costs to all other destinations available to $i$'s producers, and conversely on how trade costs from $i$ compare to trade costs from all other origins serving $j$'s consumers.
+
+If China becomes more open to Japanese imports, the Japanese export price relative to the cost-of-living index in China falls, which raises Japan's exports to China --- but also lowers Japan's exports to Korea, because Korean importers now face relatively higher Japanese prices in their own currencies after the Chinese deal. These cross-market substitutions are general-equilibrium effects that the older empirical gravity regressions assumed away.
+
+\section{The AvW derivation in full}
+
+Start from the trade-flow expression \eqref{eq:trade-flow-with-iceberg}. Define country-$i$ income as the value of its sales to all destinations:
+\begin{equation}
+Y_i = \sum_j X_{ij} = n_i p_i^{1-\sigma} \sum_j \tau_{ij}^{1-\sigma} \frac{E_j}{P_j^{1-\sigma}}.
+\label{eq:income-aggregation}
+\end{equation}
+
+Define the \emph{outward multilateral resistance} $\Pi_i$ by
+\begin{equation}
+\Pi_i^{1-\sigma} \equiv \sum_j \tau_{ij}^{1-\sigma} \frac{E_j/Y^W}{P_j^{1-\sigma}}, \qquad Y^W \equiv \sum_k Y_k.
+\label{eq:outward-MR}
+\end{equation}
+
+Then \eqref{eq:income-aggregation} becomes $Y_i = n_i p_i^{1-\sigma} \cdot Y^W \cdot \Pi_i^{1-\sigma}$, or equivalently
+\begin{equation}
+n_i p_i^{1-\sigma} = \frac{Y_i}{Y^W \Pi_i^{1-\sigma}}.
+\end{equation}
+
+Define the \emph{inward multilateral resistance} as the CES price index after rearranging the price-index identity:
+\begin{equation}
+P_j^{1-\sigma} = \sum_i n_i p_i^{1-\sigma} \tau_{ij}^{1-\sigma} = \sum_i \frac{Y_i}{Y^W \Pi_i^{1-\sigma}} \tau_{ij}^{1-\sigma}.
+\label{eq:inward-MR}
+\end{equation}
+
+Substituting $n_i p_i^{1-\sigma}$ into the trade-flow expression \eqref{eq:trade-flow-with-iceberg}:
+\begin{equation}
+\boxed{X_{ij} = \frac{Y_i E_j}{Y^W} \left( \frac{\tau_{ij}}{\Pi_i P_j} \right)^{1-\sigma}.}
+\label{eq:avw-gravity}
+\end{equation}
+
+This is the structural gravity equation. The bilateral trade flow is the product of (i) economic mass terms $Y_i E_j / Y^W$ and (ii) a bilateral trade-cost term $(\tau_{ij}/\Pi_i P_j)^{1-\sigma}$ that adjusts $\tau_{ij}$ for both outward and inward multilateral resistance. The system $\{\Pi_i, P_j\}$ solves a fixed-point system jointly with $\{Y_i, E_j\}$ given $\{\tau_{ij}\}$.
+
+\begin{tcolorbox}[insight]
+The AvW gravity equation is a structural reduced form. Taking logs and regressing $\log X_{ij}$ on $\log d_{ij}$, $\log Y_i$, $\log E_j$, and covariates gives you the structural slope $\theta = \delta(1-\sigma)$ \emph{plus} an attenuation from the multilateral-resistance terms when those are unobserved. With country-pair fixed effects or with explicit MR estimation, the structural slope is recovered cleanly. This is why the modern gravity literature uses exporter-year, importer-year, and pair fixed effects --- they absorb the $\Pi_i, P_j$ unobservables.
+\end{tcolorbox}
+
+\section{Solving the border puzzle}
+
+The McCallum (1995) puzzle was an estimated $\sim 20\times$ premium on intra-Canadian trade relative to Canada--U.S. trade conditional on distance and GDP. AvW showed that when you estimate the structural \eqref{eq:avw-gravity} jointly --- accounting for the fact that Canadian provinces face higher multilateral resistance against the United States than do U.S. states against each other --- the premium falls to approximately $10\times$. That is still a large effect, but it cut the puzzle in half.
+
+The residual $10\times$ premium is what Paper~5 returns to. The conventional explanation has been a combination of (a) genuinely small remaining trade costs at the border (currency conversion, regulatory friction, customs delays) and (b) demand-side home bias (consumers preferring local varieties because of taste, language, or signaling). But there is a third candidate that the literature has not formalized: the intra-national distance object used to construct the regression is structurally inconsistent with the iceberg-cost CES gravity model at empirically relevant $\sigma$, and the bias from this measurement error propagates into the home-dummy coefficient.
+
+That third candidate is what Paper~5 quantifies. The chain is:
+
+\begin{enumerate}
+\item The gravity reduced form has slope $\theta = \delta(1-\sigma)$ on log distance.
+\item For $\sigma \in [4, 8]$, $\theta \in [-7, -3]$.
+\item CEPII's intra-national distance variable uses Head and Mayer's (2002) closed form, evaluated at $\theta = -1$.
+\item Head and Mayer's closed form has a pole at $\theta = -2$ and is complex-valued for $\theta < -2$.
+\item Therefore CEPII's value at $\theta = -1$ is structurally inconsistent with the gravity model it is being used inside.
+\item Whatever numerical value gets assigned to $d_{ii}$ is a regularization choice; the home-dummy coefficient inherits the regularization-dependence.
+\end{enumerate}
+
+We will derive the closed form in Chapter~7, identify the pole and the divergence in Chapter~10, and quantify the empirical bite in Chapter~22.
+
+% =============================================================================
+\part{The structural CES gravity model}
+
+% =============================================================================
+\chapter{Deriving the reduced form, distance term in focus}
+
+\section{The trade-cost component of gravity}
+
+We can rewrite the AvW gravity equation \eqref{eq:avw-gravity} as
+\begin{equation}
+X_{ij} = \underbrace{\frac{Y_i E_j}{Y^W}}_{\text{mass}} \times \underbrace{\tau_{ij}^{1-\sigma}}_{\text{bilateral cost}} \times \underbrace{\Pi_i^{\sigma-1} P_j^{\sigma-1}}_{\text{multilateral cost}}.
+\label{eq:gravity-decomposed}
+\end{equation}
+
+The mass term is observable from national-accounts data. The multilateral term is identified through cross-equation restrictions when the system is estimated jointly. The bilateral cost is where distance enters.
+
+Taking logs:
+\begin{equation}
+\log X_{ij} = \log \frac{Y_i E_j}{Y^W} + (1-\sigma) \log \tau_{ij} + (\sigma-1)(\log \Pi_i + \log P_j).
+\label{eq:gravity-logs}
+\end{equation}
+
+Substituting $\log \tau_{ij} = \delta \log d_{ij} + \log Z_{ij}$:
+\begin{equation}
+\log X_{ij} = \log \frac{Y_i E_j}{Y^W} + \theta \log d_{ij} + (1-\sigma)\log Z_{ij} + (\sigma-1)(\log \Pi_i + \log P_j),
+\label{eq:gravity-logs-distance}
+\end{equation}
+where $\theta = \delta(1-\sigma)$ is the structural distance-elasticity composite.
+
+\section{Why fixed effects work}
+
+The standard modern estimation strategy is to estimate \eqref{eq:gravity-logs-distance} with exporter-year fixed effects $\alpha_{it}$, importer-year fixed effects $\beta_{jt}$, and pair fixed effects $\gamma_{ij}$:
+\begin{equation}
+\log X_{ij,t} = \alpha_{i,t} + \beta_{j,t} + \gamma_{ij} + \theta \log d_{ij} + \beta' Z_{ij} + \epsilon_{ij,t}.
+\label{eq:fe-spec}
+\end{equation}
+
+The exporter-year FE absorbs $\log Y_{i,t} - (\sigma-1) \log \Pi_{i,t}$. The importer-year FE absorbs $\log E_{j,t} + (\sigma-1) \log P_{j,t} - \log Y^W_t$. The pair FE absorbs any time-invariant bilateral component including $\log d_{ij}$, $\log Z_{ij}$ to the extent they don't move. So if the pair FE is included, the structural $\theta$ is identified \emph{only} from time variation in bilateral trade costs --- which requires using PTAs, sanctions, or other shocks. If the pair FE is omitted, $\theta$ is identified from cross-sectional variation in distance and the covariates.
+
+For purposes of Paper~5, we use the cross-sectional specification (no pair FE) because we are testing the sensitivity of the home-dummy coefficient to the intra-national distance choice; the pair FE would absorb the home indicator.
+
+\section{The reduced-form slope versus the structural $\theta$}
+
+The reduced-form slope estimated from \eqref{eq:fe-spec} (without pair FE) is $\theta$, the structural integration parameter. With the FE structure described, $\hat{\theta} \approx -1$ in modern gravity estimates (Table~\ref{tab:gravity-stylized}). For $\delta = 1$, this implies $\hat{\sigma} \approx 2$.
+
+But the direct estimation of $\sigma$ from other moments of the data --- the dispersion of bilateral trade shares (Eaton--Kortum 2002), the response of imports to tariff shocks (Caliendo--Parro 2015), the cross-sectional dispersion of micro prices (Simonovska--Waugh 2014) --- consistently puts $\sigma$ in $[4, 8]$. For $\delta = 1$, this implies $\theta \in [-7, -3]$.
+
+These two facts cannot both be true with $\delta = 1$. There are three reconciliations:
+
+\begin{enumerate}
+\item \textbf{$\delta$ is much smaller than 1.} If $\delta \approx 0.2$, then $\sigma = 6$ gives $\theta = -1$ as observed. This is the Anderson--van Wincoop reconciliation. It implies that doubling geographic distance only increases iceberg costs by about $15\%$, which is empirically defensible but conceptually strange (most direct freight-cost data shows close-to-linear distance-cost scaling).
+
+\item \textbf{$\sigma$ varies across goods/sectors.} The aggregate gravity estimate is an average over sectors with different $\sigma$ values. Sectors with low $\sigma$ (commodity-like goods) contribute reduced-form slopes near $-\delta$; sectors with high $\sigma$ (differentiated goods) contribute slopes near $\delta(1-\sigma_{\text{high}})$. The aggregate average can be much less negative than the high-$\sigma$ sectors' individual slopes.
+
+\item \textbf{The distance variable is mismeasured.} If $d_{ij}$ as measured does not capture the true bilateral trade-cost wedge, $\hat\theta$ is biased toward zero. The mismeasurement could be (i) using centroid distance when production and consumption sit in different sub-national locations, (ii) using arithmetic centroid distance when the structural object is a generalized mean of pairwise distances, or (iii) using the same closed form for intra- and inter-national distances when the two should be computed differently.
+\end{enumerate}
+
+Paper~5 makes the case for the third reconciliation: the distance variable as conventionally constructed is structurally mis-specified for empirically relevant $\sigma$. The next part of the book builds the precise statement.
+
+% =============================================================================
+\part{Internal distance and the Head--Mayer construction}
+
+% =============================================================================
+\chapter{Why intra-national distance matters in gravity}
+
+\section{Wei's (1996) intra-national flow proxy}
+
+McCallum's (1995) Canada--U.S. analysis worked because Canadian inter-provincial trade flow data is available from Statistics Canada. For most countries this is not the case. Wei (1996, NBER WP 5531) proposed using the national-accounts identity to back out intra-national trade:
+\begin{equation}
+X_{ii} \equiv Y_i - \sum_{j \neq i} X_{ij}.
+\label{eq:wei-proxy}
+\end{equation}
+
+Output that is not exported is consumed at home. This is mechanical, not behavioral. The intra-national flow $X_{ii}$ measured this way is positive for almost every country in almost every year (since exports rarely exceed total output). It is treated as a single observation in the gravity panel, with origin $=$ destination $=$ country $i$ and an additional indicator variable $\text{home}_{ij} = \mathbb{1}\{i = j\}$ included in the regression.
+
+To estimate gravity including these intra-national observations, the regression also needs a value for $d_{ii}$ --- the average distance over which intra-national trade actually happens. The geographic centroid distance from a country to itself is zero, which would imply $\log d_{ii} = -\infty$ and break the regression. Some sensible non-zero value must be assigned.
+
+\begin{tcolorbox}[insight]
+The home dummy coefficient $\beta_{\text{home}}$ in a gravity regression with intra-national observations is the central object of the border puzzle. Its exponential $\exp(\hat\beta_{\text{home}})$ is the implied home-bias multiplier --- how much larger intra-national trade is than equivalent inter-national trade, conditional on distance, GDP, and the standard covariates. McCallum got 20, AvW got 10, modern estimates settle around 5--10 depending on specification.
+\end{tcolorbox}
+
+\section{The intra-national distance ambiguity}
+
+The question is: what is the right number for $d_{ii}$? Several proposals exist in the literature.
+
+\textbf{Wei (1996).} $d_{ii} = 0.25 \cdot \min_{j \neq i} d_{ij}$. One quarter of the distance to the nearest foreign country.
+
+\textbf{Wolf (1997, 2000).} Various: half the distance to the nearest neighbor (1997); the population-weighted distance between the country's two largest cities (2000).
+
+\textbf{Leamer (1997), Nitsch (2000).} $d_{ii} = \sqrt{A_i/\pi}$, where $A_i$ is country area. This is the radius of a hypothetical circular country of area $A_i$. They asserted this approximates the average distance between two uniformly distributed points in the disk; we will see this is not quite right.
+
+\textbf{Redding and Venables (2000).} $d_{ii} = 0.33 \sqrt{A_i/\pi}$. They asserted this gives the average distance between two uniformly distributed points in a circular country of area $A_i$.
+
+\textbf{Head and Mayer (2000).} Population-weighted arithmetic average of distances between sub-national regions. Requires sub-national data.
+
+\textbf{Head and Mayer (2002).} The closed-form expression we are about to derive in Chapter~7. They assumed a stylized geometry --- a single producer at the disk center, consumers uniformly distributed across the disk --- and derived $d_{ii} = (2/(\theta+2))^{1/\theta} R$. For $\theta = 1$ (arithmetic mean) this gives $d_{ii} = (2/3)R \approx 0.67 R$, equivalent to $0.67 \sqrt{A/\pi}$.
+
+\textbf{Helliwell and Verdier (2001).} Their numerical computation of average distance between two points on a square grid: approximately $0.52 \sqrt{A}$.
+
+\textbf{CEPII GeoDist (Mayer and Zignago, 2005, 2011).} Adopted Head and Mayer (2002)'s closed form evaluated at $\theta = -1$, citing ``the usual coefficient estimated from gravity models.''
+
+This is the place where the wrong-$\theta$ critique lives. Mayer and Zignago's reasoning for choosing $\theta = -1$ matches the reduced-form gravity slope, but it is not the structurally consistent $\theta$ for the CES model at empirically defensible $\sigma$. We will see in Chapter~10 that the formula has a pole at $\theta = -2$ and is complex-valued for the structurally consistent range.
+
+% =============================================================================
+\chapter{The Head--Mayer (2002) closed form, derived from first principles}
+
+\section{Setup: stylized country geometry}
+
+Head and Mayer (2002) considered a country represented as a uniform disk of radius $R$, with a single producer located at the disk center, and consumers uniformly distributed across the disk. The expected delivered cost for a unit of output is then a function of the trade-cost-distance relationship.
+
+Let $r$ denote the radial distance from the disk center. A consumer at radial distance $r$ from the center sees an effective trade cost $r^\delta$ (with $\delta = 1$ for now). The density of consumers at radial distance $r$, in a disk of total area $\pi R^2$, is $\rho(r) = (2\pi r)/(\pi R^2) = 2r/R^2$.
+
+The aggregate cost-of-trade index, raised to power $1-\sigma$, is the expectation of $r^{\delta(1-\sigma)} = r^\theta$ under this density:
+\begin{equation}
+\tau_{ii}^{1-\sigma} = \E[r^\theta] = \int_0^R \frac{2r}{R^2} \, r^\theta \, \diff r = \frac{2}{R^2} \int_0^R r^{\theta + 1} \diff r.
+\label{eq:hm-integral}
+\end{equation}
+
+\section{Evaluating the integral}
+
+For $\theta + 1 \neq -1$ (i.e., $\theta \neq -2$), the antiderivative is straightforward:
+\begin{equation}
+\int_0^R r^{\theta+1} \diff r = \left[ \frac{r^{\theta+2}}{\theta+2} \right]_0^R = \frac{R^{\theta+2}}{\theta+2}, \qquad \theta > -2.
+\end{equation}
+
+So
+\begin{equation}
+\tau_{ii}^{1-\sigma} = \frac{2}{R^2} \cdot \frac{R^{\theta+2}}{\theta+2} = \frac{2 R^\theta}{\theta + 2}.
+\label{eq:hm-integral-evaluated}
+\end{equation}
+
+The implied effective distance --- the value that, when raised to power $\theta$, gives the same $\tau_{ii}^{1-\sigma}$ --- is
+\begin{equation}
+\boxed{d_{ii} = \left( \frac{2}{\theta + 2} \right)^{1/\theta} R, \qquad \theta > -2.}
+\label{eq:hm-closed-form}
+\end{equation}
+
+This is the Head--Mayer 2002 closed-form expression.
+
+\section{Evaluating at standard $\theta$ values}
+
+\textbf{$\theta = 1$ (arithmetic mean).} $d_{ii} = (2/3)^1 R = (2/3) R \approx 0.667 R$. This is the standard ``arithmetic intra-national distance'' figure: the expected distance from the disk center to a uniformly distributed consumer.
+
+\textbf{$\theta = 0$ (geometric mean).} The closed form is indeterminate ($(2/2)^{1/0}$). Taking the limit using L'Hôpital or direct integration of $\E[\log r]$ gives $d_{ii} = R/\mathrm{e}^{1/2} \approx 0.607 R$.
+
+\textbf{$\theta = -1$ (harmonic mean, CEPII's choice).} $d_{ii} = (2/1)^{-1} R = (1/2) R = 0.5 R$. This is the value embedded in CEPII's GeoDist distwces variable.
+
+\textbf{$\theta = -1.9$.} $d_{ii} = (2/0.1)^{-1/1.9} R = 20^{-0.526} R \approx 0.207 R$. Less than half of the $\theta = -1$ value.
+
+\textbf{$\theta = -1.99$.} $d_{ii} = (2/0.01)^{-1/1.99} R = 200^{-0.503} R \approx 0.070 R$. Tiny.
+
+\textbf{$\theta = -2.00$.} Division by zero in the closed form. Undefined.
+
+\textbf{$\theta = -2.5$.} $d_{ii} = (2/(-0.5))^{-1/2.5} R = (-4)^{-0.4} R$. The base is negative; the exponent is fractional; the result is complex: $(-4)^{-0.4} = e^{-0.4 \ln(-4)} = e^{-0.4(\ln 4 + i\pi)}$, which has both real and imaginary parts.
+
+\textbf{$\theta = -5$ (structurally consistent for $\sigma = 6$).} Same situation as $\theta = -2.5$: complex-valued.
+
+\begin{tcolorbox}[insight]
+The Head--Mayer closed form $d_{ii} = (2/(\theta+2))^{1/\theta} R$ has a pole at $\theta = -2$ and is mathematically undefined (complex-valued) for $\theta < -2$. CEPII evaluates the formula at $\theta = -1$, exactly one unit above the pole. The structurally consistent $\theta$ for empirically relevant $\sigma$ is in $[-7, -3]$, entirely below the pole.
+\end{tcolorbox}
+
+This is the discovery. We will examine its implications in Part~IV.
+
+% =============================================================================
+\chapter{CEPII's adoption and the conventional pragmatic choice}
+
+\section{The Mayer--Zignago (2005, 2011) documentation}
+
+CEPII's GeoDist database (Mayer and Zignago 2005, then the methodology note in 2011, CEPII Working Paper 2011-25) made bilateral and intra-national distance variables widely available to the empirical gravity community. The publication of distwces alongside the trivial centroid distance and the population-weighted arithmetic distance made it the default choice in subsequent applied work.
+
+The methodology note explains the formula --- equation~\eqref{eq:hm-closed-form} --- and states explicitly: ``$\theta$ is set equal to $-1$, which corresponds to the usual coefficient estimated from gravity models.''
+
+This sentence is the source of the wrong-$\theta$ problem. The ``usual coefficient'' is the reduced-form slope from gravity regressions, which is $-1$ in the cross-section as Table~\ref{tab:gravity-stylized} confirmed. But the reduced-form slope is not the structural integration parameter. They are connected by the relationship $\theta_{\text{structural}} = \delta(1-\sigma)$, and the empirically defensible $\sigma$ implies $\theta_{\text{structural}}$ much more negative than $-1$.
+
+\section{Why CEPII's pragmatic choice has been hard to dislodge}
+
+Three reasons the wrong-$\theta$ choice has not been corrected over the past twenty years:
+
+\textbf{1. The formula breaks at the structurally consistent $\theta$.} If you try to evaluate the Head--Mayer closed form at $\theta = -5$, you get a complex number. There is no obvious replacement value. The pragmatic response is to use $\theta = -1$ where the formula is finite and well-defined, and to treat the formula as a regressor rather than as a structural object.
+
+\textbf{2. The intra-national distance variable is used inside log-linear gravity regressions where the estimated coefficient on log distance is the empirical $-1$.} The reasoning is circular but practically convenient: we use $\theta = -1$ to construct $d_{ii}$, we estimate the slope on $\log d_{ii}$ to be approximately $-1$, the input matches the output, everyone is happy. The structural inconsistency is hidden as long as no one looks at the formula carefully.
+
+\textbf{3. The downstream literature uses CEPII's variables as a drop-in regressor without re-deriving them from theory.} Hundreds of applied gravity papers have used distwces since 2005 without questioning the $\theta = -1$ assumption. The bigger the literature gets, the higher the cost of admitting that the input was structurally inconsistent.
+
+\begin{tcolorbox}[warning]
+The wrong-$\theta$ critique is not a claim that CEPII made an error. Mayer--Zignago explicitly disclosed their parameter choice. The critique is that the choice is structurally inconsistent for empirically relevant $\sigma$, and that this inconsistency propagates into downstream gravity estimations in ways the applied literature has not acknowledged.
+\end{tcolorbox}
+
+% =============================================================================
+\part{Generalized means and the divergence}
+
+% =============================================================================
+\chapter{Generalized (H\"older) means in one chapter}
+
+\section{Definitions}
+
+For a positive sequence $x_1, \ldots, x_n$ and a real number $\theta \neq 0$, the generalized (H\"older) mean of order $\theta$ is
+\begin{equation}
+M_\theta(x) \equiv \left( \frac{1}{n} \sum_{i=1}^n x_i^\theta \right)^{1/\theta}.
+\label{eq:holder-mean-discrete}
+\end{equation}
+
+For a continuous random variable $X$ on a measure space $(\Omega, \mu)$ with finite $\theta$-th moment, the generalized mean is
+\begin{equation}
+M_\theta(X) \equiv \left( \E_\mu[X^\theta] \right)^{1/\theta}.
+\label{eq:holder-mean-continuous}
+\end{equation}
+
+The Head--Mayer integral \eqref{eq:hm-integral} is exactly the inverse of a generalized mean: $\tau_{ii}^{1-\sigma} = \E[r^\theta]$, so $d_{ii} = (\E[r^\theta])^{1/\theta} = M_\theta(r)$.
+
+\section{Special cases}
+
+The generalized mean reduces to familiar special cases for specific values of $\theta$:
+
+\textbf{$\theta = 1$.} $M_1(X) = \E[X]$ --- the arithmetic mean.
+
+\textbf{$\theta = -1$.} $M_{-1}(X) = 1/\E[X^{-1}]$ --- the harmonic mean.
+
+\textbf{$\theta = 2$.} $M_2(X) = \sqrt{\E[X^2]}$ --- the root-mean-square (quadratic mean).
+
+\textbf{$\theta \to 0$.} The expression \eqref{eq:holder-mean-continuous} becomes $0/0$. Taking the limit via L'Hôpital or direct manipulation:
+\begin{equation}
+\lim_{\theta \to 0} M_\theta(X) = \exp(\E[\log X])
+\end{equation}
+which is the geometric mean.
+
+\textbf{$\theta \to +\infty$.} The arithmetic-mean structure of the moments is dominated by the largest values:
+\begin{equation}
+\lim_{\theta \to +\infty} M_\theta(X) = \esssup_\mu X.
+\end{equation}
+
+\textbf{$\theta \to -\infty$.} The harmonic-mean structure is dominated by the smallest values:
+\begin{equation}
+\lim_{\theta \to -\infty} M_\theta(X) = \essinf_\mu X.
+\label{eq:harmonic-limit}
+\end{equation}
+
+\begin{tcolorbox}[insight]
+Two facts to remember. First, $M_\theta(X)$ is monotone non-decreasing in $\theta$ on the range of $\theta$ for which the moment is finite. Second, as $\theta$ decreases past zero, the mean increasingly weights small values; in the limit it locks onto the essential infimum.
+\end{tcolorbox}
+
+These limits are textbook real analysis (Hardy, Littlewood and P\'olya, \emph{Inequalities}, 1934, Theorem~3). The proof for the $\theta \to -\infty$ limit goes through the observation that for any $\epsilon > 0$, the set $\{X \leq \essinf + \epsilon\}$ has positive measure, and the $\theta$-th moment is dominated by mass on that set when $\theta$ is very negative.
+
+\section{What this means for the trade-cost integral}
+
+Recall that the Head--Mayer setup writes $\tau_{ii}^{1-\sigma} = \E[r^\theta]$ where $r$ is the radial distance from the disk center to a uniformly-distributed consumer. The implied effective distance is the generalized mean $d_{ii} = M_\theta(r)$.
+
+For $\theta > -2$, the integral $\E[r^\theta] = \int_0^R r^{\theta+1} \cdot (2/R^2) \diff r$ converges, and the generalized mean is well-defined. For $\theta = -2$, the antiderivative $r^{\theta+2}/(\theta+2)$ has $(\theta+2)$ in the denominator, which is zero --- the formula breaks. For $\theta < -2$, the integral diverges at the lower limit $r = 0$, and the generalized mean is the essential infimum of $r$ on the support --- which is zero, because the disk includes its center.
+
+\textbf{This is the divergence:} for the Head--Mayer setup with the producer at the disk center, the lower limit of integration is exactly the producer's location. The integrand $r^{\theta+1}$ explodes as $r \to 0^+$ for $\theta + 1 < -1$, i.e., for $\theta < -2$. The integral has no finite value, and the generalized mean is degenerate.
+
+We have therefore identified the structural problem with the Head--Mayer formula at the empirically relevant $\theta \in [-7, -3]$: the integral simply does not converge.
+
+\begin{tcolorbox}[warning]
+Note that we have used the Head--Mayer stylized geometry (single producer at the disk center, uniform consumer distribution) in this analysis. The divergence is a feature of \emph{this specific} geometry. In Chapter~10 we will show that the divergence is more general: for any 2D continuous support with both the producer and consumer distributions uniform on the same disk, the integral over pairs $(r_p, r_c)$ of pairwise distances raised to power $\theta < -2$ also diverges. The economics of the divergence is unchanged: at empirically defensible $\sigma$, the integral has no finite value.
+\end{tcolorbox}
+
+% =============================================================================
+\chapter{The 2D integral divergence}
+
+\section{The pairwise-distance distribution on a 2D region}
+
+In the Head--Mayer setup with a producer at the disk center, the pairwise distance is just the radial coordinate $r$ of the consumer. The density of $r$ on the disk is $f(r) = 2r/R^2$ for $r \in [0, R]$, which scales linearly near $r = 0$.
+
+Now consider the more general setup: both the producer and the consumer are uniformly distributed across the same disk of radius $R$. The pairwise distance $D = \|X - Y\|$ where $X, Y$ are independent uniform on the disk. The probability density of $D$ near $D = 0$ is non-zero --- because there is positive measure to the event ``both points are close to each other.'' Specifically, for small $D$, $f_D(D) \sim cD$ for some constant $c > 0$ (the linear scaling is a property of two-dimensional space; in three dimensions it would be $\sim D^2$).
+
+\section{When does the integral $\E[D^\theta]$ converge?}
+
+The integral
+\begin{equation}
+\E[D^\theta] = \int_0^{2R} D^\theta f_D(D) \diff D \sim \int_0^{2R} c D^\theta \cdot D \, \diff D = c \int_0^{2R} D^{\theta+1} \diff D
+\end{equation}
+converges at $D = 0$ if and only if $\theta + 1 > -1$, i.e., $\theta > -2$.
+
+For $\theta = -2$ the integral has a logarithmic divergence: $\int_0^{2R} 1/D \diff D = \log(2R) - \log 0 = +\infty$.
+
+For $\theta < -2$ the integral has a power-law divergence: $\int_0^{2R} D^{\theta+1} \diff D = [D^{\theta+2}/(\theta+2)]_0^{2R}$ with $\theta + 2 < 0$, and as $D \to 0$, $D^{\theta+2} \to +\infty$.
+
+\begin{thm}[The 2D integral divergence]
+\label{thm:2d-divergence}
+For a uniform measure on a 2D region with positive interior, and pairwise distance $D = \|X - Y\|$ for independent $X, Y$ drawn from that measure, the moment $\E[D^\theta]$ is finite if and only if $\theta > -2$. For $\theta \leq -2$ the moment diverges, and the generalized mean $M_\theta(D) = (\E[D^\theta])^{1/\theta}$ is undefined as a Lebesgue integral.
+\end{thm}
+
+\section{Implications for CES gravity}
+
+In the CES gravity model with iceberg costs $\tau = d^\delta$ and elasticity of substitution $\sigma$, the structural trade-cost integral is
+\begin{equation}
+\tau_{ii}^{1-\sigma} = \E[d^{\delta(1-\sigma)}] = \E[d^\theta], \qquad \theta = \delta(1-\sigma).
+\end{equation}
+
+For $\delta = 1$ and the empirically defensible $\sigma \in [4, 8]$, $\theta \in [-7, -3]$. Theorem~\ref{thm:2d-divergence} states that the integral is undefined for this entire range. The integration $\E[d^\theta]$ has no Lebesgue value when the support is a 2D region of positive measure --- which describes every country in the international trade panel.
+
+This is the structural mathematical content of the wrong-$\theta$ critique: \textbf{the CES intra-national trade-cost integral, at the elasticity of substitution that the data consistently supports, has no finite value.} Whatever number gets used in practice is a regularization choice, not a property of the country's geometry.
+
+\section{Regularization choices and their consequences}
+
+The integral diverges at the lower limit $D = 0$. Practical implementations of the integral assign a positive lower-cutoff value $D \geq d_{\min}$ and compute the integral over $D \in [d_{\min}, 2R]$. The choice of $d_{\min}$ is the regularization, and the implied effective distance is
+\begin{equation}
+d_{ii}^{\eff}(d_{\min}) = \left( \int_{d_{\min}}^{2R} D^\theta f_D(D) \diff D \right)^{1/\theta}.
+\end{equation}
+
+The function $d_{\min} \mapsto d_{ii}^{\eff}(d_{\min})$ is monotone increasing on $d_{\min} \in (0, 2R)$, ranging from approximately 0 (as $d_{\min} \to 0^+$) to approximately the arithmetic mean of $D$ (as $d_{\min} \to 2R$).
+
+The notebook \texttt{notebooks/19c\_regularization\_sensitivity.py} sweeps this dependence empirically on a uniform-disk simulation; see Chapter~22 for the results.
+
+% =============================================================================
+\chapter{The pole at $\theta = -2$ in the Head--Mayer closed form}
+
+\section{Direct numerical verification}
+
+The Head--Mayer closed form is $d_{ii} = (2/(\theta+2))^{1/\theta} R$. The base $2/(\theta+2)$ is the multiplicative inverse of $(\theta+2)/2$.
+
+Evaluating the formula directly for a sequence of $\theta$ values approaching $-2$:
+
+\begin{center}
+\small
+\begin{tabular}{cccc}
+\toprule
+$\theta$ & base $= 2/(\theta+2)$ & exponent $= 1/\theta$ & $d_{ii}/R$ \\
+\midrule
+$+1$ & $+0.667$ & $+1$ & $0.667$ \\
+$-1$ & $+2.000$ & $-1$ & $0.500$ \\
+$-1.5$ & $+4.000$ & $-0.667$ & $0.397$ \\
+$-1.9$ & $+20.000$ & $-0.526$ & $0.207$ \\
+$-1.99$ & $+200.000$ & $-0.503$ & $0.070$ \\
+$-2.00$ & undefined (division by zero) & --- & --- \\
+$-2.5$ & $-4.000$ & $-0.400$ & complex \\
+$-3.00$ & $-2.000$ & $-0.333$ & complex \\
+$-5.00$ & $-0.667$ & $-0.200$ & complex \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+This is a direct numerical computation, not a model or simulation. The formula has a pole at $\theta = -2$ exactly, and produces complex numbers for $\theta < -2$. There is no value of $\theta < -2$ at which the formula returns a real number.
+
+\section{The geometric interpretation of the pole}
+
+The pole at $\theta = -2$ corresponds to the marginal case where the integral over the radial coordinate diverges logarithmically:
+\begin{equation}
+\int_0^R r^{\theta+1} \diff r \Big|_{\theta = -2} = \int_0^R r^{-1} \diff r = \log R - \log 0 = +\infty.
+\end{equation}
+
+For $\theta$ slightly greater than $-2$, the integral is finite but very large; the closed form is $d_{ii} = (2/(\theta+2))^{1/\theta} R$ which has a base going to infinity and an exponent going to $-1/2$, so the limit is a finite real number that approaches zero as $\theta \to -2^+$. This is what the numerical table above shows: $d_{ii}$ drops from $0.5R$ at $\theta = -1$ to nearly zero at $\theta = -1.99$.
+
+For $\theta < -2$, the integral diverges (no longer a logarithmic divergence; now a power-law one), and the closed-form expression becomes nonsensical: the base is negative, the exponent is fractional, the result is complex.
+
+\section{The position of CEPII's choice}
+
+CEPII evaluates the formula at $\theta = -1$. This is one unit above the pole at $\theta = -2$. The numerical table shows that at $\theta = -1$, the formula gives $d_{ii} = 0.5 R$, which is finite and stable. But the structurally consistent $\theta$ for empirically relevant $\sigma$ is in $[-7, -3]$ --- entirely below the pole, where the formula is complex-valued.
+
+\begin{tcolorbox}[insight]
+CEPII's intra-national distance has been computed using a formula evaluated one unit above its pole, since 2005. The structurally consistent $\theta$ for the CES model the gravity literature uses is entirely below the pole, where the formula is undefined. This is not an error in CEPII's documentation --- they were explicit about their parameter choice --- but it is an inconsistency in the downstream literature, which has been using CEPII's variable inside structural counterfactuals that require the structurally consistent $\theta$, not the reduced-form one.
+\end{tcolorbox}
+
+\section{What this implies for downstream gravity work}
+
+Three categories of subsequent literature inherit the wrong-$\theta$ choice:
+
+\textbf{Cat A: Reduced-form gravity regressions.} These use $d_{ii}$ as a regressor and estimate the coefficient $\hat\theta$ on log distance. If $\hat\theta$ converges to approximately $-1$ regardless of the regressor's construction (as it does), the choice of $\theta_{\text{input}}$ for constructing $d_{ii}$ is mostly cosmetic. \emph{Category A is approximately unaffected by the critique.}
+
+\textbf{Cat B: Structural counterfactuals using CEPII distance.} These solve the AvW system numerically using $d_{ij}$ and $d_{ii}$ as inputs and computing welfare counterfactuals (Eaton--Kortum, Caliendo--Parro, the entire quantitative trade literature). For these, the value of $d_{ii}$ is the central input. If $d_{ii}$ was constructed using $\theta = -1$ rather than the structurally consistent $\theta$, the counterfactuals carry a structural inconsistency. \emph{Category B is materially affected by the critique.}
+
+\textbf{Cat C: Border-puzzle decompositions.} These estimate the home-dummy coefficient and ask how much of it is genuine border friction. The critique here is that the regularization choice (effectively, the value of $d_{ii}$) shifts the home-dummy coefficient mechanically through the arithmetic of the gravity regression. \emph{Category C is the focus of Paper~5.}
+
+For Category~C the empirical question is: how much does the home-dummy coefficient move when we substitute the structurally consistent $d_{ii}$ for CEPII's $\theta = -1$ value? The Paper~5 empirical strategy (Chapters~21--22) is to estimate gravity across a range of regularizations and trace the home-dummy coefficient as a function of the regularization grain.
+
+\section{Where Part~V picks up}
+
+We have now built the theoretical core of Paper~5: gravity reduced form (Part~I), CES structural derivation (Part~II), intra-national distance (Part~III), the pole and divergence (Part~IV). What remains is the operationalization: the raster-based pipeline for computing $d_{ij}^{\eff}$ on real countries (Part~V), the empirical methodology for testing the contribution (Part~VI), the Paper~5 results (Part~VII), and where the research goes next (Part~VIII).
+
+The rest of the book is shorter and more practical than what you have just read; the theoretical heavy lifting is done.
+
+% =============================================================================
+% Parts V through VIII will follow in continued drafts.
+% =============================================================================
+
+\backmatter
+
+\appendix
+
+\chapter{Notation key}
+
+\begin{small}
+\begin{tabular}{lll}
+\toprule
+Symbol & Meaning & Units \\
+\midrule
+$\sigma$ & CES elasticity of substitution & dimensionless \\
+$\delta$ & Trade-cost elasticity to distance & dimensionless \\
+$\theta = \delta(1-\sigma)$ & CES integration parameter & dimensionless ($<0$ for $\sigma>1$) \\
+$\tau_{ij}$ & Iceberg trade cost $i \to j$ & multiplicative, $\geq 1$ \\
+$d_{ij}$ & Bilateral distance & km \\
+$d_{ii}$ & Intra-national distance for country $i$ & km \\
+$R_i = \sqrt{A_i/\pi}$ & Equivalent-disk radius of country $i$ & km \\
+$X_{ij}$ & Bilateral trade flow & USD \\
+$Y_i$ & Output of country $i$ & USD \\
+$E_j$ & Expenditure of country $j$ & USD \\
+$Y^W$ & World output & USD \\
+$\Pi_i$ & Outward multilateral resistance for $i$ & dimensionless \\
+$P_j$ & Inward multilateral resistance for $j$ & dimensionless \\
+$\text{home}_{ij}$ & Indicator: $i = j$ & 0/1 \\
+$\beta_{\text{home}}$ & Home-dummy coefficient in gravity & log units \\
+$M_\theta(X)$ & Generalized mean of $X$ at order $\theta$ & same as $X$ \\
+$d_{\min}$ & Regularization cutoff & km \\
+$f_D(D)$ & Pairwise-distance pdf within a region & 1/km \\
+\bottomrule
+\end{tabular}
+\end{small}
+
+\chapter{References for further reading}
+
+\textbf{Trade-economics foundations.}
+Anderson (1979, \emph{AER});
+Anderson \& van Wincoop (2003, \emph{AER});
+Eaton \& Kortum (2002, \emph{Econometrica});
+Head \& Mayer (2014, \emph{Handbook of International Economics} Vol.~4, Ch.~3);
+Yotov et al.\ (2016, \emph{An Advanced Guide to Trade Policy Analysis}, WTO).
+
+\textbf{Internal distance.}
+Wei (1996, NBER WP 5531);
+Head \& Mayer (2002, CEPII WP 2002-01);
+Mayer \& Zignago (2011, CEPII WP 2011-25);
+Helliwell \& Verdier (2001).
+
+\textbf{Border puzzle.}
+McCallum (1995, \emph{AER});
+Anderson \& van Wincoop (2003, \emph{AER});
+Helliwell (1996, \emph{Canadian Journal of Economics}).
+
+\textbf{Generalized means.}
+Hardy, Littlewood \& P\'olya (1934, \emph{Inequalities}, Cambridge UP).
+
+\textbf{Quantitative gravity.}
+Caliendo \& Parro (2015, \emph{REStud});
+Costinot, Donaldson \& Komunjer (2012, \emph{REStud});
+Allen, Arkolakis \& Takahashi (2020, \emph{JPE}).
+
+\textbf{Modern empirical practice.}
+Borchert, Larch, Shikher \& Yotov (2022, \emph{RIE});
+Egger, Larch \& Yotov (2022, \emph{Economica});
+Larch, Borchert, Shikher \& Yotov (2025, USITC WP 2025-06-A).
+
+\end{document}

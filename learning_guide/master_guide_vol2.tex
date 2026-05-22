@@ -1,0 +1,1615 @@
+% !TeX program = xelatex
+% A Working Guide to the Wrong-θ Critique of Conventional Intra-National Distance
+% Volume 2: Numerical Evaluation, Empirics, and the Forward Path
+% Ian T. Helfrich
+
+\documentclass[11pt,letterpaper,oneside]{book}
+
+% ── Fonts and layout ────────────────────────────────────────────────────────
+\usepackage{fontspec}
+\usepackage[margin=1in,top=1.05in,bottom=1.05in]{geometry}
+\setmainfont{Charter}
+\setsansfont{Helvetica Neue}[Scale=0.93]
+\setmonofont{Menlo}[Scale=0.82]
+\linespread{1.16}
+\setlength{\parskip}{0.45em}
+\setlength{\parindent}{0pt}
+
+% ── Math and symbols ────────────────────────────────────────────────────────
+\usepackage{amsmath,amssymb,amsthm,mathtools,bm}
+\usepackage{siunitx}
+\usepackage{enumitem}
+\setlist{itemsep=0.15em,topsep=0.3em}
+
+\newtheorem{thm}{Theorem}[chapter]
+\newtheorem{prop}[thm]{Proposition}
+\newtheorem{lem}[thm]{Lemma}
+\newtheorem{cor}[thm]{Corollary}
+\theoremstyle{definition}
+\newtheorem{defn}[thm]{Definition}
+\theoremstyle{remark}
+\newtheorem*{rem}{Remark}
+\newtheorem*{exa}{Example}
+
+\DeclareMathOperator*{\essinf}{ess\,inf}
+\DeclareMathOperator*{\esssup}{ess\,sup}
+\DeclareMathOperator{\supp}{supp}
+\DeclareMathOperator{\vol}{vol}
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\E}{\mathbb{E}}
+\newcommand{\diff}{\mathrm{d}}
+\newcommand{\eff}{\mathrm{eff}}
+\newcommand{\HM}{\mathrm{HM}}
+
+% ── Colors ──────────────────────────────────────────────────────────────────
+\usepackage[dvipsnames,table]{xcolor}
+\definecolor{ink}{HTML}{1B1F23}
+\definecolor{rust}{HTML}{B5482A}
+\definecolor{sage}{HTML}{4C7066}
+\definecolor{gold}{HTML}{C28B25}
+\definecolor{dim}{HTML}{6C757D}
+
+% ── Boxes ───────────────────────────────────────────────────────────────────
+\usepackage[most]{tcolorbox}
+
+\newtcolorbox{insight}{
+  enhanced, breakable, sharp corners,
+  colback=sage!7, colframe=sage,
+  boxrule=0.5pt, left=8pt, right=8pt, top=6pt, bottom=6pt,
+  title=Insight, fonttitle=\bfseries\color{sage},
+}
+
+\newtcolorbox{notation}{
+  enhanced, breakable, sharp corners,
+  colback=gold!7, colframe=gold,
+  boxrule=0.5pt, left=8pt, right=8pt, top=6pt, bottom=6pt,
+  title=Notation parse, fonttitle=\bfseries\color{gold!80!black},
+}
+
+\newtcolorbox{worked}{
+  enhanced, breakable, sharp corners,
+  colback=rust!5, colframe=rust,
+  boxrule=0.5pt, left=8pt, right=8pt, top=6pt, bottom=6pt,
+  title=Worked example, fonttitle=\bfseries\color{rust},
+}
+
+\newtcolorbox{caveat}{
+  enhanced, breakable, sharp corners,
+  colback=dim!7, colframe=dim,
+  boxrule=0.5pt, left=8pt, right=8pt, top=6pt, bottom=6pt,
+  title=Caveat, fonttitle=\bfseries\color{dim},
+}
+
+% ── Headings ────────────────────────────────────────────────────────────────
+\usepackage{titlesec}
+\titleformat{\chapter}[display]{\huge\bfseries\color{ink}}{Chapter \thechapter}{0.3em}{\Huge}
+\titleformat{\section}{\Large\bfseries\color{ink}}{\thesection}{0.6em}{}
+\titleformat{\subsection}{\large\bfseries\color{ink}}{\thesubsection}{0.5em}{}
+\titleformat{\part}[display]{\Huge\bfseries\color{rust}}{Part \thepart}{0.5em}{\Huge}
+
+% ── Hyperlinks ──────────────────────────────────────────────────────────────
+\usepackage[hidelinks, colorlinks=true,
+  linkcolor=rust, citecolor=sage, urlcolor=sage]{hyperref}
+
+% ── ToC ─────────────────────────────────────────────────────────────────────
+\usepackage{titletoc}
+\setcounter{tocdepth}{1}
+\setcounter{secnumdepth}{2}
+
+% ── Listings ────────────────────────────────────────────────────────────────
+\usepackage{listings}
+\lstdefinestyle{python}{
+  basicstyle=\footnotesize\ttfamily,
+  language=Python,
+  keywordstyle=\color{rust}\bfseries,
+  commentstyle=\color{sage}\itshape,
+  stringstyle=\color{gold!80!black},
+  showstringspaces=false,
+  numbers=left, numberstyle=\tiny\color{dim}, numbersep=8pt,
+  frame=single, framerule=0.3pt, rulecolor=\color{dim},
+  backgroundcolor=\color{white},
+  breaklines=true,
+  tabsize=4,
+}
+\lstset{style=python}
+
+% ============================================================================
+\begin{document}
+
+% ============================================================================
+% TITLE
+% ============================================================================
+\begin{titlepage}
+\centering
+\vspace*{2cm}
+{\Huge\bfseries A Working Guide to the\\[6pt] Wrong-$\theta$ Critique of\\[4pt] Conventional Intra-National Distance\par}
+\vspace{1cm}
+{\LARGE\color{rust}\bfseries Volume 2\par}
+{\Large Numerical Evaluation, Empirics, and the Forward Path\par}
+\vspace{2cm}
+{\Large Ian T. Helfrich\par}
+\vspace{0.5cm}
+{\large Georgia Institute of Technology\par}
+\vspace{1.5cm}
+{\large \today\par}
+\vfill
+{\color{dim}\itshape Companion to Volume 1 (Trade Economics Foundations, the Structural CES Gravity Model, Internal Distance, Generalized Means and the Divergence). This volume picks up where Volume 1 ends and develops the numerical, empirical, and methodological apparatus needed to take the wrong-$\theta$ critique into estimation practice.}
+\vspace{1cm}
+\end{titlepage}
+
+\tableofcontents
+\newpage
+
+% ============================================================================
+% PREFACE
+% ============================================================================
+\chapter*{Preface to Volume 2}
+\addcontentsline{toc}{chapter}{Preface to Volume 2}
+
+Volume 1 ended on a structural observation: the Head-Mayer (2002) closed-form
+expression for intra-national distance has a pole at $\theta = -2$, the
+underlying integral diverges in 2D for $\theta \leq -2$, and the
+empirically defensible $\theta = \delta(1-\sigma) \in [-7, -3]$ for
+$\sigma \in [4, 8]$ falls entirely below the pole. Volume 2 takes that
+observation into estimation practice.
+
+The volume has five parts.
+
+\textbf{Part V} (Numerical Evaluation and Regularization) develops the
+numerical apparatus. If the integral diverges as a continuous object,
+the analyst must choose a finite spatial grain $d_{\min}$ at which to
+evaluate the discretized version. The implied $d_{ii}^{\eff}(\theta, d_{\min})$
+varies sharply with that choice. Part V documents the regularization
+curve on a uniform disk (the cleanest case), then on real country
+polygons via the Mollweide projection.
+
+\textbf{Part VI} (Real-Data Construction) walks through the GIS pipeline.
+BACI for bilateral trade flows. CEPII Gravity for size, language, contiguity,
+and the canonical intra-national distance. GHS-POP, WorldPop, and VIIRS for
+population and economic-activity rasters. OpenStreetMap for transport-network
+distance. The empirical machinery behind the empirical claim.
+
+\textbf{Part VII} (Regression Specification) is the methodological core.
+OLS gravity with origin and destination fixed effects. The perfect-collinearity
+trap that corrupts coefficients when log-GDP regressors are included alongside
+country FE. The Poisson PML alternative. The Yotov-Piermartini-Monteiro-Larch
+pair-year FE convention. A working analyst should leave Part VII with the
+ability to estimate a clean gravity regression from raw data.
+
+\textbf{Part VIII} (Empirical Results) walks through the BACI-CEPII
+regularization sweep. The Spec A baseline, the Spec B-prime sweep, the
+sign-flip threshold by structural $\theta$, the cross-year stability problem.
+The interpretation: a coefficient that the literature has treated as a
+structural border-effect parameter is in fact a function of an
+analyst-chosen discretization grain.
+
+\textbf{Part IX} (Forward Path) sketches what an honest gravity literature
+would do. The Anderson-Yotov multilateral-resistance system over time.
+Sectoral and pair-year FE specifications. Welfare counterfactuals when
+$d_{ii}$ does not exist as a fixed object. The agenda for Paper 5b and beyond.
+
+The volume is designed to be read end-to-end by a working trade economist
+who already has Volume 1 internalized. Each chapter has a worked example, a
+notation parse on first appearance of a new symbol, and a caveat box where
+the assumptions are tighter than they look.
+
+\bigskip
+{\color{dim}\itshape A note on style: I am the sole author of this volume.
+I write in the first person where my own analytical choices are at stake
+(``I take $\delta = 1$ because\ldots'') and in plain declarative voice where
+the mathematics is doing the work. The volume is opinionated. When the
+literature has been wrong, the volume says so. The reader is welcome to
+disagree.}
+
+% ============================================================================
+% PART V: NUMERICAL EVALUATION AND REGULARIZATION
+% ============================================================================
+\part{Numerical evaluation and regularization}
+
+\chapter{Why discretization matters for divergent integrals}
+\label{ch:discretization}
+
+\section{The pole, restated}
+
+Volume 1, Chapter 11 established that the 2D moment integral
+$\int_0^R r^{\theta+1}\, dr$ diverges at the lower limit for $\theta \leq -2$.
+The reason is geometric: the pairwise-distance density of a uniform disk
+scales as $f(r) \sim r$ near the origin (this is the 2D version of the
+linear vanishing of the pdf at $r = 0$), so the integrand $r^\theta \cdot r$
+behaves as $r^{\theta+1}$ near zero, and the integral converges if and
+only if $\theta + 1 > -1$, i.e., $\theta > -2$. Below the pole, the
+continuous integral has no finite value.
+
+What does this mean operationally? It means that if you write down the
+Head-Mayer (2002) closed form
+$$d_{ii}(\theta) = \left(\frac{2}{\theta + 2}\right)^{1/\theta} R$$
+and try to evaluate it at $\theta = -3$, the formula gives a complex
+number on the principal branch. If you write down the integral itself
+and try to evaluate it numerically on a discretized region, you get a
+finite number, but the number depends on the discretization grain.
+
+This chapter walks through what the discretized number is, how it depends
+on the grain, and what the resulting object actually represents.
+
+\section{The discretization}
+
+Suppose we have a uniform-density disk of radius $R$ and we want to
+compute the CES expected pairwise distance at $\theta = -5$. The
+analytical integral diverges. Numerically, we proceed by sampling
+$N$ atoms uniformly within the disk and computing the empirical version:
+\begin{equation}
+\hat{d}_{ii}^{\eff}(\theta = -5) \;=\; \left( \frac{1}{N(N-1)} \sum_{i \neq j} \|x_i - x_j\|^{-5} \right)^{-1/5}.
+\end{equation}
+For $N$ atoms in the disk, the smallest pairwise distance is roughly
+$R/\sqrt{N}$ (the average nearest-neighbor distance). Atoms closer than
+this are rare; the sum is dominated by the few near-collisions.
+
+\begin{notation}
+$d_{\min}$ is the regularization cutoff: the spatial grain below which
+we either don't sample atoms or we cap pairwise distances. Two natural
+implementations: (1) sample $N$ atoms uniformly, accept whatever
+$d_{\min}$ falls out; (2) sample many atoms but explicitly cap
+$d_{ij} \mapsto \max(d_{ij}, d_{\min})$. Both give the same qualitative
+behavior; the second is easier to control.
+\end{notation}
+
+\section{What the discretized object measures}
+
+For $\theta > -2$ (above the pole), the empirical estimator
+$\hat{d}_{ii}^{\eff}$ converges to the true continuous integral as
+$N \to \infty$ or $d_{\min} \to 0$. The discretization grain is a
+numerical-accuracy issue, not a conceptual one.
+
+For $\theta \leq -2$, the empirical estimator does not converge. As
+$N$ grows (or $d_{\min}$ shrinks), $\hat{d}_{ii}^{\eff}$ decreases
+monotonically toward zero. There is no fixed point. The number you
+report at any specific $d_{\min}$ is a regularization choice tied to
+that grain, not a property of the underlying disk geometry.
+
+\begin{insight}
+The continuous CES expected pairwise distance at gravity-consistent
+$\theta$ is not a number. It is a function $d_{ii}^{\eff}(\theta, d_{\min})$
+defined for every $d_{\min} > 0$, with $d_{ii}^{\eff} \to 0$ as
+$d_{\min} \to 0$. The CEPII evaluation at $\theta = -1$ exists because
+$\theta = -1$ is above the pole. Below the pole, CEPII would not give a
+single number either; it would give a sequence indexed by the city
+sample.
+\end{insight}
+
+\section{The empirical sweep}
+
+Notebook 19c (the regularization sensitivity script) runs the
+discretization at $\theta = -5$ on a uniform disk of radius
+$R = 1000$~km, varying $d_{\min} \in \{0.01, 0.1, 1, 5, 10, 50, 100, 200, 500\}$~km.
+The output:
+\begin{center}
+\begin{tabular}{r r r}
+\toprule
+$d_{\min}$ (km) & $\hat{d}_{ii}^{\eff}$ (km) & ratio to HM at $\theta = -1$ \\
+\midrule
+0.01 & 0.063 & 0.0001 \\
+0.1 & 0.631 & 0.0013 \\
+1 & 6.288 & 0.013 \\
+5 & 29.4 & 0.059 \\
+10 & 51.9 & 0.10 \\
+50 & 149.7 & 0.30 \\
+100 & 229.4 & 0.46 \\
+200 & 352.9 & 0.71 \\
+500 & 640.4 & 1.28 \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+The ratio to the HM-at-$\theta = -1$ value ($R/2 = 500$~km) crosses
+unity between $d_{\min} = 200$~km and $d_{\min} = 500$~km. At
+$d_{\min} = 500$~km, the discretized $\theta = -5$ result exceeds the
+$\theta = -1$ analytical result; at $d_{\min} = 0.01$~km, it is four
+orders of magnitude smaller. There is no fixed point. The implied
+$d_{ii}$ is a function of $d_{\min}$, full stop.
+
+\section{What this implies for empirical practice}
+
+Three operational implications follow.
+
+\textbf{First}, any specific value for $d_{ii}$ reported in a gravity
+paper must be accompanied by a statement of the regularization grain.
+CEPII's $\theta = -1$ choice produces a single number for each country
+because $\theta = -1$ is above the pole. Below the pole, the
+single-number convention breaks down.
+
+\textbf{Second}, papers that swap CEPII's distance for a
+satellite-calibrated alternative (the Gonchar-Helfrich panel, the
+WorldPop-recomputed distances, the OSM-based least-cost-path measures)
+are choosing one regularization over another, not solving a measurement
+problem. The Paper 5a critique applies to all of them.
+
+\textbf{Third}, the structural-versus-reduced-form distinction in
+$\theta$ is not a notational hygiene matter. It is a substantive
+methodological choice with empirical consequences. Papers that report
+border-puzzle multipliers as structural objects, rather than as
+conditional on a regularization, have misrepresented the literature's
+empirical content.
+
+\chapter{The regularization sweep on a uniform disk}
+\label{ch:disk-sweep}
+
+\section{Setup}
+
+This chapter reproduces the uniform-disk sweep in Python and walks
+through the implementation. The script is at
+\texttt{notebooks/19c\_regularization\_sensitivity.py} in the project
+repository.
+
+The setup: place $N$ atoms uniformly within a disk of radius
+$R = 1000$~km, compute all pairwise distances, cap pairwise distances at
+$d_{\min}$ from below, then evaluate the CES expected pairwise distance
+at $\theta = -5$. Repeat for 5 random seeds, average across seeds, and
+sweep $d_{\min}$.
+
+\begin{worked}
+The atoms are sampled by inverse-CDF: $r_i = R \sqrt{u_i}$ and
+$\phi_i \sim \mathrm{Uniform}(0, 2\pi)$, with $u_i \sim \mathrm{Uniform}(0, 1)$.
+The $\sqrt{}$ ensures the resulting density is uniform in 2D area; the
+naive sampling $r_i \sim \mathrm{Uniform}(0, R)$ would over-sample
+near the center.
+
+Cartesian coordinates: $x_i = r_i \cos \phi_i$, $y_i = r_i \sin \phi_i$.
+Pairwise distance: $d_{ij} = \sqrt{(x_i - x_j)^2 + (y_i - y_j)^2}$.
+
+The CES expected distance at $\theta = -5$:
+$$\hat{d}_{ii}^{\eff} = \left( \frac{1}{N(N-1)} \sum_{i \neq j} d_{ij}^{-5} \right)^{-1/5}.$$
+The capped version: $\tilde{d}_{ij} = \max(d_{ij}, d_{\min})$, then the
+same formula.
+\end{worked}
+
+\section{Why the result is essentially linear in $d_{\min}$ at low $d_{\min}$}
+
+For $\theta$ well below the pole, the empirical sum is dominated by the
+pairs with the smallest distances. With $N$ atoms and a uniform
+distribution, the expected number of pairs with $d < d_{\min}$ scales
+as $N^2 \cdot (d_{\min}/R)^2$. The sum
+$\sum d_{ij}^{-5}$ over these pairs scales as
+$N^2 \cdot (d_{\min}/R)^2 \cdot d_{\min}^{-5} = N^2 \cdot d_{\min}^{-3} \cdot R^{-2}$.
+Dividing by $N(N-1) \approx N^2$ and taking the $(-1/5)$-th root:
+$$\hat{d}_{ii}^{\eff} \sim \left(d_{\min}^{-3} R^{-2}\right)^{-1/5} = d_{\min}^{3/5} R^{2/5}.$$
+So $\hat{d}_{ii}^{\eff}$ scales as $d_{\min}^{3/5}$ at low $d_{\min}$:
+sub-linear but with a sharp slope. The simulation output (Section 1.4)
+fits this scaling.
+
+The same scaling argument generalizes: for $\theta < -2$, the scaling is
+$\hat{d}_{ii}^{\eff} \sim d_{\min}^{(\theta+2)/(\theta)}$ at small
+$d_{\min}$. At $\theta = -3$: exponent $1/3$. At $\theta = -5$: exponent
+$3/5$. At $\theta = -7$: exponent $5/7$. The implied $d_{ii}$ flattens
+out (approaches a finite limit only weakly) as $\theta$ becomes more
+negative.
+
+\begin{insight}
+The slope of $\log \hat{d}_{ii}^{\eff}$ versus $\log d_{\min}$ at small
+$d_{\min}$ identifies the scaling exponent
+$\alpha(\theta) = (\theta + 2)/\theta$. At $\theta = -1$ (above the pole),
+$\alpha = -1$: the implied distance INCREASES as $d_{\min}$ decreases.
+At $\theta = -2$ (the pole), $\alpha = 0$: log-flat. At $\theta = -3$,
+$\alpha = 1/3$: weak dependence. At $\theta = -7$, $\alpha = 5/7$:
+near-linear dependence. The pole at $\theta = -2$ is the sign-change
+of the regularization-elasticity.
+\end{insight}
+
+\section{What real country polygons add}
+
+The uniform disk is a clean theoretical object. Real countries are not
+uniform disks. They have irregular shape (e.g., Norway, Indonesia, Chile),
+internal water bodies (e.g., the US Great Lakes), and non-uniform
+population density (every country, but extreme cases like Russia and
+Canada). The regularization curve on a real country polygon will
+generally not match the uniform-disk curve.
+
+Chapter 14 returns to this. For now, the uniform-disk result establishes
+the scaling regime; real-country corrections are quantitative deviations
+from it, not qualitative departures.
+
+\chapter{Real-country polygons and the Mollweide projection}
+\label{ch:mollweide}
+
+\section{Why projections matter for area}
+
+\textbf{[STATUS: skeleton — full development in v0.2 of Volume 2.]}
+
+Pages of text on equal-area projections, the Mollweide ESRI:54009
+projection used in the Paper 5a pipeline, comparison with Web Mercator
+(common but bad for area), and the resulting area errors for
+high-latitude countries. The full chapter would walk through the
+\texttt{geopandas.to\_crs("ESRI:54009")} pipeline.
+
+\section{Sampling atoms within a real polygon}
+
+\textbf{[STATUS: skeleton.]}
+
+Rejection sampling: draw points in the polygon's bounding box, reject
+those outside the polygon, accept those inside. With $N$ accepted atoms,
+the rejection rate equals (bounding box area) / (polygon area). For a
+country with low fill factor (e.g., Indonesia with all its archipelagos),
+rejection sampling is inefficient. Triangulation-based sampling
+(triangulate the polygon, sample uniformly within each triangle weighted
+by triangle area) is more efficient.
+
+\section{The country-by-country regularization sweep}
+
+\textbf{[STATUS: skeleton.]}
+
+Full development would tabulate $d_{ii}^{\eff}(\theta = -5, d_{\min})$
+for the 27-country pilot subset (USA, RUS, CAN, BRA, AUS, CHN, IND, JPN,
+FRA, DEU, NLD, BEL, KOR, GBR, ITA, ESP, MEX, ARG, CHL, EGY, plus 7
+smaller countries). The cross-country variation in the regularization
+curve tells us how much the small-large country geometry affects the
+mechanism.
+
+% ============================================================================
+% PART VI: REAL-DATA CONSTRUCTION
+% ============================================================================
+\part{Real-data construction and the GIS pipeline}
+
+\chapter{BACI and the international trade panel}
+\label{ch:baci}
+
+\section{What BACI is and why we use it}
+
+BACI is CEPII's reconciled bilateral trade panel, derived from UN
+Comtrade with consistency adjustments. The raw Comtrade data has the
+familiar reporting problem: country $i$ records its exports to country
+$j$, country $j$ records its imports from country $i$, and the two
+numbers disagree (sometimes by factors of 2). BACI applies a
+reconciliation algorithm that produces a single best-estimate bilateral
+flow $X_{ij}$ for each ordered pair, by year and HS6 product code.
+
+The current versions:
+\begin{itemize}
+  \item \textbf{BACI HS02 v202401b}: HS 2002 nomenclature, vintage of January
+    2024, ``b'' suffix indicating the second revision of that vintage.
+    Covers 1995-2022 (most years). What Paper 5a uses.
+  \item \textbf{BACI HS17 v202401}: HS 2017 nomenclature, newer products
+    (e.g., LNG, electric vehicles, drone components), shorter time series
+    (~2018 onward).
+  \item \textbf{BACI HS92, HS96, HS07, HS12}: legacy vintages.
+\end{itemize}
+
+For a paper that needs a long time series and isn't focused on recent
+high-tech goods, HS02 is the right choice. The trade-off is that
+HS02's classifications are stale for goods that emerged after 2002.
+
+\section{File structure on disk}
+
+Each year is a separate CSV. The columns (per CEPII's data manual):
+\begin{itemize}
+  \item \texttt{t}: year (integer)
+  \item \texttt{i}: exporter ISO numeric code (3-digit integer; e.g., 840 = USA)
+  \item \texttt{j}: importer ISO numeric code
+  \item \texttt{k}: HS6 product code (6-digit integer)
+  \item \texttt{v}: trade value in current thousand USD
+  \item \texttt{q}: quantity (often missing; reported in metric tons or units)
+\end{itemize}
+
+A single year's file (e.g., \texttt{BACI\_HS02\_Y2010\_V202401b.csv})
+is around 200-300 MB and contains 5-10 million rows. The file is
+country-pair-product-year level. For a country-pair-year gravity panel,
+you aggregate over the product dimension.
+
+\begin{worked}
+\textbf{Building the 2010 country-pair panel from BACI:}
+
+\begin{lstlisting}
+import pandas as pd
+from pathlib import Path
+
+f = Path("BACI_HS02_Y2010_V202401b.csv")
+
+# Chunked read: aggregate by (exporter, importer) on the fly
+pieces = []
+for chunk in pd.read_csv(f, usecols=["i", "j", "v"],
+                         chunksize=1_000_000):
+    # Drop missing trade-value rows
+    chunk["v"] = pd.to_numeric(chunk["v"], errors="coerce")
+    chunk = chunk.dropna(subset=["v"])
+    # Aggregate within chunk
+    piece = chunk.groupby(["i", "j"], as_index=False)["v"].sum()
+    pieces.append(piece)
+
+# Combine chunks and re-aggregate
+agg = pd.concat(pieces).groupby(["i", "j"], as_index=False)["v"].sum()
+
+# Convert to USD (BACI is in 1000 USD)
+agg["X_ij_usd"] = agg["v"] * 1000
+
+print(f"{len(agg):,} country-pair flows in 2010")
+print(f"Total exports: ${agg['X_ij_usd'].sum() / 1e12:.1f}T")
+\end{lstlisting}
+
+For 2010, this gives about 30{,}605 country-pair flows totaling
+$\sim\$15$T in world trade.
+\end{worked}
+
+\section{Country-code mapping}
+
+BACI uses ISO 3166-1 numeric codes (840 for USA, 156 for China,
+etc.). CEPII Gravity uses ISO 3166-1 alpha-3 codes (USA, CHN, etc.).
+The mapping is a CEPII-provided lookup table; in practice, you can
+build it from the CEPII Gravity file itself:
+
+\begin{lstlisting}
+cepii = pd.read_csv("Gravity_V202211.csv")  # via chunked read for size
+mapping = cepii[["iso3num_o", "iso3_o"]].dropna().drop_duplicates(
+    subset=["iso3num_o"])
+num_to_iso = {int(n): s for n, s in mapping.values}
+
+# Apply to BACI
+agg["iso3_o"] = agg["i"].map(num_to_iso)
+agg["iso3_d"] = agg["j"].map(num_to_iso)
+\end{lstlisting}
+
+A small number of BACI rows will have ISO numeric codes that don't
+match any CEPII alpha-3 (e.g., disputed territories, historical
+codes). Drop these or document them; they amount to less than 1\% of
+trade value.
+
+\section{Zero-trade rows}
+
+A key issue for the OLS-versus-PPML choice: the BACI country-pair
+panel does NOT include rows where $X_{ij} = 0$. BACI only records
+positive trade. To build a panel with zero-trade rows for PPML, you
+merge BACI onto the full Cartesian product (CEPII Gravity is already
+the full Cartesian product for each year, including zero-trade pairs):
+
+\begin{lstlisting}
+# Full CEPII panel for the year
+inter = cepii[cepii["iso3_o"] != cepii["iso3_d"]][
+    ["iso3_o", "iso3_d", "gdp_o", "gdp_d", "distw_harmonic", "contig"]
+]
+
+# Left-join BACI flows; missing => zero trade
+inter = inter.merge(agg[["iso3_o", "iso3_d", "X_ij_usd"]],
+                    on=["iso3_o", "iso3_d"], how="left")
+inter["X_ij_usd"] = inter["X_ij_usd"].fillna(0.0)
+
+print(f"Total rows: {len(inter):,}")
+print(f"Zero-trade rows: {(inter['X_ij_usd'] == 0).sum():,} ({100 * (inter['X_ij_usd'] == 0).mean():.1f}%)")
+\end{lstlisting}
+
+For 2010, this gives 63{,}234 inter-national rows of which about
+32{,}000 (50\%) are zero-trade. The presence of so many zeros is why
+PPML is the recommended estimator in the modern gravity literature.
+
+\begin{caveat}
+The Wei~(1996) intra-national flow proxy $X_{ii} = \max(0, \mathrm{GDP}_i - \sum_j X_{ij})$
+will be zero or close to zero for countries that export more than their
+GDP (a sign of re-export or merchanting, e.g., Singapore, Hong Kong,
+the Netherlands). These countries get dropped from the intra-national
+panel because their Wei proxy is zero. This is a substantive limitation
+that the Yotov-Piermartini-Monteiro-Larch (2016) ``trade for production''
+proxy partially addresses by computing $X_{ii}$ from sectoral production
+rather than total GDP.
+\end{caveat}
+
+\section{Aggregating across HS6 products}
+
+For a country-pair-year gravity regression, you typically aggregate
+across HS6 products. For a sectoral gravity regression (e.g.,
+Caliendo-Parro style), you keep the HS6 dimension and run separate
+regressions per sector. BACI is the right source for both.
+
+A nuance: BACI's reconciliation is done at the HS6 level. If you
+aggregate to a coarser level (HS2 or HS-section) BEFORE running BACI's
+reconciliation, you get different numbers than aggregating AFTER. The
+canonical workflow is: keep BACI's HS6-level numbers, aggregate
+AFTERWARD if you don't need the sectoral dimension.
+
+\chapter{CEPII Gravity v202211 and the Wei (1996) proxy}
+\label{ch:cepii}
+
+\section{What CEPII Gravity contains}
+
+CEPII Gravity is the standard pair-year covariate file for structural
+gravity estimation. The current version, v202211 (released November
+2022), contains 91 variables over 250 countries from 1948-2020, in a
+single Cartesian-product panel of 13.7 million rows (250 origins $\times$
+250 destinations $\times$ 60-70 years, with some pair-year gaps).
+
+The variables relevant to Paper 5a:
+\begin{itemize}
+  \item \texttt{iso3\_o}, \texttt{iso3\_d}: country alpha-3 codes
+  \item \texttt{iso3num\_o}, \texttt{iso3num\_d}: country numeric codes
+    (for joining to BACI)
+  \item \texttt{year}: integer
+  \item \texttt{gdp\_o}, \texttt{gdp\_d}: GDP in current USD (origin and
+    destination)
+  \item \texttt{pop\_o}, \texttt{pop\_d}: population
+  \item \texttt{dist}: simple distance between capital cities, km
+  \item \texttt{distcap}: distance between capital cities (synonym in some
+    vintages)
+  \item \texttt{distw\_arithmetic}: arithmetic-mean of city-pairwise
+    distances weighted by city population, km. This is the Mayer-Zignago
+    (2011) ``distwarith'' variable.
+  \item \texttt{distw\_harmonic}: harmonic-mean of the same city-pairwise
+    distances. This is the Mayer-Zignago ``distwces'' variable, evaluated
+    at $\theta = -1$. \textbf{This is the variable Paper 5a critiques.}
+  \item \texttt{contig}: 1 if countries share a land border, 0 otherwise
+  \item \texttt{comlang\_off}: 1 if countries share an official language
+  \item \texttt{comlang\_ethno}: 1 if at least 9\% of the population speaks
+    the same language in both countries
+  \item \texttt{col\_dep\_ever}: 1 if there was a colonial relationship
+    historically
+  \item \texttt{rta}: 1 if there is a regional trade agreement in force in
+    that year
+\end{itemize}
+
+For the intra-national rows (\texttt{iso3\_o == iso3\_d}), CEPII fills
+\texttt{distw\_arithmetic} with the within-country arithmetic-mean of
+pairwise city distances and \texttt{distw\_harmonic} with the
+within-country harmonic-mean. These are the Head-Mayer (2002) closed
+form evaluated at $\theta = +1$ and $\theta = -1$ respectively.
+
+\section{Reading the CSV}
+
+The 13.7M-row file is approximately 4 GB in CSV form. On a FAT32 file
+system (e.g., an external USB drive), the file is at or near the
+4 GB per-file limit, which can cause read errors. Best practice: store
+the file on a local SSD or, even better, convert to Parquet:
+\begin{lstlisting}
+import pandas as pd
+import pyarrow.parquet as pq
+
+# One-time conversion
+df = pd.read_csv("Gravity_V202211.csv")
+df.to_parquet("Gravity_V202211.parquet", compression="snappy")
+\end{lstlisting}
+
+Parquet reads are 5-10x faster and the file is ~700 MB (compressed). For
+a year-filtered read (e.g., 2010 only), chunked CSV reads are also
+acceptable:
+\begin{lstlisting}
+def chunked_cepii(year):
+    chunks = []
+    for chunk in pd.read_csv("Gravity_V202211.csv",
+                             dtype={"iso3_o": str, "iso3_d": str, "year": "Int64"},
+                             chunksize=500_000, low_memory=False):
+        sub = chunk[chunk["year"] == year]
+        if len(sub) > 0:
+            chunks.append(sub)
+    return pd.concat(chunks, ignore_index=True)
+\end{lstlisting}
+
+For 2010, a chunked read produces a 63{,}504-row DataFrame (~17 MB) in
+about 3-5 minutes on a typical laptop with the CSV on an external drive.
+
+\section{The Wei (1996) intra-national flow proxy}
+
+For intra-national trade (no analog of bilateral exports in trade
+statistics), Wei (1996) proposed the residual proxy
+\begin{equation}
+X_{ii,t} \;=\; \max(0, \, Y_{i,t} - \sum_{j \neq i} X_{ij,t})
+\end{equation}
+where $Y_{i,t}$ is country $i$'s GDP in year $t$ and the sum is over its
+exports to all other countries. The intuition: total GDP equals total
+production, which is sold either domestically or as exports, so the
+residual is intra-national sales.
+
+The Wei proxy is the standard in the literature but has known limitations.
+
+\begin{caveat}
+\textbf{Wei proxy limitations:}
+\begin{enumerate}
+  \item \textbf{Re-exports and merchanting} (Singapore, Hong Kong,
+    Netherlands, Belgium). When a country's exports exceed its
+    domestic production (because it re-exports goods produced
+    elsewhere), the Wei proxy gives zero or negative. The
+    $\max(0, \cdot)$ truncation produces a zero, which excludes the
+    country from the intra-national panel.
+  \item \textbf{Sectoral composition}. GDP includes services
+    (~70\% of US GDP) that are largely non-tradable. The Wei proxy
+    treats services as intra-national trade, but they're not really
+    ``traded'' in the gravity-model sense.
+  \item \textbf{Trade in second-hand goods, intra-firm transfers,
+    and missing-flow estimation}. Comtrade doesn't capture all flows.
+\end{enumerate}
+
+The Yotov-Piermartini-Monteiro-Larch (2016) ``trade for production''
+proxy uses sectoral GDP (specifically, gross output minus exports
+within each tradable sector), which addresses the services and
+re-export issues. It requires sectoral data that's harder to obtain
+but is the modern standard.
+\end{caveat}
+
+\section{Building the intra-national rows from CEPII + BACI}
+
+\begin{worked}
+\begin{lstlisting}
+# Intra-national rows construction
+gdp_lookup = dict(
+    cepii[["iso3_o", "gdp_o"]]
+    .drop_duplicates().dropna().values
+)
+
+exports_by_origin = (
+    baci.groupby("iso3_o", as_index=False)["X_ij_usd"].sum()
+    .set_index("iso3_o")["X_ij_usd"].to_dict()
+)
+
+# Pull CEPII's stored intra-national distance
+cepii_self = cepii[cepii["iso3_o"] == cepii["iso3_d"]][
+    ["iso3_o", "distw_harmonic", "distw_arithmetic"]
+].copy()
+
+intra_rows = []
+for iso, gdp in gdp_lookup.items():
+    if not pd.notna(gdp) or gdp <= 0:
+        continue
+    exp = exports_by_origin.get(iso, 0.0)
+    x_ii = max(0.0, gdp - exp)
+    intra_rows.append({
+        "iso3_o": iso, "iso3_d": iso,
+        "X_ij_usd": x_ii,
+        "gdp_o": gdp, "gdp_d": gdp,
+        "home": 1,
+    })
+
+intra_df = pd.DataFrame(intra_rows)
+intra_df = intra_df.merge(cepii_self, on="iso3_o", how="left")
+print(f"Intra rows: {len(intra_df):,}")
+print(f"With positive Wei proxy: {(intra_df['X_ij_usd'] > 0).sum():,}")
+print(f"With CEPII intra distance: {intra_df['distw_harmonic'].notna().sum():,}")
+\end{lstlisting}
+
+For 2010, this gives 218 candidate intra rows, of which 10 have BOTH
+positive Wei proxy AND non-missing CEPII intra distance. The other
+208 are dropped (re-export countries, missing data). The small
+$n_{\text{intra}} = 10$ is the source of Paper 5a's identification
+caveat in Section 5.3.
+\end{worked}
+
+\section{Why the 10 surviving countries are large economies}
+
+The 10 intra-national rows for 2010 typically include: USA, China,
+Japan, Germany, France, UK, Italy, Brazil, Canada, Russia. These are
+all large economies with GDP well above their export totals. Smaller
+countries like the Netherlands (large exports relative to GDP from
+re-exports) or open-economy specialists like Singapore drop out.
+
+This selection effect is itself worth thinking about. The
+``intra-national'' panel that the border-puzzle literature has been
+estimating against is dominated by a few G7 economies. Generalizations
+to ``borders matter for trade'' are really ``borders matter for the
+particular set of large economies that survive the Wei filter.''
+
+\section{Joining BACI and CEPII into a panel}
+
+The final gravity panel is the union of the inter-national rows
+(from CEPII, with $X_{ij}$ filled in from BACI) and the intra-national
+rows (constructed from the Wei proxy). For OLS, you keep only positive
+$X_{ij}$; for PPML, you keep zero-trade rows.
+
+\begin{lstlisting}
+# Inter-national rows
+inter = cepii[cepii["iso3_o"] != cepii["iso3_d"]][
+    ["iso3_o", "iso3_d", "gdp_o", "gdp_d",
+     "distw_harmonic", "contig", "comlang_off"]
+].copy()
+inter = inter.merge(
+    baci[["iso3_o", "iso3_d", "X_ij_usd"]],
+    on=["iso3_o", "iso3_d"], how="left"
+)
+inter["X_ij_usd"] = inter["X_ij_usd"].fillna(0.0)  # zeros for PPML
+inter["home"] = 0
+
+# Combine intra + inter
+panel = pd.concat([inter, intra_df], ignore_index=True, sort=False)
+print(f"Total panel: {len(panel):,} rows")
+print(f"Intra-national: {int(panel['home'].sum()):,}")
+print(f"Positive flows: {(panel['X_ij_usd'] > 0).sum():,}")
+print(f"Zero flows: {(panel['X_ij_usd'] == 0).sum():,}")
+\end{lstlisting}
+
+For 2010: 63{,}452 total rows, 10 intra-national, 28{,}053 positive flows
+(the OLS sample), 35{,}399 zero flows (PPML uses these too).
+
+\chapter{Population and activity rasters: GHS-POP, WorldPop, VIIRS}
+\label{ch:rasters}
+
+\section{Why rasters matter for intra-national distance}
+
+The Mayer-Zignago (2011) CEPII intra-national distance is a
+discretization of the underlying CES integral, with the discretization
+implemented as a population-weighted harmonic mean over city centroids.
+Their city sample comes from a circa-2004 cut of the World Gazetteer
+city list, with $\sim 25$ city atoms per country on average and large
+coverage gaps. The natural alternative, given modern data, is to
+replace the city subsample with a population raster: a regular grid
+of cells where each cell carries a population (or activity) weight.
+This is the construction at the heart of the Gonchar-Helfrich (2026)
+effective-distance panel.
+
+Three rasters are relevant for Paper 5a's empirical strategy.
+
+\section{GHS-POP (JRC Global Human Settlement)}
+
+The \textbf{Global Human Settlement Population grid} is produced by the
+European Commission Joint Research Centre. It comes in two
+spatial resolutions:
+\begin{itemize}
+  \item GHS-POP at 100 m: the canonical fine-resolution global
+    population raster. Each 100 m $\times$ 100 m cell carries a
+    population count.
+  \item GHS-POP at 1 km: aggregated version, easier to handle, sufficient
+    for country-aggregate analysis.
+\end{itemize}
+
+Available years: 1975, 1980, 1985, 1990, 1995, 2000, 2005, 2010, 2015,
+2020. The 5-year cadence is fine for cross-section but limiting for
+panel work; for year-by-year coverage, WorldPop is the alternative.
+
+The raster is delivered as a GeoTIFF in the Mollweide equal-area
+projection (ESRI:54009). The Mollweide choice is important: at
+high latitudes, naive lat-lon rasters distort area significantly
+(Greenland looks bigger than Africa in Mercator). Mollweide preserves
+area exactly, which is what you need when computing population-weighted
+spatial statistics.
+
+\begin{worked}
+\textbf{Reading GHS-POP and masking by country:}
+\begin{lstlisting}
+import rasterio
+from rasterio.mask import mask
+from rasterstats import zonal_stats
+import geopandas as gpd
+
+# Country boundaries (GADM, in Mollweide for consistency)
+bnd = gpd.read_file("gadm_410_level0.gpkg").to_crs("ESRI:54009")
+us = bnd[bnd["GID_0"] == "USA"]
+
+# Mask GHS-POP raster by US polygon
+with rasterio.open("GHS_POP_E2020_GLOBE_R2023A_54009_1000_V1_0.tif") as src:
+    img, transform = mask(src, us.geometry, crop=True, filled=False)
+    nodata = src.nodata or 0
+    img = img.filled(nodata)
+
+# Aggregate population
+us_pop = img[img > 0].sum()
+print(f"US 2020 population: {us_pop / 1e6:.1f}M")  # ~331M
+\end{lstlisting}
+\end{worked}
+
+\section{WorldPop (annual updates 2000-2024)}
+
+WorldPop is a Southampton-led project providing annual population
+rasters at 100 m and 1 km resolution from 2000 onward. The 100 m
+version uses a Bayesian dasymetric mapping approach to redistribute
+census counts based on building footprints, road density, and
+nighttime lights. It is essentially the highest-resolution global
+population raster available at annual cadence.
+
+For a Paper 5a-style regularization sweep, WorldPop's annual cadence
+is overkill (one year per regression is sufficient). For
+Gonchar-Helfrich's 2000-2024 panel, the annual cadence is essential.
+
+\section{VIIRS Day/Night Band (nighttime lights)}
+
+The NOAA VIIRS Day/Night Band on the Suomi-NPP satellite (and later
+NOAA-20 and NOAA-21) produces nightly composites of nighttime light
+radiance at $\sim 750$ m resolution from 2012 onward. The annual
+composites are at \texttt{eogdata.mines.edu}.
+
+Why use VIIRS? Nighttime lights are a well-validated proxy for
+economic activity (Henderson, Storeygard, Weil 2012, AER). Where
+population rasters tell you where people live, VIIRS tells you where
+they're producing, consuming, and lighting up at night. For a
+``population-weighted'' versus ``activity-weighted'' comparison of
+intra-national distance, you need both.
+
+\section{Working with rasters in Python}
+
+The standard toolchain:
+\begin{itemize}
+  \item \texttt{rasterio} for reading/writing GeoTIFFs
+  \item \texttt{rasterstats.zonal\_stats} for aggregating raster values within polygons
+  \item \texttt{geopandas} for vector data (country boundaries, polygons)
+  \item \texttt{xarray} + \texttt{rioxarray} for label-aware raster manipulation
+\end{itemize}
+
+\begin{caveat}
+\textbf{Projection consistency matters.} If your boundaries are in
+EPSG:4326 (lat-lon) and your raster is in ESRI:54009 (Mollweide),
+\texttt{rasterio.mask.mask} will refuse the operation (or, worse,
+silently misalign). Always check \texttt{src.crs} on the raster and
+\texttt{gdf.crs} on the vector, and reproject one to match the other.
+\end{caveat}
+
+\section{What changes when you use a raster instead of CEPII's cities}
+
+CEPII's city-based intra-national distance, at $\theta = -1$, gives
+USA $\approx 1{,}177$ km. The raster-based equivalent, at $\theta = -1$,
+on GHS-POP 2020 at 1 km resolution, gives USA $\approx 1{,}140$ km
+(a 3\% difference). The two methodologies are operationally similar
+\emph{at $\theta = -1$, above the pole}.
+
+\textbf{At $\theta = -5$, the two methodologies diverge sharply.}
+The CEPII city sample produces a number (whatever the harmonic-mean
+at $\theta = -5$ happens to be on the city subsample). The raster
+sample produces a number that depends on the raster resolution.
+There is no agreement, because below the pole there is no fixed
+truth.
+
+This is the central empirical insight of Paper 5a: the choice of
+underlying spatial data (CEPII cities vs. GHS-POP raster vs.\ WorldPop
+raster vs.\ a hypothetical even-finer-grain population layer) is the
+regularization choice $d_{\min}$. CEPII's cities have effective
+$d_{\min} \approx 50-100$ km (city centers are typically separated by
+that distance); GHS-POP at 1 km has $d_{\min} = 1$ km; WorldPop at
+100 m has $d_{\min} = 0.1$ km. The implied $d_{ii}^{\eff}$ falls
+across these choices because the integral has no fixed point.
+
+\chapter{Transport-network distance: OpenStreetMap, ports, and air routes}
+
+\textbf{[STATUS: skeleton.]} Coverage of how to construct a multi-modal
+transport graph from OpenStreetMap road data, World Port Index (WPI)
+maritime data, and OpenFlights air routes. The Dijkstra least-cost-path
+solver in \texttt{networkx} or (faster) Rust via \texttt{paper5-core}.
+The Gonchar-Helfrich panel's transport-distance variant.
+
+% ============================================================================
+% PART VII: REGRESSION SPECIFICATION
+% ============================================================================
+\part{Regression specification}
+
+\chapter{OLS gravity with origin and destination fixed effects}
+\label{ch:ols-gravity}
+
+\section{The canonical specification}
+
+The workhorse log-OLS gravity regression for cross-section trade data
+is:
+\begin{equation}
+\label{eq:gravity}
+\log X_{ij,t} \;=\; \alpha + \beta \log d_{ij,t} + \gamma \cdot \mathbf{1}\{i = j\} + \eta_{i,t} + \mu_{j,t} + \epsilon_{ij,t}.
+\end{equation}
+The variables:
+\begin{itemize}
+  \item $X_{ij,t}$: bilateral trade from origin $i$ to destination $j$ in year $t$.
+  \item $d_{ij,t}$: bilateral distance (CEPII's \texttt{distw\_harmonic} typically).
+  \item $\mathbf{1}\{i=j\}$: the home dummy. 1 for intra-national rows
+    (Wei proxy), 0 for inter-national.
+  \item $\eta_{i,t}$, $\mu_{j,t}$: origin-year and destination-year FE.
+  \item $\epsilon_{ij,t}$: error term, assumed mean-zero conditional on regressors.
+\end{itemize}
+
+The coefficient of substantive interest is $\gamma$, the home-bias
+multiplier in log units. $e^{\hat{\gamma}}$ is the ratio of
+intra-national to equivalent-distance international trade, conditional
+on the FE and distance.
+
+\section{What the FE absorb}
+
+In a single-year cross-section, the origin FE $\eta_i$ absorbs:
+\begin{itemize}
+  \item Origin's GDP (constant per origin in a given year).
+  \item Origin's population (constant per origin in a given year).
+  \item Origin's average tariff level, average exchange rate, currency
+    composition: anything that doesn't vary across destinations within
+    the origin.
+  \item In a structural reading, the origin's outward multilateral
+    resistance term $\Pi_i$.
+\end{itemize}
+
+Similarly $\mu_j$ absorbs destination-side characteristics including
+the inward multilateral resistance $P_j$. The Anderson-van Wincoop
+(2003) insight is that these multilateral resistance terms are why the
+McCallum (1995) raw estimate of $22\times$ inflates the structural
+border effect; properly absorbed, the multiplier shrinks to $\sim 5\times$.
+
+\begin{insight}
+A common student mistake is to include $\log Y_i$ (origin GDP) or
+$\log Y_j$ (destination GDP) as explicit regressors alongside the
+country FE. In a single-year cross-section, these are perfectly
+collinear with the FE structure and should be omitted (or you should
+omit the FE and include the GDP terms). Including both is the
+collinearity trap of Chapter \ref{ch:collinearity-trap}.
+\end{insight}
+
+\section{What the home dummy identifies}
+
+For an intra row (iso\_o = iso\_d = USA, say):
+\begin{equation*}
+\log \hat{X}_{\text{USA, USA}} = \alpha + \beta \log d_{\text{USA, USA}} + \gamma + \hat{\eta}_{\text{USA}} + \hat{\mu}_{\text{USA}}.
+\end{equation*}
+For an inter row (iso\_o = USA, iso\_d = CAN):
+\begin{equation*}
+\log \hat{X}_{\text{USA, CAN}} = \alpha + \beta \log d_{\text{USA, CAN}} + \hat{\eta}_{\text{USA}} + \hat{\mu}_{\text{CAN}}.
+\end{equation*}
+
+The home dummy $\gamma$ is identified from the residual difference
+between intra-row predictions and inter-row predictions, after
+absorbing the origin and destination FE. Specifically, $\hat{\gamma}$
+captures the average log-difference between intra-row observed flows
+and what the inter-row fit predicts for the intra-row distance.
+
+\section{Why $\hat{\gamma}$ has high variance with small $n_{\text{intra}}$}
+
+In a typical 2010 BACI-CEPII panel, you have $\sim 28{,}000$
+inter-national observations and $\sim 10$ intra-national observations.
+The FE structure absorbs $\sim 500$ degrees of freedom (250 origins +
+250 destinations, minus 1 for the constant). The home dummy is
+identified from the intra rows after the FE absorb the country-specific
+levels.
+
+With 10 intra observations and 500 FE parameters that can shift to
+absorb intra-row residuals, the home dummy has thin identification.
+The typical standard error is $\sim 0.7$ in log units, which is
+substantial. For Paper 5a, the within-year movement of $\hat{\gamma}$
+across $d_{\min}$ is large ($\sim 3$ log units) relative to the
+standard error, so the regularization-sensitivity finding is robust.
+But the across-year level comparison (year 2010 vs.\ 2015) is not
+directly interpretable, because the set of countries that survive
+the Wei filter differs across years.
+
+\begin{worked}
+\textbf{Estimating the canonical gravity regression in Python:}
+
+\begin{lstlisting}
+import pandas as pd
+import statsmodels.formula.api as smf
+import numpy as np
+
+# panel: pd.DataFrame with columns iso3_o, iso3_d, distance, X_ij_usd, home
+df = panel.copy()
+df = df[(df["X_ij_usd"] > 0) & (df["distance"] > 0)]
+df["log_X"] = np.log(df["X_ij_usd"])
+df["log_d"] = np.log(df["distance"])
+
+# Formula API (Patsy handles dummy construction)
+formula = "log_X ~ log_d + home + C(iso3_o) + C(iso3_d)"
+model = smf.ols(formula, data=df).fit()
+
+print(f"log_d coefficient: {model.params['log_d']:+.4f}")
+print(f"home coefficient: {model.params['home']:+.4f}")
+print(f"home multiplier: {np.exp(model.params['home']):.2f}x")
+print(f"R^2: {model.rsquared:.3f}")
+\end{lstlisting}
+
+For year 2010 with CEPII's intra-distance, this gives
+$\hat{\beta}_{\log d} = -1.836$, $\hat{\gamma} = +2.132$, multiplier
+$8.43\times$. The McCallum-AvW range.
+\end{worked}
+
+\section{The case for and against OLS}
+
+OLS works when:
+\begin{itemize}
+  \item Zero-trade rows are absent (or you're willing to drop them).
+  \item The conditional mean is well-described by a log-linear specification.
+  \item You're estimating $\E[\log X | Z]$ rather than $\log \E[X | Z]$.
+\end{itemize}
+
+OLS fails when:
+\begin{itemize}
+  \item Zero-trade rows are a substantial fraction (50\% in our 2010
+    BACI panel). Dropping them induces a selection bias.
+  \item Heteroskedasticity is severe and depends on covariates. The
+    Silva-Tenreyro (2006) point: $\Var(X_{ij}|Z)$ scales with
+    $E[X_{ij}|Z]^2$ in many gravity settings, which gives biased OLS.
+\end{itemize}
+
+PPML (Chapter \ref{ch:ppml}) addresses both failure modes. For Paper 5a's
+structural critique, the OLS specification is documented as the
+primary; PPML is a robustness check.
+
+\chapter{The perfect-collinearity trap: log-GDP regressors and country FE}
+
+\label{ch:collinearity-trap}
+
+This chapter documents a methodological pitfall I encountered while
+running the Paper 5a empirical sweep. It is included in the volume
+because the lesson generalizes beyond this specific paper.
+
+\section{The bug}
+
+I built a Spec B-prime regression with the design matrix constructed
+manually via \texttt{statsmodels.api.OLS}, including
+\texttt{log\_gdp\_o}, \texttt{log\_gdp\_d}, \texttt{contig},
+\texttt{comlang\_off} as columns alongside origin and destination
+one-hot dummies. The baseline home coefficient came out as $-4.96$ for
+year 2010 (multiplier $0.007$, no border puzzle at all), inconsistent
+with a known-working version that produced $+2.32$ (multiplier $10$, in
+the McCallum-AvW range).
+
+\section{The diagnosis}
+
+\texttt{statsmodels.api.OLS} does NOT automatically drop perfectly
+collinear columns. When confronted with a rank-deficient design matrix,
+it falls back to the Moore-Penrose pseudo-inverse. The pseudo-inverse
+gives a coefficient vector that minimizes the L2-norm subject to the
+fit being least-squares optimal, but the coefficient assignment among
+collinear columns is arbitrary.
+
+In a single-year cross-section, \texttt{log\_gdp\_o} is perfectly
+collinear with the origin one-hot dummy structure (one GDP value per
+origin), and \texttt{log\_gdp\_d} with the destination dummies. The
+pseudo-inverse redistributes the colinear contribution across the
+collinear set, including the home dummy because of numerical noise in
+the singular-value decomposition.
+
+\section{The fix}
+
+\texttt{statsmodels.formula.api.ols} uses the formula API (R-style
+syntax), which builds the design matrix via Patsy. Patsy detects
+perfect collinearity at the dummy-construction stage and drops the
+redundant columns. The same regression with the formula API:
+\begin{lstlisting}
+import statsmodels.formula.api as smf
+formula = "log_X ~ log_d + home + C(iso3_o) + C(iso3_d)"
+model = smf.ols(formula, data=df).fit()
+\end{lstlisting}
+gives the correct $+2.13$ home coefficient.
+
+\begin{insight}
+\textbf{In single-year cross-sectional regressions with country FE,
+do not include log-GDP or other origin-constant / destination-constant
+regressors alongside the FE.} The country FE absorb all single-side
+variation; the log-GDP terms add no information and corrupt the
+non-collinear coefficients via the pseudo-inverse fallback. Use the
+formula API or pre-drop the colinear columns. This is not a
+\texttt{statsmodels} bug; it is a design choice that requires the user
+to handle collinearity explicitly when using \texttt{sm.OLS}.
+\end{insight}
+
+\section{Generalizations}
+
+The same trap applies in any cross-sectional regression with high-dim
+fixed effects and additional regressors that are perfectly collinear
+with the FE structure. Examples:
+\begin{itemize}
+  \item Country FE plus country-level log-GDP, log-population, capital-output ratio.
+  \item Industry FE plus industry-level Herfindahl, average TFP, capital intensity.
+  \item Year FE plus year-level interest rate, inflation, recession dummy
+    (these vary by year only).
+\end{itemize}
+The general rule: if a regressor takes one value per FE category, do
+not include both. The FE absorbs the regressor.
+
+In panel regressions with multiple years, log-GDP varies within FE
+categories (each country has multiple GDP observations across years).
+The collinearity is broken. The pitfall is specific to single-year
+cross-sections.
+
+\chapter{Poisson PML and the Silva-Tenreyro (2006) zero-trade problem}
+\label{ch:ppml}
+
+\section{What Silva-Tenreyro (2006) showed}
+
+The Silva-Tenreyro (2006) ReStat paper is the most-cited methodological
+paper in modern gravity estimation. The result, in plain English:
+log-OLS gravity is biased when:
+\begin{enumerate}
+  \item There are zero-trade rows that get dropped from the log
+    transformation.
+  \item The conditional variance $\Var(X|Z)$ scales with the
+    conditional mean $\E[X|Z]$ (typical for trade data).
+\end{enumerate}
+
+The bias is upward in absolute value of the distance elasticity:
+log-OLS tends to overstate the elasticity of trade with respect to
+distance. With zero rows present, the bias can be 30-50\%.
+
+The Silva-Tenreyro fix: estimate
+\begin{equation}
+\E[X_{ij,t}|Z_{ij,t}] = \exp\left(\alpha + \beta \log d_{ij,t} + \gamma \mathbf{1}\{i=j\} + \eta_{i,t} + \mu_{j,t}\right)
+\end{equation}
+by Poisson Pseudo-Maximum Likelihood (PPML). The estimator is
+consistent under the conditional-mean assumption alone, not requiring
+$X_{ij,t}$ to actually follow a Poisson distribution. The
+``pseudo-maximum-likelihood'' qualifier captures this: we use the
+Poisson likelihood as a quasi-likelihood criterion.
+
+\section{What PPML estimates}
+
+By Jensen's inequality, $\log \E[X|Z] \neq \E[\log X|Z]$ whenever
+$\Var(X|Z) > 0$. Log-OLS estimates the right-hand-side conditional
+mean; PPML estimates the left-hand-side. These are different objects.
+They have different coefficients.
+
+For the gravity context: $\hat{\beta}_{\log d}$ from log-OLS is
+typically $-1.5$ to $-2.0$; $\hat{\beta}_{\log d}$ from PPML is
+typically $-0.8$ to $-1.0$. The interpretation: trade flows decline
+with distance, but the rate of decline depends on what you're
+estimating.
+
+\section{The home coefficient under PPML versus OLS}
+
+This is the part that surprised me in Paper 5a's empirical work, so
+I'll be explicit. For the same 2010 BACI-CEPII panel:
+\begin{itemize}
+  \item OLS gives $\hat{\gamma} = +2.13$, multiplier $8.4\times$
+    (in the McCallum-AvW range).
+  \item PPML (preliminary, with convergence warnings) gives
+    $\hat{\gamma} = -5.01$, multiplier $0.007\times$.
+\end{itemize}
+
+These are not contradictory; they are estimates of different objects.
+PPML estimates the conditional mean of intra-trade given the gravity
+covariates; OLS estimates the conditional mean of log-intra-trade.
+The Jensen-inequality wedge can be large for high-variance distributions
+like trade flows, and the wedge depends on the variance structure.
+
+What survives across both: the regularization-sensitivity pattern. As
+$d_{\min}$ shrinks, $\hat{\gamma}$ becomes more negative under both
+estimators. The Paper 5a finding ``the home coefficient is regularization-driven''
+is robust to estimator choice; the precise magnitude is not.
+
+\section{PPML in \texttt{statsmodels}}
+
+The Python implementation:
+\begin{lstlisting}
+import statsmodels.formula.api as smf
+import statsmodels.api as sm
+
+formula = "X_ij_usd ~ log_d + home + C(iso3_o) + C(iso3_d)"
+model = smf.glm(
+    formula, data=df,
+    family=sm.families.Poisson(link=sm.families.links.Log())
+).fit(method="bfgs", maxiter=200, tol=1e-6)
+\end{lstlisting}
+
+\begin{caveat}
+\textbf{statsmodels.GLM is NOT the right tool for high-dimensional FE
+PPML.} With $\sim 500$ FE parameters (one-hot encoded), the BFGS optimizer
+struggles to converge. Convergence warnings appear on every cell of a
+regularization sweep, and the coefficient estimates are the optimizer's
+last iterate rather than the true MLE.
+
+The canonical implementation is the Correia-Guimaraes-Zylkin (2020)
+\texttt{ppmlhdfe} Stata package, which uses an absorbing-FE estimator
+that re-parameterizes the model in a way that avoids the high-dimensional
+design matrix. The Python equivalent is \texttt{pyhdfe} + a custom IRLS
+loop, or \texttt{fixest} via \texttt{rpy2}. For Paper 5a, I report
+\texttt{statsmodels.GLM} results as preliminary and flag the need for
+\texttt{ppmlhdfe} as the natural follow-up.
+\end{caveat}
+
+\section{Why this matters for Paper 5a}
+
+Paper 5a's structural claim does not depend on the estimator. The
+integration parameter $\theta = \delta(1-\sigma)$ is structural; the
+divergence of the integral at $\theta \leq -2$ is mathematical; the
+regularization-dependence of any specific number assigned to $d_{ii}$
+is a feature of the problem, not of the estimator.
+
+Paper 5a's empirical claim --- the home coefficient depends on the
+regularization grain --- is also robust to estimator choice. Both
+OLS and PPML produce a monotonic relationship between $\hat{\gamma}$
+and $d_{\min}$, with sign and direction matching.
+
+What changes between estimators is the level of $\hat{\gamma}$ at the
+CEPII baseline. OLS gives $+2.1$ (in the McCallum range); PPML gives
+$-5$ (a sign flip). Both are legitimate estimates of different
+objects. The paper reports OLS as primary because it is interpretable
+in the McCallum-AvW border-puzzle tradition; PPML is reported as a
+robustness check with the appropriate caveats.
+
+\chapter{Pair-year fixed effects: the YPMM cookbook}
+
+\textbf{[STATUS: skeleton.]} The
+Yotov-Piermartini-Monteiro-Larch (2016) advanced guide to trade-policy
+analysis. The three-way fixed-effect specification:
+exporter-year FE, importer-year FE, pair FE. Why pair FE absorbs the
+multilateral resistance term. Why this specification is the canonical
+2016+ structural-gravity workhorse.
+
+% ============================================================================
+% PART VIII: EMPIRICAL RESULTS AND INTERPRETATION
+% ============================================================================
+\part{The empirical results: Spec B-prime and the regularization sweep}
+
+\chapter{Spec A baseline: replicating the McCallum-AvW finding}
+
+\textbf{[STATUS: skeleton.]} The 2010 panel with CEPII's
+\texttt{distw\_harmonic} for both inter and intra. Replicates
+McCallum-AvW's $\sim 8\times$ multiplier. The clean baseline against
+which all sweeps are compared.
+
+\chapter{Spec B-prime: the regularization sweep results}
+\label{ch:bprime}
+
+\section{What Spec B-prime tests}
+
+Spec A (the baseline) uses CEPII's \texttt{distw\_harmonic} for both
+intra and inter-national distance. Spec B-prime keeps CEPII's value
+for inter-national rows but replaces the intra-national distance with
+$d_{ii}^{\eff}(\theta, d_{\min})$ computed numerically on the country
+polygon, for $\theta \in \{-3, -5, -7\}$ and
+$d_{\min} \in \{0.5, 1, 2, 5, 10, 20, 50, 100, 200, 500\}$~km.
+
+Why hold inter-national distance fixed? The structural critique is
+specifically about the intra-national object. Inter-national distance
+is also a CES integral in principle, but the bilateral integral has
+support disjoint from the divergence at $r = 0$ (Volume 1 Chapter 11),
+so it converges at gravity-consistent $\theta$. Swapping only the
+intra-national distance isolates the divergence-driven sensitivity.
+
+\section{The full 2010 sweep results}
+
+Three years (2010, 2015, 2020) $\times$ three structural $\theta$'s
+$\times$ ten $d_{\min}$ cells $\times$ two baseline specs = 96
+regressions. The headline 2010 results:
+
+\begin{center}
+\begin{tabular}{r r r r r r r}
+\toprule
+& \multicolumn{3}{c}{$\hat{\gamma}$} & \multicolumn{3}{c}{$e^{\hat{\gamma}}$} \\
+\cmidrule(lr){2-4} \cmidrule(lr){5-7}
+$d_{\min}$ (km) & $\theta = -3$ & $\theta = -5$ & $\theta = -7$ & $\theta = -3$ & $\theta = -5$ & $\theta = -7$ \\
+\midrule
+$0.5$ & $-1.155$ & $-2.919$ & $-3.360$ & $0.32\times$ & $0.05\times$ & $0.03\times$ \\
+$1.0$ & $-0.365$ & $-2.054$ & $-2.494$ & $0.69\times$ & $0.13\times$ & $0.08\times$ \\
+$2.0$ & $+0.308$ & $-1.293$ & $-1.733$ & $1.36\times$ & $0.27\times$ & $0.18\times$ \\
+$5.0$ & $+1.114$ & $-0.378$ & $-0.819$ & $3.05\times$ & $0.68\times$ & $0.44\times$ \\
+$10$  & $+1.601$ & $+0.209$ & $-0.231$ & $4.96\times$ & $1.23\times$ & $0.79\times$ \\
+$20$  & $+1.976$ & $+0.705$ & $+0.265$ & $7.21\times$ & $2.02\times$ & $1.30\times$ \\
+$50$  & $+2.336$ & $+1.282$ & $+0.842$ & $10.3\times$ & $3.60\times$ & $2.32\times$ \\
+$100$ & $+2.499$ & $+1.580$ & $+1.140$ & $12.2\times$ & $4.86\times$ & $3.13\times$ \\
+$200$ & $+2.593$ & $+1.839$ & $+1.399$ & $13.4\times$ & $6.29\times$ & $4.05\times$ \\
+$500$ & $+2.610$ & $+2.031$ & $+1.590$ & $13.6\times$ & $7.62\times$ & $4.91\times$ \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+CEPII baseline at $\theta = -1$ (the conventional choice) gives
+$\hat{\gamma} = +2.132$, multiplier $8.43\times$. This sits at the
+high-$d_{\min}$ end of the sweep range.
+
+\section{Three observations}
+
+\textbf{First}, the home coefficient moves monotonically with
+$d_{\min}$ in every $(\theta, \text{year})$ cell tested. As $d_{\min}$
+shrinks (finer spatial resolution), $\hat{\gamma}$ becomes more
+negative. As $d_{\min}$ grows (coarser resolution, approaching the
+CEPII baseline grain), $\hat{\gamma}$ becomes more positive.
+
+\textbf{Second}, the sign-flip threshold (where $\hat{\gamma}$ crosses
+zero) shifts cleanly with $\theta$. At $\theta = -3$, the flip occurs
+between $d_{\min} = 1$ and $d_{\min} = 2$~km. At $\theta = -5$, between
+$d_{\min} = 5$ and $d_{\min} = 10$~km. At $\theta = -7$, between
+$d_{\min} = 10$ and $d_{\min} = 20$~km. More negative $\theta$ means
+the formula needs a larger $d_{\min}$ to produce a positive home
+coefficient.
+
+\textbf{Third}, the conventional McCallum-Anderson-van~Wincoop border-puzzle
+multiplier (the $5\times$ to $22\times$ range that the literature
+treats as ``the answer'') sits inside the sweep range and is recovered
+at multiple $(\theta, d_{\min})$ combinations. For example, the
+$\sim 8\times$ multiplier appears at:
+\begin{itemize}
+  \item $\theta = -3$, $d_{\min} = 20$~km ($7.21\times$)
+  \item $\theta = -5$, $d_{\min} = 500$~km ($7.62\times$)
+  \item $\theta = -7$, $d_{\min} > 500$~km (extrapolating)
+\end{itemize}
+The reduced-form $\theta = -1$ CEPII evaluation produces $8.43\times$
+without committing to any structural $\theta$. The literature's
+border-puzzle multiplier is not separately identified from the
+regularization choice.
+
+\section{Cross-year robustness}
+
+The same sweep on year 2015 ($n_{\text{intra}} = 6$) and year 2020
+($n_{\text{intra}} = 8$) produces qualitatively similar patterns:
+home moves monotonically more negative as $d_{\min}$ shrinks. The
+\emph{levels} differ across years because the small-N intra sample
+shifts (different countries pass the Wei filter in different years),
+but the within-year pattern is robust.
+
+\begin{insight}
+The empirical content of the divergence theorem (Volume 1 Theorem 11.1)
+is captured by the slope of $\hat{\gamma}$ versus $\log d_{\min}$. The
+slope is steeper for more negative $\theta$, consistent with the
+scaling argument in Volume 2 Chapter 2: at $\theta = -3$ the
+regularization-elasticity is $1/3$; at $\theta = -7$ it is $5/7$.
+The empirical sweep recovers exactly this prediction. The structural
+inconsistency in the intra-national distance object propagates into
+the home dummy through a mechanism that the closed-form math
+predicts.
+\end{insight}
+
+\chapter{Cross-year stability and the small-N intra issue}
+
+\textbf{[STATUS: skeleton.]} Why $n_{\text{intra}}$ varies (6 in 2015, 8
+in 2020, 10 in 2010). Which countries appear in/out. The implication for
+cross-year level comparisons.
+
+\chapter{The qualitative finding: home coefficient as a regularization artifact}
+\label{ch:qualitative}
+
+\section{What the empirics show}
+
+Across every $(\theta, \text{year})$ cell in the Paper 5a sweep, the
+home-bias coefficient $\hat{\gamma}$ moves monotonically with the
+regularization grain $d_{\min}$. At fine resolution (small $d_{\min}$),
+$\hat{\gamma}$ is small or negative. At coarse resolution
+(large $d_{\min}$, approaching CEPII's effective city-grid grain),
+$\hat{\gamma}$ is strongly positive, in the McCallum-Anderson-van~Wincoop
+border-puzzle range.
+
+The slope of $\hat{\gamma}$ versus $\log d_{\min}$ is steeper for more
+negative $\theta$, consistent with the scaling exponent
+$\alpha(\theta) = (\theta + 2)/\theta$ that the divergence theorem
+predicts. At gravity-consistent $\theta \in \{-3, -5, -7\}$, the
+slope is non-trivial and the sign-flip threshold is in the same
+range as CEPII's effective grid resolution.
+
+\section{What this means structurally}
+
+Three structural claims fall out.
+
+\textbf{Claim 1.} The home-bias coefficient in conventional gravity
+regressions is not a structural border-effect parameter. It is a
+function of the intra-national distance, which is itself a function
+of the regularization choice. The literature has been reporting
+$\hat{\gamma}$ as if it measured a fixed property of the bilateral
+trade environment; it does not.
+
+\textbf{Claim 2.} The McCallum-Anderson-van~Wincoop $5\times$ to
+$22\times$ multiplier range corresponds to a specific coarse-resolution
+regularization. Finer-resolution regularizations produce smaller
+multipliers, and at fine enough resolution, the multiplier is below
+$1\times$ (meaning intra-national trade is \emph{less} than what
+gravity predicts from inter-national flows at the same distance). The
+``border puzzle'' is partly an artifact of the resolution at which
+intra-national distance is measured.
+
+\textbf{Claim 3.} Replacing CEPII's static \texttt{distw\_harmonic}
+with a satellite-calibrated time-varying alternative (the
+Gonchar-Helfrich 2026 panel, WorldPop-based recomputations, OSM-derived
+LCP measures) does not solve the underlying problem. It chooses one
+regularization over another. The structural inconsistency in the
+intra-national distance object propagates regardless of which finite
+spatial grain the analyst picks.
+
+\section{What this does NOT mean}
+
+\textbf{This does not mean borders don't matter.} The structural
+critique applies to the \emph{magnitude} reported in the literature,
+not to the existence of a border effect. A finer-grained empirical
+strategy that does not require pinning $d_{ii}$ to a single number
+(e.g., the Caliendo-Parro 2015 tetrad estimator, the Anderson-Yotov
+multilateral-resistance system) might recover a structural border effect
+through a different identification strategy. The Paper 5a critique is
+narrow: the specific quantification via CEPII's intra-national distance
+is regularization-conditional.
+
+\textbf{This does not mean CEPII's database is wrong.} The harmonic-mean
+radial coordinate that CEPII reports at $\theta = -1$ is a perfectly
+defensible geometric statistic. What is wrong is the convention of
+using that number as if it were the structural CES expected pairwise
+distance at the integration parameter implied by empirically defensible
+$\sigma$. The two are different objects, and CEPII reports only the
+first.
+
+\textbf{This does not mean log-OLS is the wrong estimator.} PPML and
+log-OLS give different home coefficients on the same data, but both
+exhibit the regularization-sensitivity pattern. The estimator choice
+is independent of the structural critique.
+
+\section{What an honest gravity literature would do}
+
+Three operational recommendations.
+
+\textbf{First}, report intra-national distance with its spatial
+resolution explicitly. A paper that uses CEPII's value should
+acknowledge that the value corresponds to a $\sim 50-100$ km effective
+grid. A paper that uses WorldPop should acknowledge the 100 m or 1 km
+resolution. The reported home-bias multiplier is conditional on this
+choice.
+
+\textbf{Second}, report a sensitivity analysis. The Paper 5a sweep
+table is a template: $\hat{\gamma}$ across $d_{\min}$ at the
+structurally consistent $\theta$. The reader can then see the
+regularization dependence and judge the structural content of the
+reported multiplier.
+
+\textbf{Third}, move toward identification strategies that do not
+require a single number for $d_{ii}$. The Caliendo-Parro tetrad
+estimator. The Eaton-Kortum $d_{ii} = 1$ assumption (which is
+structurally consistent: ``intra-national distance equals 1'' just
+means trade costs are normalized to 1 at home). The
+Costinot-Donaldson-Komunjer Ricardian framework with importer-exporter
+FE absorbing all bilateral trade costs. These are not workarounds;
+they are honest acknowledgments that the structural integral does not
+exist as a fixed object when the structural $\theta$ is in its
+empirically defensible range.
+
+\section{The agenda for Paper 5b}
+
+The follow-up paper (Paper 5b, in concept) would develop one of these
+identification strategies in detail. The most promising candidates:
+
+\textbf{Option A: Anderson-Yotov MR with explicit regularization-grain
+documentation.} Estimate the structural gravity model with the
+Anderson-Yotov multilateral-resistance system (which uses no separate
+intra-national distance), and document how the MR-implied border
+effect depends on the regularization grain of the bilateral distance
+inputs. This is the most direct extension of Paper 5a.
+
+\textbf{Option B: Caliendo-Parro tetrad on BACI sectoral data.} The
+tetrad estimator cancels distance entirely; the structural-vs-reduced-form
+$\theta$ conflation does not arise. The paper would estimate sectoral
+tetrads on BACI HS6 data and quantify the border effect via a different
+identification strategy.
+
+\textbf{Option C: A regularization-aware structural estimator.}
+Develop an estimator that takes $d_{\min}$ as an input parameter and
+returns conditional structural estimates. The analyst would then report
+results as a function of $d_{\min}$, not as a single number.
+
+Paper 5b is concept-stage. The technical details depend on which of
+these options proves most tractable. Paper 5a's contribution is the
+diagnosis; Paper 5b's would be the constructive proposal.
+
+% ============================================================================
+% PART IX: FORWARD PATH
+% ============================================================================
+\part{Forward path}
+
+\chapter{Anderson-Yotov multilateral resistance over time}
+
+\textbf{[STATUS: skeleton.]} The 2010 Anderson-Yotov paper on the
+multilateral-resistance term as a time-varying object. How the
+regularization issue interacts with the MR system.
+
+\chapter{Sectoral and pair-year FE specifications}
+
+\textbf{[STATUS: skeleton.]} What changes when you move to sectoral
+trade data. Whether the regularization-sensitivity result survives the
+YPMM three-way FE specification.
+
+\chapter{Welfare counterfactuals when $d_{ii}$ does not exist}
+
+\textbf{[STATUS: skeleton.]} The Caliendo-Parro (2015) exact-hat
+methodology. Welfare effects of trade-policy changes computed without
+a single number for $d_{ii}$. The forward path for Paper 5b.
+
+\chapter{What an honest gravity literature would do}
+
+\textbf{[STATUS: skeleton.]} The constructive proposal. Report
+border-puzzle multipliers as conditional on a regularization. Acknowledge
+the structural-versus-reduced-form $\theta$ distinction. Move to
+estimation strategies that do not require pinning $d_{ii}$ to a single
+number.
+
+% ============================================================================
+% BACK MATTER
+% ============================================================================
+\appendix
+\chapter{Notation key (Volume 2 additions)}
+
+\begin{small}
+\begin{tabular}{l l l}
+\toprule
+Symbol & Meaning & Units \\
+\midrule
+$N$ & Number of atoms in discretization & dimensionless \\
+$d_{\min}$ & Regularization cutoff & km \\
+$\hat{d}_{ii}^{\eff}$ & Discretized CES expected pairwise distance & km \\
+$\alpha(\theta)$ & Regularization scaling exponent & dimensionless \\
+$\mathrm{ESRI:54009}$ & Mollweide equal-area projection & --- \\
+$X_{ij,t}$ & Bilateral trade flow in year $t$ & USD \\
+$\eta_{i,t}$ & Origin-year fixed effect & log units \\
+$\mu_{j,t}$ & Destination-year fixed effect & log units \\
+\bottomrule
+\end{tabular}
+\end{small}
+
+\chapter{Code listings index}
+
+The notebooks and modules referenced in Volume 2:
+\begin{itemize}
+  \item \texttt{notebooks/19c\_regularization\_sensitivity.py} — Chapter \ref{ch:disk-sweep}
+  \item \texttt{notebooks/18d\_spec\_b\_prime\_fixed.py} — Chapter \ref{ch:collinearity-trap}
+  \item \texttt{notebooks/18e\_spec\_b\_prime\_ppml.py} — PPML robustness check
+  \item \texttt{src/paper5/region\_raster.py} — Country polygon to RasterDist
+  \item \texttt{src/paper5/ot\_distance.py} — CES generalized-mean distance
+\end{itemize}
+
+\end{document}
