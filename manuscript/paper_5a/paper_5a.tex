@@ -523,6 +523,135 @@ the divergent integral, and any finer resolution (a denser city subsample,
 a higher-resolution raster, an OT-style fully-resolved transport plan)
 produces a strictly smaller implied $\dii$. There is no fixed point.
 
+\subsection{A worked example: the United States, end to end}
+\label{sec:usa-worked-example}
+
+To make the abstraction concrete, walk one country all the way
+through. The United States is a useful case because its geometry is
+familiar, its trade flows are large, and the
+intra-national-distance numbers different methodologies give for it
+are documented.
+
+\paragraph{The geography.}
+The United States, projected on the Mollweide equal-area projection
+\texttt{ESRI:54009}, has a land area of approximately
+$9.47$ million km$^2$ (GADM level-0, 2024 vintage, excluding maritime
+zones). The equivalent-disk radius is
+\[
+R_{\text{USA}} = \sqrt{A/\pi} = \sqrt{9.47 \times 10^6 / \pi} \approx 1{,}735 \text{ km}.
+\]
+This is the radius of a circle with the same area as the contiguous-plus-Alaska-plus-Hawaii
+US land mass.
+
+\paragraph{The closed-form numbers.}
+The Head-Mayer (2002) closed form at $\theta = +1$ (arithmetic mean)
+gives
+$d_{ii}^{\text{HM}}(\theta = +1) = (2/3) \cdot R_{\text{USA}} \approx 1{,}157$ km.
+At $\theta = -1$ (harmonic mean, CEPII's choice) it gives
+$d_{ii}^{\text{HM}}(\theta = -1) = R_{\text{USA}}/2 \approx 868$ km.
+Mayer and Zignago's (2011) actual reported number for the US is
+$d_{ii}^{\text{CEPII}} \approx 1{,}177$ km. The CEPII number is
+larger than the polygon-area closed form because CEPII weights by
+city population rather than by uniform area, and US population
+concentrates away from the centroid (the East Coast metropolitan
+corridor, California, the Texas triangle, Chicagoland), which pushes
+the harmonic mean of pairwise distances upward.
+
+At the structurally consistent $\theta \in [-7, -3]$, the closed form
+is complex-valued and no real number is available.
+
+\paragraph{The numerical sweep.}
+Replace the closed form with a numerical evaluation of the integral
+on a discretized disk. Notebook \texttt{19c}'s uniform-disk simulation,
+scaled to $R_{\text{USA}}$ via the country\_d\_eff function
+documented in the replication code, gives the implied
+$\dii^{\eff}(\theta, d_{\min})$ at structurally consistent $\theta$:
+
+\begin{center}
+\begin{tabular}{r r r r r}
+\toprule
+$d_{\min}$ (km) & $\dii^{\eff}$ at $\theta = -3$ & at $\theta = -5$ & at $\theta = -7$ & As share of $R_{\text{USA}}/2$ ($\theta = -5$) \\
+\midrule
+$0.5$ & 11 km & 3 km & 2 km & 0.4\% \\
+$1.0$ & 22 km & 6 km & 5 km & 0.7\% \\
+$5.0$ & 102 km & 30 km & 22 km & 3.5\% \\
+$10$ & 196 km & 57 km & 43 km & 6.6\% \\
+$50$ & 567 km & 170 km & 127 km & 19.6\% \\
+$100$ & 837 km & 281 km & 211 km & 32.4\% \\
+$500$ & 1{,}561 km & 762 km & 572 km & 87.8\% \\
+\bottomrule
+\end{tabular}
+\end{center}
+
+At fine spatial resolution, the implied intra-USA distance is on the
+order of a few kilometers. At coarse resolution it approaches
+CEPII's value. The actual number depends on where the analyst draws
+the line.
+
+\paragraph{The gravity model's prediction for US intra-trade.}
+The US 2010 GDP was approximately \$15.0 trillion (CEPII Gravity);
+US exports of goods were approximately \$1.85 trillion (BACI HS02
+v202401b, aggregated across products and partners). The
+\citet{wei_1996_intranational} intra-national flow proxy is
+\[
+X_{\text{USA,USA},2010} = \max(0, \text{GDP} - \text{exports}) \approx \$13.1 \text{ trillion}.
+\]
+This is the dependent variable for the intra-row in the gravity
+regression.
+
+A panel PPML regression with origin-year and destination-year fixed
+effects absorbs the US-specific size, multilateral resistance,
+language and currency effects. What remains is the model's prediction
+for log $X_{\text{USA,USA}}$ as a function of $\log d_{\text{USA,USA}}$
+and the home dummy. With $\hat\beta_{\log d} \approx -0.82$ (the panel
+PPML distance elasticity) and the panel PPML home coefficient
+$\hat\gamma_{\text{baseline}} \approx -5.64$:
+\begin{itemize}
+  \item Using CEPII's $\dii = 1{,}177$ km, $\log d \approx 7.07$. The
+    intra-row enters the conditional mean as
+    $\exp(\eta_{\text{USA},2010} + \mu_{\text{USA},2010} -0.82 \cdot 7.07 -5.64) \cdot e^\alpha$,
+    which the absorbed FE pin to the observed \$13.1T after the home
+    dummy.
+  \item Using the panel sweep value at $\theta = -5, d_{\min} = 0.5$ km,
+    $\dii \approx 3$ km, $\log d \approx 1.1$. The same intra-row enters
+    as $\exp(\ldots -0.82 \cdot 1.1 + \hat\gamma) \cdot e^\alpha$. The
+    $\log d$ term is now larger by a factor of
+    $0.82 \cdot (7.07 - 1.1) \approx 4.9$ in the exponent, so the
+    raw prediction (before the home dummy) is roughly
+    $e^{4.9} \approx 134$ times larger. The home dummy has to move
+    down by $\sim 4.9$ log units to bring the prediction back to the
+    observed \$13.1T. The empirical sweep recovers exactly that:
+    $\hat\gamma$ at $\theta = -5, d_{\min} = 0.5$ km is $-9.21$, which
+    is $-5.64 - 3.57 \approx -9.21$, within rounding of the back-of-envelope
+    expectation.
+\end{itemize}
+
+The 3.6-log-unit shift in $\hat\gamma$ is mechanical. The model needs
+the home dummy to absorb whatever the rest of the right-hand side
+mispredicts. Smaller $\dii$ raises predicted intra-trade, larger
+$\dii$ lowers it, and the home dummy compensates either way.
+
+\paragraph{What this says about the United States specifically.}
+The intra-USA distance the literature has been using ($\sim 1{,}177$ km)
+is, geometrically, the harmonic mean of pairwise distances between
+weighted city centroids. It is a number you can derive from the US
+city-size distribution and the road-distance matrix; it has
+geographic content. But it does not correspond to the integration
+over the structural CES kernel at gravity-consistent $\sigma$. At
+$\sigma = 6$ and $\delta = 1$ (the structural baseline in
+\citealt{anderson_vanwincoop_2003}), the integral over the US area
+diverges. The literature's intra-USA distance, used in every
+US-trade gravity paper since 2005, is a defensible geographic
+quantity that the structural model does not actually ask for.
+
+If the analyst wants a structurally consistent number for the US,
+they have two honest options: pick a smaller iceberg-cost exponent
+($\delta < 1$, which moves the structural $\theta$ above the pole)
+and commit to it explicitly; or acknowledge that the integral
+diverges and report results conditional on a stated $d_{\min}$. Both
+are defensible. Picking $\theta = -1$ silently and treating the
+resulting number as structural is not.
+
 % =============================================================================
 \section{The empirical consequence: gravity-regression home-bias}
 \label{sec:empirical}
