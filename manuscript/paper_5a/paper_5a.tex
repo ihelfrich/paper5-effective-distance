@@ -72,40 +72,39 @@ All errors are my own.}}
 % =============================================================================
 \begin{abstract}
 \noindent
-The Head-Mayer (2002) closed-form expression for intra-national distance,
-$\dii = \left(2/(\theta+2)\right)^{1/\theta} R$, has a pole at $\theta = -2$ and
-is complex-valued for $\theta < -2$. The underlying integral
-$\int_0^R r^{\theta+1}\, dr$ diverges at the lower limit for $\theta \leq -2$.
-In the structural CES gravity model, the integration parameter is
-$\theta = \delta(1 - \sigma)$, and for the empirically defensible
-$\sigma \in [4, 8]$ with iceberg-cost exponent $\delta = 1$, $\theta$ falls
-entirely in $[-7, -3]$, below the pole. CEPII's GeoDist database evaluates
-the formula at $\theta = -1$, one unit above the pole, and justifies the
-choice as ``the usual coefficient estimated from gravity models''
-(Mayer and Zignago, 2011, p.~7). The applied gravity literature has
-built on this convention since 2005 without engaging the structural
-inconsistency.
+The intra-national distance number that every applied gravity paper has
+used since 2005 comes from the Head-Mayer (2002) closed form
+$\dii = (2/(\theta+2))^{1/\theta} R$. The formula has a pole at
+$\theta = -2$ and is complex-valued below it. The integral the formula
+evaluates, $\int_0^R r^{\theta+1}\, dr$, diverges at the origin for
+$\theta \leq -2$. CEPII's GeoDist database uses $\theta = -1$, one unit
+above the pole, and explains the choice as ``the usual coefficient
+estimated from gravity models'' \citep{mayer_zignago_2011}. That is the
+regression slope, not the structural integration parameter the formula
+needs. The two are the same letter and different quantities.
 
-I document three results. First, the Head-Mayer formula's domain of
-validity is $\theta > -2$, and Head and Mayer (2002) themselves perform
-the structural-versus-reduced-form $\theta$ conflation in justifying the
-choice $\theta \approx -1$. Second, when the closed form is replaced by
-its underlying integral and evaluated on a discretized 2D region, the
-implied $\dii$ is a function of the discretization grain (a regularization
-parameter $d_{\min}$) rather than a fixed property of the country geometry.
-Third, in a pooled panel PPML regression on BACI-CEPII data for
-2010-2015-2020 with origin-year and destination-year fixed effects
-absorbed via the \citet{correia_guimaraes_zylkin_2020}
-alternating-projection algorithm, the home-bias coefficient
-$\hat{\gamma}$ moves monotonically with $d_{\min}$: from $-9.45$ at fine
-spatial resolution ($d_{\min} = 0.5$~km, $\theta = -7$) to $-5.64$ at
-the CEPII baseline, a $3.81$ log-unit shift. The cross-sectional
-log-OLS robustness check reproduces the McCallum-Anderson-van Wincoop
-$\sim 8\times$ multiplier at the CEPII baseline and shows the same
-monotonic regularization dependence. A material share of the
-conventional border-puzzle multiplier is therefore a measurement
-artifact of the regularization choice rather than a structural trade
-barrier.
+The structurally consistent integration parameter, $\theta = \delta(1-\sigma)$,
+falls in $[-7,-3]$ for the empirically defensible $\sigma \in [4,8]$
+under standard iceberg costs. The whole structural range sits below the
+pole. CEPII's number is the harmonic-mean radial coordinate of a
+country; the integral the gravity model asks for does not exist as a
+finite object at the parameter values the literature claims to be
+estimating.
+
+I show the consequence runs all the way through. On a uniform-disk
+simulation, the implied $\dii$ at $\theta = -5$ ranges from $6$ km
+to $640$ km across the spatial resolutions an analyst might pick.
+In a pooled panel PPML on BACI-CEPII for 2010, 2015, and 2020, with
+origin-year and destination-year fixed effects absorbed via the
+\citet{correia_guimaraes_zylkin_2020} algorithm, the home-bias
+coefficient moves $3.81$ log units across the structurally consistent
+$(\theta, d_{\min})$ space. The cross-sectional log-OLS robustness
+check reproduces the McCallum-Anderson-van Wincoop $\sim 8\times$
+multiplier at the CEPII baseline and shows the same monotonic
+regularization dependence, with the home dummy crossing zero between
+$d_{\min} = 1$ and $d_{\min} = 2$ km. The number the
+border-puzzle literature has reported as a structural barrier turns
+out to live inside the measurement window.
 
 \medskip
 
@@ -215,50 +214,35 @@ $\sim 8\times$ at the CEPII baseline sits at the high-$d_{\min}$ end of
 this sweep. At fine spatial resolution, the multiplier falls below
 $1\times$. The puzzle lives inside the measurement window.
 
-The paper does three things. Section~\ref{sec:closed-form} documents the
-domain of validity of equation~\eqref{eq:hm-closed-form}, including the
-1D contact-set singularity that Head and Mayer (2002) noticed and
-engineered around (their assumption $\Delta \geq 2R$, where $\Delta$ is
-the inter-state center distance and $R$ the state radius). Section~\ref{sec:divergence}
-proves the 2D integral divergence at $\theta \leq -2$ and characterizes
-the convergence rate. Section~\ref{sec:regularization} computes the
-discretization-dependent value of the implied $\dii$ on a uniform disk
-across a sweep of grid resolutions $d_{\min}$, showing that the value
-is essentially linear in $d_{\min}$ in the relevant regime.
-Section~\ref{sec:empirical} estimates the consequence for the gravity
-regression home-bias coefficient (the conventional border-puzzle multiplier)
-on BACI-CEPII data for 2010, 2015, and 2020. Section~\ref{sec:implications}
-draws out what this means for the border-puzzle literature and for
-applied gravity practice. Section~\ref{sec:conclusion} concludes.
+I am not claiming to discover a singularity that nobody noticed. Head
+and Mayer (2002) saw the 1D version. Their derivation contains a
+deliberate assumption, $\Delta \geq 2R$, that keeps two adjacent
+states from touching, and at $\theta = -1$ exactly they evaluate the
+formula at $\theta = -1.0001$ to step around a removable singularity.
+They never pushed $\theta$ below $-1.5$ in their tables. The
+singularities are visible if you go looking.
 
-The paper's central claim is not that I have discovered a singularity
-nobody noticed. Head and Mayer (2002) noticed at least the 1D bilateral
-contact-set singularity, evaluated their formula at $\theta = -1.0001$
-rather than $\theta = -1$ exactly to dodge a removable singularity there,
-and never pushed $\theta$ below $-1.5$ in their numerical examples.
-The claim is that the wrong-$\theta$ conflation Head and Mayer
-performed in 2002, and that CEPII institutionalized in 2005, has
-consequences the literature has not engaged with. In 2D the integral
-diverges at gravity-consistent $\sigma$. The home-bias coefficient
-inherits the regularization choice. A material share of the
-conventional ``border puzzle'' is a measurement artifact rather than
-a structural barrier.
+What is not visible in the published literature is what happens when
+$\theta$ is taken to its structurally defensible range. The integral
+diverges in 2D. The home-bias coefficient inherits the regularization
+choice. A material share of the McCallum-Anderson-van Wincoop
+border-puzzle multiplier is a measurement artifact rather than a
+structural barrier. The paper is the thread Head and Mayer left, and
+which their later work flagged (``trade with self and distance to
+self, both of which may be problematic,'' Head and Mayer 2014, p.~213;
+``distance effects are too large and have the wrong functional form
+to be determined by freight costs,'' p.~187), pulled all the way
+through.
 
-I am not attacking the 2002 derivation. The bilateral contact-set
-assumption ($\Delta \geq 2R$) and the parameter choice $\theta \approx -1$
-were natural pragmatic decisions in the empirical context of 2002, and
-the closed form has served the literature usefully for two decades.
-What I am doing is completing a thought that the original paper left
-unfinished: namely, what happens to the intra-national integral when
-$\theta$ is taken to its empirically defensible structural range, and
-what the empirical consequences are for the border-puzzle multipliers
-the literature has reported. The 2014 Handbook chapter's own
-acknowledgment that ``trade with self and distance to self [may] be
-problematic'' (p.~213), and the future-research list's note that
-``distance effects are too large and have the wrong functional form to
-be determined by freight costs'' (p.~187), suggest that Head and
-Mayer themselves saw the threads I am picking up. The paper picks them
-up.
+The paper proceeds in five sections. Section~\ref{sec:closed-form}
+documents the closed form's domain of validity and the bilateral
+contact-set singularity. Section~\ref{sec:divergence} proves the 2D
+integral divergence and characterizes the convergence rate.
+Section~\ref{sec:regularization} computes the discretization-dependent
+value of $\dii$ on a uniform disk. Section~\ref{sec:empirical} estimates
+the gravity-regression consequence on BACI-CEPII data. Section~\ref{sec:implications}
+draws the implications for the border-puzzle literature and for
+applied practice.
 
 \paragraph{Relation to the literature.}
 The structural CES gravity model in \citet{anderson_vanwincoop_2003} is
@@ -309,8 +293,6 @@ contribute to a broader narrative that the home-bias coefficient is
 more measurement-driven than the literature has acknowledged, through
 distinct mechanisms.
 
-The remainder of the paper proceeds in five substantive sections,
-followed by a conclusion and an appendix.
 
 % =============================================================================
 \section{The Head-Mayer closed form and its domain of validity}
@@ -704,36 +686,29 @@ $\sim 4$ log units between coarse ($d_{\min} = 500$~km) and fine
 
 \subsection{Interpretation}
 
-The empirical pattern aligns precisely with what the structural critique
-predicts. Below the divergence threshold ($\theta \leq -2$), the
-intra-national distance is not a fixed property of the country
-geometry; it is a function of the discretization grain $d_{\min}$.
-As $d_{\min}$ shrinks, the implied $\dii^{\eff}$ shrinks too, in the
-2D-scaling-predicted form
-$\dii^{\eff} \sim d_{\min}^{(\theta+2)/\theta}$ at small $d_{\min}$.
-Smaller intra-national distance feeds into the gravity model's
-predicted intra-national trade via the $\log d_{ij}$ coefficient
-$\hat{\beta} \approx -0.82$, raising the model's prediction. Observed
-intra-trade is finite; the home dummy $\hat{\gamma}$ adjusts downward
-to keep the conditional mean consistent with the observed flows.
-The 3.8-log-unit movement of $\hat{\gamma}$ across the
-$(\theta, d_{\min})$ sweep is the empirical realization of the
-mathematical divergence.
+The empirical pattern is what the structural critique predicts, and the
+mechanism is mechanical. Below the divergence threshold the implied
+$\dii^{\eff}$ tracks $d_{\min}$ in the 2D scaling form
+$d_{\min}^{(\theta+2)/\theta}$. Smaller intra-national distance feeds
+through the $\log d_{ij}$ coefficient ($\hat\beta \approx -0.82$) and
+raises the model's predicted intra-trade. Observed intra-trade is
+finite. The home dummy moves down to compensate, which is what the
+table shows.
 
-The PPML conditional-mean reading needs a careful note. The PPML
-multiplier $e^{\hat{\gamma}}$ at the CEPII baseline is $0.0036$, not
-the McCallum-AvW $8\times$ that the literature reports. The two
-estimators answer different questions: log-OLS estimates
-$\E[\log X | Z]$ on positive flows only, while panel PPML estimates
-$\log \E[X | Z]$ on positive flows plus zeros. By Jensen's inequality
-these are unequal whenever $\mathrm{Var}(X|Z) > 0$; for bilateral trade flows
-the variance is large, and the wedge is substantial. The panel PPML
-gives an unbiased estimate of the home effect on the conditional mean
-of trade flows (the structurally interpretable object in the gravity
-literature, e.g., Yotov-Piermartini-Monteiro-Larch 2016 Ch.~3); log-OLS
-gives a biased estimate of a different conditional mean. The structural
-critique applies to both: the home coefficient depends on the
-regularization grain regardless of which conditional mean one estimates.
+A word on the level. The PPML multiplier at the CEPII baseline is
+$0.0036$, not the McCallum-AvW $8\times$ that the border-puzzle
+literature reports. The two estimators answer different questions.
+Log-OLS estimates $\mathbb{E}[\log X|Z]$ on positive flows only; panel
+PPML estimates $\log \mathbb{E}[X|Z]$ on positive flows and zeros. By
+Jensen's inequality the two are unequal whenever
+$\mathrm{Var}(X|Z) > 0$, and for bilateral trade flows the variance is
+large enough that the wedge is several log units. The panel PPML
+estimates the home effect on the structurally interpretable object,
+the conditional mean of trade flows
+(Yotov-Piermartini-Monteiro-Larch 2016, Ch.~3); log-OLS estimates
+something different. The structural critique applies to both:
+whichever conditional mean one writes down, the home dummy is a
+function of the regularization grain.
 
 \subsection{Robustness: cross-section log-OLS}
 \label{sec:robustness}
@@ -806,15 +781,15 @@ panel PPML results.
 
 \subsection{The border puzzle as partly a measurement artifact}
 
-The McCallum (1995) finding that intra-Canadian trade is roughly $22\times$
-larger than equivalent Canadian-US trade, and the Anderson-van Wincoop
-(2003) ``border puzzle'' resolution that reduces the multiplier to
-roughly $5\times$ via the multilateral resistance term, both depend on
-a measured intra-national distance. Theorem~\ref{thm:divergence} implies
-that any measured intra-national distance at $\theta \leq -2$ is
+McCallum (1995) found that intra-Canadian trade is roughly $22\times$
+larger than equivalent Canadian-US trade. Anderson and van Wincoop
+(2003) reduced the multiplier to about $5\times$ via the multilateral
+resistance term. Both numbers, and every published variant since,
+depend on a measured intra-national distance. Theorem~\ref{thm:divergence}
+says any measured intra-national distance at $\theta \leq -2$ is
 mechanically a function of the regularization grain. The empirical
-result in Section~\ref{sec:empirical} quantifies how much of the
-remaining multiplier is regularization-driven.
+sweep above puts a number on how much of the remaining multiplier is
+the grain.
 
 \subsection{What this means for applied gravity practice}
 
@@ -996,35 +971,42 @@ project's reporting honest about its regularization choices.
 \section{Conclusion}
 \label{sec:conclusion}
 
-The Head-Mayer (2002) closed-form expression for intra-national distance
-is a finite analytical object at the parameter values where Head and
-Mayer evaluated it ($\theta \in [-1.5, 1]$). At the structural CES
-integration parameter that the gravity literature claims to be
-estimating ($\theta = \delta(1 - \sigma) \in [-7, -3]$ for empirically
-defensible $\sigma$), the underlying integral diverges in 2D. CEPII's
-choice of $\theta = -1$ for its \texttt{distw} construction is the
-$\epsilon$-above-1D-divergence value, evaluated through a 2D formula,
-and is mathematically valid as the harmonic-mean radial coordinate.
-It is not the structural CES expected pairwise distance.
+The Head-Mayer formula was always a finite object at the parameter
+values where Head and Mayer evaluated it. The trouble started when
+CEPII picked $\theta = -1$ for everyone, justified it by appeal to a
+reduced-form regression slope, and the literature took the resulting
+number as if it had been derived from the structural elasticity of
+substitution. It had not. The structural $\theta$ that the gravity
+model needs is $\delta(1-\sigma)$, which for empirically defensible
+$\sigma$ falls in $[-7,-3]$, entirely below the formula's pole.
 
-The gap between these two interpretations of $\theta$ is the
-structural-versus-reduced-form conflation. Head and Mayer (2002)
-performed it themselves, citing ``hundreds of gravity equation estimates
-of $\theta$'' as evidence for the parameter choice. Mayer and Zignago
-(2011) propagated it into the CEPII database. Head and Mayer (2014)
-retained the symbol overload as a deliberate choice, ``to emphasize the
-similarity in resulting terms.'' The applied gravity literature has
-built on this convention.
+CEPII's $\theta = -1$ is the harmonic-mean radial coordinate of a
+country, which is a perfectly defensible geometric statistic. It is
+not the structural CES expected pairwise distance. The two have
+been the same letter for twenty years, and the field has not
+distinguished them. The result is that every border-puzzle multiplier
+reported in the literature has been conditional on a measurement
+choice nobody discussed.
 
-The consequences are quantifiable. The home-bias coefficient in a
-gravity regression depends on the spatial resolution at which
-intra-national distance is constructed, and the dependence is steep at
-structurally consistent $\theta$. A material share of the conventional
-border-puzzle multiplier is a measurement artifact. The
-structurally-correct response is not to compute $\dii$ better, but to
-acknowledge that the integral does not exist as a fixed property of
-the geometry at gravity-consistent $\sigma$, and to design empirical
-specifications that do not require pinning it to a single number.
+Replacing CEPII's number with a finer-resolution alternative does not
+fix this. It picks a different point on a curve that has no fixed
+point. The structurally consistent move is to acknowledge that
+$\dii$ does not exist as a single value at gravity-consistent
+$\sigma$, and to design specifications that do not require pinning
+it to one.
+
+The empirical content of the diagnosis is steep. In the panel PPML
+the home-bias coefficient moves nearly four log units across the
+sweep. In the cross-section OLS it moves more than three. The
+$5$-to-$10\times$ border-puzzle multiplier the literature has
+treated as a structural fact about the world is recovered, all of
+it, somewhere inside the regularization window. Below the window it
+is a fraction of one. Above it, hundreds. The literature has been
+comparing apples to apples because everyone uses the same number, so
+the variation across studies has been small. Vary the number, even
+within structurally defensible bounds, and the puzzle moves with it.
+
+Head and Mayer flagged the threads in 2014. The paper picks them up.
 
 % =============================================================================
 \appendix
