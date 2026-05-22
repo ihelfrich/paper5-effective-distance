@@ -300,54 +300,55 @@ distinct mechanisms.
 
 \subsection{The original derivation}
 \citet{head_mayer_2002_illusory} derive equation~\eqref{eq:hm-closed-form}
-as the CES expected pairwise distance for a uniform-density disk of
-radius $R$. The derivation begins with the inter-state setup
-(two states on a 1D line) and specializes to the intra-state case as a
-limit. I present the 2D intra-state derivation first because it is the
-cleaner mathematical object, then return to the 1D contact-set issue.
+as the CES expected pairwise distance for a uniform-density disk. They
+present the bilateral case first (two states on a 1D line) and treat
+the intra-state case as a limit. I do the 2D intra-state version up
+front because it is the cleaner object, and come back to the 1D
+contact-set issue in §\ref{sec:bilateral-contact}.
 
-Let $f(x, y) = 1 / (\pi R^2)$ be the uniform density on a disk of radius
-$R$ centered at the origin. The CES expected pairwise distance with
+Put a uniform density $f(x,y) = 1/(\pi R^2)$ on a disk of radius $R$
+centered at the origin. The CES expected pairwise distance at
 elasticity parameter $\theta$ is
 \begin{equation}
-\dii(\theta) \;=\; \left( \int_{B_R} \int_{B_R} \|x - y\|^\theta f(x) f(y)\, dx\, dy \right)^{1/\theta},
+\dii(\theta) \;=\; \left( \int_{B_R} \int_{B_R} \|x - y\|^\theta f(x) f(y)\, dx\, dy \right)^{1/\theta}
 \end{equation}
-where $B_R$ is the disk. For the special case of a point producer
-located at the origin and a uniform consumer (which is the case
-Head and Mayer (2002) actually solve), the inner integral collapses to
-the radial expectation
+where $B_R$ is the disk. Head and Mayer solve the simpler case of a
+point producer at the origin and a uniform consumer, which collapses
+the double integral to the radial expectation
 \begin{equation}
 \dii(\theta) \;=\; \left( \int_0^R r^\theta \cdot \frac{2\pi r}{\pi R^2}\, dr \right)^{1/\theta}
 \;=\; \left( \frac{2}{R^2} \int_0^R r^{\theta + 1}\, dr \right)^{1/\theta}.
 \end{equation}
-For $\theta + 1 > -1$, i.e., $\theta > -2$, the integral evaluates to
+The integrand is $r^{\theta+1}$. It is integrable at the origin if and
+only if $\theta + 1 > -1$, that is, $\theta > -2$. In that range,
 \begin{equation}
 \int_0^R r^{\theta + 1}\, dr \;=\; \frac{R^{\theta + 2}}{\theta + 2},
 \end{equation}
-which gives equation~\eqref{eq:hm-closed-form} after the
-$1/\theta$-th-power transformation.
+and the $1/\theta$-th-power transformation gives the closed form,
+equation~\eqref{eq:hm-closed-form}. Outside that range the closed form
+is whatever the algebraic manipulation produces, but the underlying
+integral is not finite, so there is no real number to interpret.
 
 \subsection{The pole at $\theta = -2$ and the complex-valued regime}
 \label{sec:pole}
 
-The closed form has two singularities:
-\begin{itemize}
-  \item $\theta = -1$: removable. The exponent $1/\theta = -1$ is
-    well-defined and the limit
-    $\lim_{\theta \to -1} (2/(\theta + 2))^{1/\theta} = 2$
-    gives $\dii = R/2$, the harmonic mean of the radial coordinate
-    on the disk.
-  \item $\theta = -2$: a true pole. The factor $2/(\theta + 2) \to \infty$,
-    and the limit $\lim_{\theta \to -2} (2/(\theta + 2))^{1/\theta}$ does
-    not exist: the base goes to $+\infty$ from above and to $-\infty$
-    from below, while the exponent stays at $-1/2$.
-\end{itemize}
-For $\theta < -2$, the base $2/(\theta + 2)$ is negative and the exponent
-$1/\theta$ is a negative non-integer. The expression takes complex values
-on the principal branch.
+The closed form has two singular points. At $\theta = -1$, the
+factor $2/(\theta + 2)$ equals $2$ and the exponent $1/\theta$ is
+$-1$, so the limit is just $\dii = R/2$. That is the harmonic mean
+of the radial coordinate on the disk. It is finite, defensible,
+geometrically meaningful, and the value CEPII evaluates the formula
+at. It is also, as we will see, the only structurally-troubled
+$\theta$ at which the formula returns a clean real number.
 
-A direct numerical evaluation, displayed in Table~\ref{tab:pole-values},
-makes the issue concrete.
+At $\theta = -2$ the formula has a true pole. The factor
+$2/(\theta + 2)$ blows up, and the limit
+$\lim_{\theta \to -2}(2/(\theta+2))^{1/\theta}$ does not exist. The
+base diverges to $+\infty$ from one side and $-\infty$ from the
+other; the exponent sits at $-1/2$. Below the pole, for $\theta < -2$,
+the base is negative and the exponent is a non-integer, so the whole
+expression takes complex values on the principal branch.
+
+Table~\ref{tab:pole-values} just tabulates this.
 
 \begin{table}[h]
 \centering
@@ -373,46 +374,50 @@ $-7$ & complex & Complex-valued ($(\sigma = 8, \delta = 1)$) \\
 \end{tabular}
 \end{table}
 
-The structurally consistent values, $\theta \in \{-3, -5, -7\}$, all
-produce complex outputs. The CEPII evaluation point, $\theta = -1$,
-is exactly the harmonic mean of the radial coordinate. The conventional
-intra-national distance used in the applied gravity literature is the
-harmonic-mean radial coordinate, full stop. This is fine as a
-geometric statistic. It is not the structural CES expected pairwise
-distance at gravity-consistent $\sigma$.
+Every structurally consistent value (the column rows $\theta = -3, -5, -7$)
+returns a complex number. The CEPII evaluation point sits at the only
+$\theta$ where the formula returns a clean real value that the
+literature has interpreted as structural. It is a clean real value,
+but it is not structural. It is the harmonic mean of the radial
+coordinate of a country. The literature has been treating that
+geometric statistic as if it were the structural CES expected
+pairwise distance, for twenty years.
 
-\subsection{The bilateral contact-set singularity (1D)}
+\subsection{The bilateral 1D case, and what Head and Mayer saw}
 \label{sec:bilateral-contact}
 
-Head and Mayer (2002) derived a related 1D closed form for two states
-on a line. State $i$ is centered at the origin and extends from $-R$
-to $R$; state $j$ begins at $\Delta - R$ and extends to $\Delta + R$.
-The CES expected pairwise distance is
+The 1D analog of the formula is more revealing than the 2D version
+because Head and Mayer wrote it down explicitly and engineered around
+its singularity. Two states sit on a line. State $i$ runs from $-R$
+to $R$; state $j$ runs from $\Delta - R$ to $\Delta + R$. The CES
+expected pairwise distance between them is
 \begin{equation}
 \dij(\theta) \;=\; \left( \frac{(\Delta - 2R)^{\theta+2} + (\Delta + 2R)^{\theta+2} - 2\Delta^{\theta+2}}{(\theta+1)(\theta+2)(2R)^2} \right)^{1/\theta}.
 \end{equation}
-This expression has two poles (at $\theta = -1$ and $\theta = -2$)
-in the denominator, and a $(\Delta - 2R)^{\theta + 2}$ factor that
-vanishes (for $\theta > -2$) or diverges (for $\theta < -2$) as the
-states touch ($\Delta \to 2R$). Head and Mayer noticed this. Their
-text on the derivation contains a deliberate assumption that prevents
-contact:
+The denominator has two poles, at $\theta = -1$ and $\theta = -2$.
+The numerator carries a $(\Delta - 2R)^{\theta+2}$ term that goes to
+zero (above the 2D pole) or blows up (below it) as the two states
+touch, $\Delta \to 2R$. Head and Mayer noticed. They wrote down a
+preemptive assumption:
 \begin{quote}
 ``To prevent states from overlapping (which is the usual case), we
 assume $\Delta \geq 2R$.''
 \end{quote}
-The assumption is correct as an avoidance strategy. It is also a
-load-bearing structural restriction in the derivation: at the
-contact set $\Delta = 2R$, the closed form's behavior depends on the
-sign of $\theta + 2$, which is itself the dimension above the pole.
+The assumption is correct as an avoidance move. It is also doing
+load-bearing work in the derivation. At $\Delta = 2R$ the formula's
+behavior flips on the sign of $\theta + 2$, which is the same
+quantity that controls the 2D divergence one section up.
 
 The intra-national 2D pole and the bilateral 1D contact-set behavior
-are the same mathematical phenomenon. The integrand $r^\theta$ is
-singular at $r = 0$, and the question is whether the region of
-integration includes a neighborhood of $r = 0$ on which $r^\theta$
-fails to be integrable. For the intra-national case the answer is
-always yes; for the bilateral case the answer is yes only when the
-states touch.
+are the same phenomenon. The integrand $r^\theta$ is singular at
+$r = 0$. The question both cases ask is whether the region of
+integration contains a neighborhood of $r = 0$ on which $r^\theta$
+fails to be integrable. For the intra-national object it always
+does. For the bilateral object it does only when the states touch.
+Head and Mayer avoided the 1D contact case by assumption; the 2D
+case they did not avoid, but they did not push $\theta$ past
+$-1.5$ in their numerical tables either, so the 2D version of the
+problem stayed out of sight.
 
 % =============================================================================
 \section{The 2D integral divergence theorem}
@@ -451,51 +456,49 @@ range.
 \end{proof}
 
 \begin{remark}[Dimension dependence]
-In dimension $d$, the small-$r$ density of pairwise distances scales as
-$r^{d - 1}$, so the integral
-$\int r^\theta \cdot r^{d - 1}\, dr$
-converges at the origin if and only if $\theta + d - 1 > -1$, i.e.,
-$\theta > -d$. For $d = 1$ the cutoff is $\theta > -1$; for $d = 2$
-it is $\theta > -2$; for $d = 3$ it is $\theta > -3$. The Head-Mayer
-formula is the 2D case. Head and Mayer's (2002) 1D derivation has
-the same structure with the corresponding 1D cutoff $\theta > -1$,
-which is exactly the cutoff that creates the removable singularity
-they evaluated around (at $\theta = -1.0001$, not $\theta = -1$).
+The cutoff is dimension-dependent. In $d$ dimensions, the small-$r$
+density of pairwise distances scales as $r^{d-1}$, so the integral
+$\int r^\theta \cdot r^{d-1}\, dr$ converges at the origin if and
+only if $\theta > -d$. The Head-Mayer formula is the 2D case, so
+the cutoff is $\theta > -2$. The 1D version of the same formula,
+which Head and Mayer also derive for the bilateral case, has cutoff
+$\theta > -1$; that is the threshold whose removable singularity
+Head and Mayer step around in their numerical tables by writing
+$\theta = -1.0001$ instead of $\theta = -1$. The 2D pole at
+$\theta = -2$ is the same phenomenon at one dimension up. They saw
+the 1D version. They did not push the 2D version to its analog.
 \end{remark}
 
 \begin{remark}[The reduced-form $\theta = -1$ as a stopping value]
-The 2D integral diverges for $\theta \leq -2$ and the 1D integral
-diverges for $\theta \leq -1$. CEPII's $\theta = -1$ is the
-$\epsilon$-above-1D-divergence value, evaluated through the 2D
-formula as a finite analytical object. The Mayer-Zignago (2011)
-parameter choice is therefore the safe value above two different
-divergence thresholds in two different ambient dimensions, and the
-2D formula's evaluation at $\theta = -1$ gives the harmonic-mean
-radial coordinate, a perfectly defensible geometric statistic
-disconnected from the structural CES integration parameter at
-gravity-consistent $\sigma$.
+The 2D integral diverges at $\theta \leq -2$; the 1D integral
+diverges at $\theta \leq -1$. CEPII's choice of $\theta = -1$ sits
+one $\epsilon$ above the 1D divergence threshold, evaluated through
+a 2D formula that happens to remain finite at the same point. The
+choice is safe in both dimensions, which may be why it has held up.
+What it is not is the structural CES integration parameter at
+gravity-consistent $\sigma$. The two are different objects, and the
+formula evaluated at $\theta = -1$ does not bridge them.
 \end{remark}
 
 % =============================================================================
 \section{The implied $\dii$ as a regularization-dependent quantity}
 \label{sec:regularization}
 
-\textbf{[STATUS: figure and numbers from nb19c regularization sweep on
-uniform disk; data files at \texttt{regularization\_dmin\_cutoff.csv}.]}
+If the integral diverges, what does an analyst who wants a number
+actually do? Discretize. Sample atoms in the region, sum their
+pairwise distances, take the $\theta$-mean. The sum is finite for any
+finite sample. The trouble is that the finite sample's answer
+depends on how finely it was drawn.
 
-Replacing the closed-form expression with a numerical evaluation of the
-integral on a discretized region requires a finite spatial grain. Let
-$d_{\min}$ be the smallest pairwise distance retained in the
-discretization. On a uniform disk of radius $R$, the 2D-integral-based
-$\dii(\theta)$ at structurally consistent $\theta$ is sharply linear in
-$d_{\min}$, with slope that flattens as $|\theta|$ grows.
-
-The empirical content of Theorem~\ref{thm:divergence} is that there is
-no $d_{\min}$-independent value of $\dii$ at $\theta \leq -2$. Any
-specific number reported by CEPII, by WorldPop-based recomputations,
-by GHS-POP-based recomputations, or by the original Mayer-Zignago
-city-subsample calculation, is a regularization choice indexed by the
-spatial resolution of the underlying density data.
+Write $d_{\min}$ for the smallest pairwise distance retained in the
+discretization. On a uniform disk of radius $R$, the empirical
+$\dii(\theta)$ at structurally consistent $\theta$ scales as a
+$d_{\min}$-power with exponent $(\theta+2)/\theta$, going to zero as
+$d_{\min} \to 0$. There is no fixed point. Whatever number CEPII
+prints, whatever number the JRC's GHS-POP raster prints at 1\,km, and
+whatever number a WorldPop-100\,m recomputation prints, they are
+three points on the same curve. They do not converge to a structural
+$\dii$. They cannot. The structural $\dii$ is not a number.
 
 \begin{figure}[!ht]
 \centering
@@ -708,21 +711,30 @@ I compare two baseline specifications and a regularization sweep:
   side.
 \end{description}
 
-For completeness I also report a cross-sectional log-OLS specification
-(year 2010 alone, with country origin and destination fixed effects,
-positive-trade rows only), which is the conventional border-puzzle
-regression. The log-OLS results are reported in
-Section~\ref{sec:robustness} as a robustness check on the panel PPML.
-A subtle methodological caveat for log-OLS: the
-\texttt{statsmodels.api.OLS} interface does not automatically drop
-perfectly collinear columns and falls back to the Moore-Penrose
-pseudo-inverse, which corrupts coefficients when log-GDP regressors
-are included alongside country fixed effects in a single-year
-cross-section (the GDP terms are perfectly collinear with the FE
-structure). The formula API (\texttt{statsmodels.formula.api.smf.ols},
-Patsy-backed) handles the collinearity correctly. This is a real and
-reproducible empirical-methodology pitfall that I document in the
-replication code and in the companion teaching guide.
+I also run the conventional cross-sectional log-OLS specification
+(year 2010 alone, country origin and destination FE, positive-trade
+rows only) and report it in §\ref{sec:robustness}. It is the
+border-puzzle regression in its McCallum-Anderson-van Wincoop form,
+and it is the right comparison case: if the regularization
+sensitivity only shows up in panel PPML, the result would be a PPML
+artifact. It does not. The cross-section OLS shows the same pattern.
+
+One methodological note that surprised me enough to belong in the
+text. \texttt{statsmodels.api.OLS} does not automatically drop
+perfectly collinear columns. It falls back to the Moore-Penrose
+pseudo-inverse, which produces an answer, and the answer is wrong in
+ways that propagate to the home coefficient. If you put log-GDP
+regressors next to country fixed effects in a single-year cross-section,
+the GDP terms are perfectly collinear with the FE structure, the
+pseudo-inverse silently absorbs them, and the home coefficient is
+not what it would have been from the same regression without the
+GDP terms. The formula API
+(\texttt{statsmodels.formula.api.smf.ols}, Patsy-backed) detects the
+collinearity and drops the redundant columns. The two interfaces
+give materially different home coefficients on the same data. This
+is presumably documented somewhere but I have not found it; I
+document it in the replication code and in the companion teaching
+guide because I wasted enough time on it to think other people might.
 
 \subsection{Panel PPML results}
 
@@ -922,79 +934,80 @@ the grain.
 
 \subsection{What this means for applied gravity practice}
 
-Two operational implications follow.
+Two things follow for the applied side. The first is about
+satellite-distance constructions like the companion
+\citet{gonchar_helfrich_2026} panel. Replacing CEPII's static
+\texttt{distw\_harmonic} with a finer-resolution alternative does
+not fix the structural problem. It picks a different point on the
+$d_{\min}$ curve. The companion paper's contribution is the panel
+data product, which is real and useful; the structural critique
+here is the methodological scaffolding that says the panel should
+be reported with its spatial-resolution choice attached, and the
+multiplier it produces should be read as conditional on that choice.
 
-First, replacing CEPII's static \texttt{distw\_harmonic} with a
-satellite-calibrated time-varying alternative (the contribution of
-\citealt{gonchar_helfrich_2026}) does not resolve the underlying
-structural inconsistency. It substitutes one regularization choice
-for another. The structurally consistent procedure is to acknowledge
-that $\dii$ is not a well-defined object at gravity-consistent $\sigma$
-and to estimate the model in a way that does not pin $\dii$ to a
-single number.
-
-Second, the convention of reporting border-puzzle multipliers as
-structural objects, rather than as conditional on a specific
-regularization, has misrepresented the literature's empirical content.
-A border-puzzle multiplier of $10\times$ at $d_{\min} = 100$~km and
-$5\times$ at $d_{\min} = 10$~km are not contradictory results: they
-are the same regression conditional on different regularization
-choices. The literature has been comparing apples to oranges.
+The second is about how the literature has talked about the border
+puzzle. A multiplier of $10\times$ at $d_{\min} = 100$ km and
+$5\times$ at $d_{\min} = 10$ km are not different findings about
+the world. They are the same regression at different measurement
+resolutions. The literature has been comparing apples to apples
+because everyone uses CEPII, and the apples have happened to be
+about $\sim 100$ km in size. Pick a finer or coarser apple and the
+puzzle moves with you.
 
 \subsection{Implications for the broader structural-gravity literature}
 \label{sec:structural-implications}
 
-The structural-gravity literature divides into traditions that
-construct $d_{ii}$ from country geometry (the CEPII tradition, the
-Gonchar-Helfrich satellite-distance project, any
-WorldPop-or-GHS-POP-based intra-national distance) and traditions that
-avoid the spatial construction entirely. The structural critique in
-this paper applies to the first class. The second class preempts the
-issue, each in its own way.
+The critique is narrower than it looks. Not every structural-gravity
+paper constructs $\dii$ from country geometry, and the ones that do
+not are immune. The line worth drawing is between traditions that
+take an integral over a country and traditions that side-step the
+integral.
 
-\citet{eaton_kortum_2002} normalize $d_{ii} = 1$ by assumption,
-treating the intra-national trade cost as the unit of measurement
-against which all bilateral trade costs are scaled. In their notation,
-$\theta$ is the Fr\'echet productivity-shape parameter and is strictly
-positive ($\theta > \sigma - 1 > 0$), so the symbol overload with the
-CES integration parameter is mechanical, not structural. The
-divergence-at-$\theta=-2$ pathology does not arise because there is no
-spatial integration over country geometry.
+\citet{eaton_kortum_2002} normalize $\dii = 1$ by assumption. The
+intra-national trade cost is the unit against which everything else
+gets scaled, and there is no spatial integration to diverge. EK use
+$\theta$ for the Fréchet productivity-shape parameter, which is
+strictly positive; the symbol-overload with the (negative) CES
+integration parameter is mechanical, not structural.
 
-\citet{caliendo_parro_2015} estimate trade elasticities sector by
-sector via a tetrad estimator (the cross-product of bilateral flows)
-that cancels distance, language, and contiguity from the identifying
-variation. Domestic sales are constructed as gross production minus
-exports, a residual that does not invoke any geometric distance.
-Sector-by-sector $\theta$ estimates from \citet{caliendo_parro_2015}
-fall in $[4, 10]$, consistent with the structural range invoked here,
-but their identification does not pass through $\dii$.
+\citet{caliendo_parro_2015} use a tetrad estimator that cancels
+distance, language and contiguity from the identifying variation;
+they estimate sectoral trade elasticities from asymmetric tariff
+shocks. Their domestic-sales construction is a residual (gross
+production minus exports) and never touches a geometric distance.
+Their sectoral $\theta$ estimates land in $[4, 10]$, exactly the
+structural range I invoke, but their identification does not pass
+through $\dii$ at any point.
 
 \citet{costinot_donaldson_komunjer_2012} identify $\theta$ off
-cross-industry productivity dispersion, absorbing all bilateral trade
-costs in importer-exporter fixed effects. Their headline $\hat{\theta}
-= 6.53$ is in the structural range; their estimation strategy avoids
-any direct use of intra-national distance.
+cross-industry productivity dispersion with importer-exporter fixed
+effects absorbing all bilateral trade costs. Their headline
+$\hat\theta = 6.53$ is structurally in the range; their estimation
+strategy avoids $\dii$ entirely.
 
-The three structural-gravity traditions that side-step $d_{ii}$
-construction therefore preempt the critique. The critique applies
-specifically to the Head-Mayer-CEPII tradition, which is the dominant
-applied-gravity workhorse and the only tradition that constructs the
-intra-national distance from a CES spatial integral.
+So the structural-gravity literature has three traditions that
+preempt the critique by not constructing the divergent object in
+the first place. The critique applies specifically to the
+Head-Mayer-CEPII tradition, which is the dominant applied-gravity
+workhorse and the only tradition that builds $\dii$ from a CES
+spatial integral. The applied side has been running on the one
+construction that has the structural problem, and the structural
+side has avoided it. That is worth saying clearly.
 
 \subsection{Implications for the Anderson-van Wincoop multilateral-resistance system}
 
-The \citet{anderson_vanwincoop_2003} solution to the border puzzle
-splits the McCallum multiplier into a structural part (the multilateral
-resistance terms $\Pi_i$ and $P_j$) and a residual that they attribute
-to the border. Their decomposition uses CEPII-style intra-national
-distance as an input to the MR system; the implied border effect
-inherits the same regularization sensitivity as the underlying
-$\dii$. A re-estimation of the Anderson-van Wincoop system with
-explicit regularization-grain documentation, and with the structurally
-consistent $\theta = \delta(1-\sigma)$ where the integral is divergent,
-is a natural follow-up. I suspect the Anderson-van Wincoop $5\times$
-multiplier is similarly regularization-conditional.
+Anderson and van Wincoop's (2003) resolution of the border puzzle is
+the most-cited number in the literature: McCallum's $22\times$
+shrinks to about $5\times$ once the multilateral resistance terms
+$\Pi_i$ and $P_j$ are accounted for. Their decomposition uses a
+CEPII-style $\dii$ as an input to the MR system. The output
+multiplier inherits whatever sensitivity is in the input. I have not
+re-estimated AvW under the regularization sweep here, but the
+prediction is that their $5\times$ moves with $d_{\min}$ in the same
+direction the home dummy does. If it does, the AvW resolution will
+turn out to be partly the literature talking itself into a smaller
+number using a measurement choice that did not get separately
+labeled. That is the next paper.
 
 % =============================================================================
 \section{Limitations and future work}
@@ -1006,95 +1019,100 @@ points to.
 
 \subsection{Limitations}
 
-\textbf{First, the empirical demonstration is on the Wei (1996)
-intra-national flow proxy.} The Wei proxy treats GDP minus exports as
-intra-national trade and is well-known to be noisy: it conflates
-services, government spending, and non-traded production with
-intra-national trade in goods. The modern Yotov-Piermartini-Monteiro-Larch
-(2016) ``trade for production'' proxy uses sectoral GDP and is the
-empirical gold standard. The structural critique here applies under
-either proxy; the magnitudes of the home coefficient may shift modestly
-under the YPMM proxy. Adapting the regularization sweep to
-sectoral data is a clean robustness extension and is in scope for a
-follow-up paper.
+The empirical demonstration uses the Wei (1996) intra-national flow
+proxy, which is well-known to be noisy. It treats GDP minus exports
+as intra-national trade and is rough on services, on government
+spending, and on non-traded production. The modern alternative is
+the Yotov-Piermartini-Monteiro-Larch (2016) ``trade for production''
+construction from sectoral GDP. The structural critique survives
+under either proxy because it is about the right-hand-side
+distance, not the left-hand-side flow. The magnitudes of the home
+coefficient may shift modestly under YPMM. Running the sweep on
+sectoral data is a clean extension and the obvious next step.
 
-\textbf{Second, the paper's empirical claim is sensitive to the iceberg-cost
-exponent $\delta$.} I take $\delta = 1$ throughout, which is the
-standard structural-gravity assumption. If empirical evidence points
-to $\delta < 1$ (e.g., \citealt{hummels_2007} freight-cost meta-evidence
-suggests freight elasticities of $\sim 0.2$-$0.4$), then the
-structurally consistent $\theta = \delta(1-\sigma)$ can fall in
-$[-2, 0]$ rather than $[-7, -3]$, above the pole. The structural
-critique is conditional on $\delta = 1$. Under $\delta < 1$, the
-divergence is averted and the structural and reduced-form $\theta$
-can be reconciled with a small change in the iceberg-cost
-specification. The paper should be read as: \emph{either} the
-structural critique applies (under $\delta = 1$) \emph{or} the
-literature must commit to $\delta \ll 1$. Both choices have
-consequences that the literature has not been explicit about.
+The structural critique depends on the iceberg-cost exponent
+$\delta$. I take $\delta = 1$ throughout, which is the standard
+gravity assumption. If you take Hummels (2007)'s freight-cost
+meta-evidence seriously, the freight elasticity is more like
+$0.2$-$0.4$, which would put $\delta$ below 1 and the structural
+$\theta = \delta(1-\sigma)$ above the pole. The pole would not bite.
+The paper should be read as: either the structural critique applies
+(under $\delta = 1$), or the literature must commit to
+$\delta \ll 1$ explicitly. Both are choices. The literature has been
+quiet about which.
 
-\textbf{Third, the empirical sample is three years.} I use 2010, 2015,
-and 2020 as a triennial cross-section for the panel PPML. A full
-annual panel (2000-2022) would be standard for a published gravity
-paper and is the next computational step. I expect the qualitative
-finding to survive but the standard errors to shrink considerably.
+The empirical sample is three years (2010, 2015, 2020). That is a
+triennial cross-section. A real annual panel (2000-2022, ideally
+with the BACI HS6 sectoral breakdown) is the next computational
+step. I expect the qualitative finding to survive and the standard
+errors to shrink.
 
-\textbf{Fourth, the regularization sweep uses a uniform-disk
-approximation for the country geometry.} Real countries have
-irregular shape, non-uniform population density, and internal
-heterogeneity. The implied $\dii^{\eff}(\theta, d_{\min})$ on a real
-country polygon differs from the uniform-disk simulation by
-country-specific factors. The scaling exponent $\alpha(\theta)
-= (\theta+2)/\theta$ is dimension-dependent (2D) but does not depend
-on the specific shape; the qualitative pattern survives. Quantitative
-extension to real polygons via the Gonchar-Helfrich satellite-distance
-panel is the obvious follow-up.
+The regularization sweep uses a uniform-disk approximation for the
+country geometry. Real countries are irregular, have non-uniform
+population density, contain internal water bodies, and so on. The
+country-by-country regularization curve will differ from the
+uniform-disk curve. The scaling exponent $\alpha(\theta) = (\theta+2)/\theta$
+is a dimension-dependent property and survives shape change. The
+levels will move. Doing the sweep on real country polygons via the
+Gonchar-Helfrich satellite-distance panel is the natural quantitative
+extension.
 
-\textbf{Fifth, the cross-section log-OLS robustness check has small
-intra samples} ($n_{\text{intra}} \in [6, 10]$ across the three years).
-The panel PPML preempts this concern by stacking years and absorbing
-multilateral resistance; the log-OLS results are reported as a
-robustness check, not as the primary empirical foundation.
+The cross-section log-OLS robustness check has small intra samples
+($n_{\text{intra}}$ between 6 and 10 across the three years). I
+treat this as a real limitation of that estimator on the year-by-year
+data, and lead with the panel PPML, which stacks the three years
+against 653 intra rows and absorbs the multilateral-resistance
+system. A Mayer-style referee will reasonably press on the
+cross-section's small $n$, and I want the panel PPML to be the
+answer when they do.
 
-\textbf{Sixth, the structural critique is theoretical; the empirical
-demonstration is one estimator family.} I show the home coefficient is
-regularization-sensitive in log-OLS and in PPML, both as cross-section
-and panel. The structural critique applies regardless of estimator
-(the integral diverges as a mathematical fact). A definitive
-demonstration that the regularization sensitivity propagates into
-welfare counterfactuals (e.g., Caliendo-Parro 2015 exact-hat
-methodology) is a natural follow-up.
+Finally, the structural critique is theoretical. The empirical
+demonstration is one estimator family (log-OLS and PPML, two
+conditional means of the same kind of regression). The integral
+diverges as a mathematical fact, so the critique survives any
+estimator that uses $\log \dii$ or $\dii$ on its right-hand side.
+Showing that the regularization sensitivity propagates into welfare
+counterfactuals (e.g., Caliendo-Parro 2015 exact-hat numbers for a
+trade-policy change) is the obvious next paper. I do not run it
+here.
 
 \subsection{Future work}
 
-\textbf{Paper 5b (concept):} Regularization-aware structural
-estimation. Develop an estimator that takes $d_{\min}$ as an explicit
-input parameter and returns conditional structural estimates. The
-analyst would then report results as a function of $d_{\min}$, not as
-a single number. This is the constructive proposal that follows from
-the diagnosis in Paper 5a.
+The diagnosis points at four things to do next, and the companion
+satellite-distance project provides the machinery for them.
 
-\textbf{Paper 5c (concept):} Welfare counterfactuals when $\dii$ does
-not exist as a fixed object. Apply the Caliendo-Parro exact-hat
-methodology to a regularization-sensitive intra-national distance and
-quantify how much the implied welfare effects of a trade-policy change
-depend on the regularization. The structural critique becomes operational
-at the policy-counterfactual level.
+The cleanest follow-up is a regularization-aware structural
+estimator, the constructive version of this paper's diagnosis. An
+estimator that takes $d_{\min}$ as an explicit input and returns
+conditional estimates would let analysts report a curve instead of
+a single number, with the curve's slope itself being a quantity of
+interest. Paper 5b, in concept.
 
-\textbf{Paper 5d (concept):} An honest re-estimation of the
-Anderson-van Wincoop multilateral-resistance system with explicit
-regularization-grain documentation and structurally consistent
-$\theta$. The conjecture: the AvW $5\times$ multiplier shrinks
-materially when $\dii$ is taken seriously, possibly below $1\times$
-at fine spatial resolution.
+The next is the welfare-counterfactual extension. Caliendo and
+Parro's (2015) exact-hat methodology computes the welfare effects
+of a trade-policy change by taking ratios of gravity-implied trade
+shares before and after. If the underlying $\dii$ is
+regularization-conditional, so are the welfare numbers. Quantifying
+how much depends on putting the regularization sweep through the
+Caliendo-Parro machinery on a real policy counterfactual (the 2021
+Suez closure, Brexit, the 2018-19 US-China tariffs). The structural
+critique becomes a policy claim at this point.
 
-\textbf{The Gonchar-Helfrich satellite-distance panel} (in flight,
-target Journal of International Economics) provides the empirical
-machinery for these extensions. The companion paper documents the
-satellite-calibrated bilateral distance variants 2000-2024 using
-WorldPop, VIIRS, and OpenStreetMap; Paper 5a's structural critique
-is the methodological scaffolding that makes the satellite-distance
-project's reporting honest about its regularization choices.
+Third is the Anderson-van Wincoop re-estimation flagged in
+§\ref{sec:implications}. Their multilateral-resistance system is
+the workhorse, and it inherits the input. I conjecture the
+$5\times$ multiplier shrinks materially when $\dii$ is taken
+seriously and may go below $1\times$ at fine spatial resolution.
+Verifying or falsifying the conjecture is one PPML run away.
+
+The Gonchar-Helfrich satellite-distance panel, in flight and
+targeting the Journal of International Economics, provides the
+infrastructure for all three. The companion paper builds the
+bilateral effective-distance variants for 2000-2024 from WorldPop,
+VIIRS, and OpenStreetMap; this paper supplies the methodological
+language the companion panel needs to be reported honestly. The
+two together are the diagnosis and the empirical machine for the
+constructive program.
 
 % =============================================================================
 \section{Conclusion}
