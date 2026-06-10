@@ -72,24 +72,31 @@ All errors are my own.}}
 % =============================================================================
 \begin{abstract}
 \noindent
-The intra-national distance number that every applied gravity paper has
-used since 2005 comes from the Head-Mayer (2002) closed form
+The intra-national distance number that applied gravity papers take
+from CEPII's GeoDist database comes from the Head-Mayer (2002) closed form
 $\dii = (2/(\theta+2))^{1/\theta} R$. The formula has a pole at
 $\theta = -2$ and is complex-valued below it. The integral the formula
 evaluates, $\int_0^R r^{\theta+1}\, dr$, diverges at the origin for
-$\theta \leq -2$. CEPII's GeoDist database uses $\theta = -1$, one unit
+$\theta \leq -2$. CEPII evaluates the formula at $\theta = -1$, one unit
 above the pole, and explains the choice as ``the usual coefficient
 estimated from gravity models'' \citep{mayer_zignago_2011}. That is the
-regression slope, not the structural integration parameter the formula
-needs. The two are the same letter and different quantities.
+reduced-form regression slope. Within the model the slope consistently
+estimates the composite $\delta(1-\sigma)$, so the choice is best read
+as an implicit calibration of the iceberg-cost exponent: $\theta = -1$
+with $\sigma \in [4,8]$ commits the user to $\delta$ between $0.14$
+and $0.33$, far below the textbook $\delta = 1$. No GeoDist
+documentation states that commitment.
 
-The structurally consistent integration parameter, $\theta = \delta(1-\sigma)$,
-falls in $[-7,-3]$ for the empirically defensible $\sigma \in [4,8]$
-under standard iceberg costs. The whole structural range sits below the
-pole. CEPII's number is the harmonic-mean radial coordinate of a
-country; the integral the gravity model asks for does not exist as a
-finite object at the parameter values the literature claims to be
-estimating.
+Either of two positions rescues the formula, and the literature has
+never chosen between them. Adopt $\delta \ll 1$ explicitly, a position
+the freight-cost evidence can support but no gravity documentation
+currently states. Or keep the textbook calibration $\delta = 1$, where
+$\theta = 1-\sigma$ falls in $[-7,-3]$ for $\sigma \in [4,8]$, the
+whole range sits below the pole, and the integral the formula
+evaluates does not exist as a finite object. CEPII's number is the
+harmonic-mean radial coordinate of a country, a well-defined geometric
+object either way. What it is not, at the textbook calibration, is the
+moment the model asks for.
 
 I show the consequence runs all the way through. On a uniform-disk
 simulation, the implied $\dii$ at $\theta = -5$ ranges from $6$ km
@@ -150,8 +157,8 @@ related but not equal. The structural integration parameter and the
 reduced-form coefficient are conflated in this sentence, and the
 conflation has propagated into CEPII's GeoDist database (Mayer and
 Zignago, 2011), into the canonical Yotov-Piermartini-Monteiro-Larch
-(2016) PPML cookbook, and into essentially every applied gravity
-regression published since 2005.
+(2016) PPML cookbook, and into applied work wherever intra-national
+flows enter the regression.
 
 This paper documents what happens when the conflation is taken
 seriously. The closed-form expression~\eqref{eq:hm-closed-form} has a
@@ -181,8 +188,8 @@ choice explicit: ``we retain the symbol to emphasize the similarity in
 resulting terms.'' Same letter, oppositely-signed quantity.
 
 CEPII's \texttt{distw\_harmonic} variable, used as the intra-national
-distance in essentially every applied gravity regression published
-since 2005, evaluates equation~\eqref{eq:hm-closed-form} at $\theta = -1$.
+distance in effectively all applied work that includes domestic trade
+flows, evaluates equation~\eqref{eq:hm-closed-form} at $\theta = -1$.
 Mayer and Zignago (2011) state the choice plainly on page~7 of their
 CEPII Working Paper: ``The \texttt{distwces} calculation sets $\theta$
 equal to $-1$, which corresponds to the usual coefficient estimated
@@ -332,13 +339,19 @@ integral is not finite, so there is no real number to interpret.
 \subsection{The pole at $\theta = -2$ and the complex-valued regime}
 \label{sec:pole}
 
-The closed form has two singular points. At $\theta = -1$, the
-factor $2/(\theta + 2)$ equals $2$ and the exponent $1/\theta$ is
-$-1$, so the limit is just $\dii = R/2$. That is the harmonic mean
-of the radial coordinate on the disk. It is finite, defensible,
+The closed form has two singular points, and neither sits at
+$\theta = -1$. At $\theta = 0$ the exponent $1/\theta$ is undefined;
+the limit exists and equals the geometric mean,
+$\dii \to R\, e^{-1/2} \approx 0.607\, R$, so that singularity is
+removable. At $\theta = -1$ the formula needs no limit at all: direct
+evaluation gives $(2/1)^{-1} R = R/2$, the harmonic mean of the
+radial coordinate on the disk. It is finite, defensible,
 geometrically meaningful, and the value CEPII evaluates the formula
-at. It is also, as we will see, the only structurally-troubled
-$\theta$ at which the formula returns a clean real number.
+at. The bilateral one-dimensional formula of
+Section~\ref{sec:bilateral-contact} does carry singularities at
+$\theta = -1$ and $\theta = -2$, and the two formulas are easy to
+conflate on this point; the two-dimensional point-producer form is
+regular at $\theta = -1$.
 
 At $\theta = -2$ the formula has a true pole. The factor
 $2/(\theta + 2)$ blows up, and the limit
@@ -362,9 +375,10 @@ $\theta$ & $\dii(\theta)$ (km) & Status \\
 $+1$ & $666.7$ & Arithmetic mean ($2R/3$) \\
 $-0.5$ & $562.5$ & Finite \\
 $-1$ & $500.0$ & Harmonic mean (CEPII evaluation point) \\
-$-1.5$ & $384.9$ & Finite, last value tabulated by Head and Mayer (2002) \\
-$-1.9$ & $93.6$ & Approaching the pole \\
-$-1.99$ & $9.5$ & Numerically near-zero \\
+$0$ & $606.5$ & Geometric mean (removable limit, $R e^{-1/2}$) \\
+$-1.5$ & $396.9$ & Finite, last value tabulated by Head and Mayer (2002) \\
+$-1.9$ & $206.7$ & Approaching the pole \\
+$-1.99$ & $69.8$ & Approaching the pole ($\dii \sim R\sqrt{(\theta+2)/2}$) \\
 $-2.0$ & --- & Pole \\
 $-2.01$ & complex & Complex-valued, principal branch \\
 $-3$ & complex & Complex-valued ($(\sigma = 4, \delta = 1)$) \\
@@ -512,7 +526,7 @@ $d_{\min} = 500$ km it is roughly $640$ km, a two-order-of-magnitude
 range determined entirely by the regularization choice rather than
 by the country geometry. Source: notebook
 \texttt{19c\_regularization\_sensitivity.py}, uniform-disk Monte Carlo
-with $5$ seeds and $5000$ atoms per draw.}
+with $3$ seeds and $10{,}000$ atoms per draw.}
 \label{fig:regularization-curve}
 \end{figure}
 
@@ -623,10 +637,13 @@ $\hat\gamma_{\text{baseline}} \approx -5.64$:
     raw prediction (before the home dummy) is roughly
     $e^{4.9} \approx 134$ times larger. The home dummy has to move
     down by $\sim 4.9$ log units to bring the prediction back to the
-    observed \$13.1T. The empirical sweep recovers exactly that:
-    $\hat\gamma$ at $\theta = -5, d_{\min} = 0.5$ km is $-9.21$, which
-    is $-5.64 - 3.57 \approx -9.21$, within rounding of the back-of-envelope
-    expectation.
+    observed \$13.1T. The empirical sweep moves in that direction,
+    though not the full distance: $\hat\gamma$ at $\theta = -5$,
+    $d_{\min} = 0.5$ km is $-9.21 = -5.64 - 3.57$. The realized shift
+    of $3.57$ log units against the back-of-envelope $4.9$ reflects
+    that the envelope holds everything else fixed, while the
+    regression re-equilibrates the distance coefficient and the fixed
+    effects across all three years.
 \end{itemize}
 
 The 3.6-log-unit shift in $\hat\gamma$ is mechanical. The model needs
@@ -804,7 +821,7 @@ The pattern is sharp and robust. Going from the CEPII baseline
 structurally consistent $\theta = -7$ at fine spatial resolution
 ($d_{\min} = 0.5$~km), the home coefficient shifts from $-5.64$ to
 $-9.45$, a $3.81$ log-unit decline. The corresponding PPML
-multiplier moves from $0.0036$ to $0.00008$, a factor-of-44 reduction.
+multiplier moves from $0.0036$ to $0.00008$, a factor-of-45 reduction.
 The slope of $\hat{\gamma}$ with respect to $\log d_{\min}$ is steeper
 for more negative $\theta$, consistent with the dimension-dependent
 scaling exponent $\alpha(\theta) = (\theta + 2)/\theta$ that the 2D

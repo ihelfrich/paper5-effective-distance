@@ -19,6 +19,50 @@ GH_REPO_INIT_PLAN.md and SESSION_NOTES_2026-05-20.md.
 - LICENSE (MIT), DATA_LICENSE.md (CC-BY-4.0 for derived data), and
   CITATION.cff added 2026-06-09.
 
+## Revision round 2026-06-10 (referee-grade hardening pass)
+
+Three independent review agents (math verification, reproducibility
+trace, hostile referee) audited the manuscript. Applied the same day:
+
+- Fixed three wrong Table 1 values (theta = -1.5: 396.9 not 384.9;
+  -1.9: 206.7 not 93.6; -1.99: 69.8 not 9.5; all re-verified
+  numerically) and added the theta = 0 geometric-mean row.
+- Corrected the singular-point discussion: the 2D form is regular at
+  theta = -1; the removable point is theta = 0 (limit R e^{-1/2}). The
+  1D bilateral formula carries the theta = -1 singularity.
+- Reframed the abstract around the calibration dichotomy (either commit
+  to delta << 1 explicitly, or the textbook delta = 1 puts theta below
+  the pole). This defuses the strongest referee objection, that the
+  reduced-form slope consistently estimates delta(1-sigma) so the
+  "conflation" reading collapses into an undocumented-calibration
+  reading. The dichotomy was already conceded in the limitations
+  section; it now leads.
+- Fixed scope overreach ("every applied gravity paper since 2005"),
+  factor-of-44 (correct: 45), the Fig 1 caption (3 seeds, 10,000
+  atoms), and the false "within rounding" claim (3.57 vs 4.9 is a 27
+  percent gap, now stated honestly).
+- Added replication/ with the five results CSVs (previously only on the
+  external drive) and REPLICATION.md mapping every table and figure to
+  its script and output.
+
+Still open before JOURNAL submission (not blockers for SSRN):
+
+1. Re-run 18f with usable clustered SEs and add them to the panel
+   tables (saved SE columns are unscaled IRLS artifacts).
+2. Add and distinguish Yotov (2012, Econ Letters), Agnosteva, Anderson
+   and Yotov (2019, EER), Ramondo, Rodriguez-Clare and Saborio-Rodriguez
+   (2016, AER) in the relation-to-literature passage. Citations must go
+   through Zotero; flag any entry not in the library rather than
+   inventing it.
+3. Add the economically-admissible d_min floor paragraph in Section 4
+   (minimum shipment distance, finite agents) and bound the claimed
+   sensitivity range accordingly.
+4. Mirror the abstract's dichotomy framing through Section 1 (the
+   intro still leads with conflation language in places).
+5. Reconcile the Wei-proxy USA number against a regenerated 18f input
+   dump; save an 18f execution log.
+6. Flesh out the one-sentence appendix stubs or cut them.
+
 ## Phase 1: post Paper 5a (target: this week)
 
 Steps only Ian can do, roughly one hour total:
