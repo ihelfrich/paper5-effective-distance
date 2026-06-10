@@ -1,0 +1,68 @@
+/Users/ian/1A_Helfrich_ThesisResearch_May2024/Paper5_EffectiveDistance/notebooks/14_border_effect_pilot.py:66: DtypeWarning: Columns (0: empire) have mixed types. Specify dtype option on import or set low_memory=False.
+  df = pd.read_csv(CEPII_GRAVITY, dtype={"iso3_o": str, "iso3_d": str, "year": int})
+=== Border-effect pilot — year 2010 ===
+
+[1/4] Loading BACI 2010...
+  Loading BACI_HS02_Y2010_V202401b.csv (this may take ~30 seconds)...
+      30,605 bilateral observations
+
+[2/4] Loading CEPII Gravity 2010...
+  Loading CEPII Gravity for 2010...
+      63,504 country-pair rows
+      28,043 BACI rows after ISO3 mapping
+
+[3/4] Inter-national panel: 63,234 obs, 31,150 with positive flows
+
+[4/4] Building intra-national flows (Y_i - exports)...
+      197 intra-national obs
+      Computing country areas...
+      Merged d_ii^eff(θ=-5) for 27/197 countries
+
+======================================================================
+SPEC A (BASELINE): d_ii = 0.67 * sqrt(area/π)  [Head-Mayer closed form]
+
+  Spec A — HM closed form
+    Obs: 24,493 (195 intra-national)
+    log_d         : -1.8653  (se 0.0216)
+    home          : +3.2448  (se 0.2589)
+    Home-bias mult: exp(home) = 25.66x
+    R²            : 0.7316
+
+======================================================================
+SPEC B (TREATMENT): d_ii = d_ii^eff(θ=-5)  [raster-resolution CES measure]
+
+  Spec B — raster d_ii^eff(θ=-5)
+    Obs: 24,493 (195 intra-national)
+    log_d         : -1.7915  (se 0.0250)
+    home          : +2.4696  (se 0.3475)
+    Home-bias mult: exp(home) = 11.82x
+    R²            : 0.7258
+
+======================================================================
+COMPARISON
+  Home-bias log-coef: A=+3.2448  B=+2.4696
+  Δ(home-bias log-coef): -0.7752
+  Home-bias multiplier: A=25.66x  B=11.82x
+  Ratio of multipliers: 0.461
+
+  → The home-bias coefficient shrunk meaningfully under raster d_ii.
+     0.78 log-points reduction = +54% in multiplier terms.
+
+======================================================================
+RESTRICTED COMPARISON (intra sample = countries with d_ii^eff only)
+
+  Spec A restricted — HM closed form
+    Obs: 24,325 (27 intra-national)
+    log_d         : -1.8948  (se 0.0214)
+    home          : +0.3378  (se 0.5583)
+    Home-bias mult: exp(home) = 1.40x
+    R²            : 0.7276
+
+  Spec B restricted — raster d_ii^eff(θ=-5)
+    Obs: 24,325 (27 intra-national)
+    log_d         : -1.8970  (se 0.0213)
+    home          : -9.1358  (se 0.4081)
+    Home-bias mult: exp(home) = 0.00x
+    R²            : 0.7278
+
+  Restricted Δ(home-bias log-coef): -9.4737 on 27 shared intra obs
