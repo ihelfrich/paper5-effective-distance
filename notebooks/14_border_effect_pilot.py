@@ -70,7 +70,16 @@ def load_cepii_gravity(year: int) -> pd.DataFrame:
                  "dist", "distcap", "distw_arithmetic", "distw_harmonic",
                  "contig", "comlang_off", "col_dep_ever", "gatt_o", "gatt_d"]
     keep_cols = [c for c in keep_cols if c in df.columns]
-    return df[keep_cols]
+    df = df[keep_cols].copy()
+    # CEPII Gravity reports GDP in thousands of current USD (USA 2010 is
+    # 1.4964e10 there vs ~1.4964e13 actual dollars). BACI flows get converted
+    # to USD in load_baci_year, so convert GDP to USD too; otherwise the Wei
+    # proxy GDP - exports goes negative for every country with exports above
+    # 0.1% of GDP and the intra-national sample collapses.
+    for c in ("gdp_o", "gdp_d"):
+        if c in df.columns:
+            df[c] = df[c] * 1000.0
+    return df
 
 
 def country_area_km2_from_natural_earth(iso3_codes: list[str]) -> dict[str, float]:
@@ -98,9 +107,13 @@ def assemble_panel(year: int) -> pd.DataFrame:
     cepii = load_cepii_gravity(year)
     print(f"      {len(cepii):,} country-pair rows")
 
-    # Map BACI's iso3num codes to ISO3 letters using CEPII's mapping
-    iso3num_to_iso3 = dict(cepii[["iso3num_o", "iso3_o"]].drop_duplicates().values)
-    iso3num_to_iso3.update(dict(cepii[["iso3num_d", "iso3_d"]].drop_duplicates().values))
+    # Map BACI's iso3num codes to ISO3 letters using CEPII's mapping.
+    # CEPII has NaN iso3num for some territories; NaN keys make the mapper's
+    # index non-unique, so drop them and cast to int to match BACI's codes.
+    _m_o = cepii[["iso3num_o", "iso3_o"]].dropna().drop_duplicates()
+    _m_d = cepii[["iso3num_d", "iso3_d"]].dropna().drop_duplicates()
+    iso3num_to_iso3 = {int(k): v for k, v in _m_o.values}
+    iso3num_to_iso3.update({int(k): v for k, v in _m_d.values})
     baci["iso3_o"] = baci["i"].map(iso3num_to_iso3)
     baci["iso3_d"] = baci["j"].map(iso3num_to_iso3)
     baci = baci.dropna(subset=["iso3_o", "iso3_d"])
@@ -266,6 +279,23 @@ def main():
         else:
             print(f"\n  → No meaningful change in home-bias coefficient.")
             print(f"     Implication: sub-national heterogeneity in d_ii alone doesn't fix the border puzzle.")
+
+    # Restricted comparison: identical intra sample for both specs (only the
+    # countries that actually have a raster measure), so the home-coefficient
+    # difference is driven purely by the d_ii swap, not by sample composition.
+    print("\n" + "="*70)
+    print("RESTRICTED COMPARISON (intra sample = countries with d_ii^eff only)")
+    intra_eff = panel_intra[panel_intra["d_ii_eff_neg5"].notna()].copy()
+    res_A_r = estimate_gravity(panel_inter, intra_eff,
+                               dist_intra_col="d_ii_HM",
+                               label="Spec A restricted — HM closed form")
+    res_B_r = estimate_gravity(panel_inter, intra_eff,
+                               dist_intra_col="d_ii_eff_neg5",
+                               label="Spec B restricted — raster d_ii^eff(θ=-5)")
+    if res_A_r and res_B_r:
+        d_home = res_B_r["coef_home"] - res_A_r["coef_home"]
+        print(f"\n  Restricted Δ(home-bias log-coef): {d_home:+.4f} "
+              f"on {res_A_r['n_intra']} shared intra obs")
 
 
 if __name__ == "__main__":
