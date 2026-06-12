@@ -1,0 +1,57 @@
+======================================================================
+nb21: AvW multilateral-resistance re-estimation (2010, cond. GE)
+======================================================================
+/Users/ian/1A_Helfrich_ThesisResearch_May2024/Paper5_EffectiveDistance/.venv/lib/python3.12/site-packages/pyfixest/estimation/models/fepois_.py:568: UserWarning: 3688 observations removed because of separation.
+  warnings.warn(
+  [CEPII_baseline] beta=-0.8298 gamma=-5.7046(0.8078) N=55,185 (155s)
+    GE home multiplier: median=0.002764 USA=0.002389 CAN=0.005165 (n=197, iters=77)
+/Users/ian/1A_Helfrich_ThesisResearch_May2024/Paper5_EffectiveDistance/.venv/lib/python3.12/site-packages/pyfixest/estimation/models/fepois_.py:568: UserWarning: 3688 observations removed because of separation.
+  warnings.warn(
+  [theta-3.0_dmin0.5] beta=-0.8337 gamma=-8.2107(0.8799) N=55,206 (2s)
+    GE home multiplier: median=0.000183 USA=0.0003703 CAN=0.002269 (n=197, iters=201)
+/Users/ian/1A_Helfrich_ThesisResearch_May2024/Paper5_EffectiveDistance/.venv/lib/python3.12/site-packages/pyfixest/estimation/models/fepois_.py:568: UserWarning: 3688 observations removed because of separation.
+  warnings.warn(
+  [theta-3.0_dmin5.0] beta=-0.8334 gamma=-6.5226(0.8640) N=55,206 (2s)
+    GE home multiplier: median=0.001074 USA=0.001172 CAN=0.003105 (n=197, iters=102)
+/Users/ian/1A_Helfrich_ThesisResearch_May2024/Paper5_EffectiveDistance/.venv/lib/python3.12/site-packages/pyfixest/estimation/models/fepois_.py:568: UserWarning: 3688 observations removed because of separation.
+  warnings.warn(
+  [theta-3.0_dmin50.0] beta=-0.8322 gamma=-5.3856(0.8439) N=55,206 (2s)
+    GE home multiplier: median=0.003953 USA=0.00391 CAN=0.005525 (n=197, iters=72)
+/Users/ian/1A_Helfrich_ThesisResearch_May2024/Paper5_EffectiveDistance/.venv/lib/python3.12/site-packages/pyfixest/estimation/models/fepois_.py:568: UserWarning: 3688 observations removed because of separation.
+  warnings.warn(
+  [theta-3.0_dmin500.0] beta=-0.8304 gamma=-5.2026(0.8549) N=55,206 (2s)
+    GE home multiplier: median=0.004903 USA=0.004826 CAN=0.00559 (n=197, iters=70)
+/Users/ian/1A_Helfrich_ThesisResearch_May2024/Paper5_EffectiveDistance/.venv/lib/python3.12/site-packages/pyfixest/estimation/models/fepois_.py:568: UserWarning: 3688 observations removed because of separation.
+  warnings.warn(
+  [theta-5.0_dmin0.5] beta=-0.8337 gamma=-9.1933(0.8826) N=55,206 (2s)
+    GE home multiplier: median=0.0001003 USA=0.0002687 CAN=0.002101 (n=197, iters=313)
+/Users/ian/1A_Helfrich_ThesisResearch_May2024/Paper5_EffectiveDistance/.venv/lib/python3.12/site-packages/pyfixest/estimation/models/fepois_.py:568: UserWarning: 3688 observations removed because of separation.
+  warnings.warn(
+  [theta-5.0_dmin5.0] beta=-0.8335 gamma=-7.4829(0.8694) N=55,206 (2s)
+    GE home multiplier: median=0.0003848 USA=0.0005102 CAN=0.002243 (n=197, iters=150)
+/Users/ian/1A_Helfrich_ThesisResearch_May2024/Paper5_EffectiveDistance/.venv/lib/python3.12/site-packages/pyfixest/estimation/models/fepois_.py:568: UserWarning: 3688 observations removed because of separation.
+  warnings.warn(
+  [theta-5.0_dmin50.0] beta=-0.8329 gamma=-6.2226(0.8560) N=55,206 (2s)
+    GE home multiplier: median=0.001537 USA=0.001564 CAN=0.00328 (n=197, iters=95)
+/Users/ian/1A_Helfrich_ThesisResearch_May2024/Paper5_EffectiveDistance/.venv/lib/python3.12/site-packages/pyfixest/estimation/models/fepois_.py:568: UserWarning: 3688 observations removed because of separation.
+  warnings.warn(
+  [theta-5.0_dmin500.0] beta=-0.8311 gamma=-5.5352(0.8505) N=55,206 (2s)
+    GE home multiplier: median=0.003394 USA=0.003328 CAN=0.004368 (n=197, iters=81)
+/Users/ian/1A_Helfrich_ThesisResearch_May2024/Paper5_EffectiveDistance/.venv/lib/python3.12/site-packages/pyfixest/estimation/models/fepois_.py:568: UserWarning: 3688 observations removed because of separation.
+  warnings.warn(
+  [theta-7.0_dmin0.5] beta=-0.8337 gamma=-9.4331(0.8834) N=55,206 (2s)
+    GE home multiplier: median=9.225e-05 USA=0.0002555 CAN=0.002082 (n=197, iters=345)
+/Users/ian/1A_Helfrich_ThesisResearch_May2024/Paper5_EffectiveDistance/.venv/lib/python3.12/site-packages/pyfixest/estimation/models/fepois_.py:568: UserWarning: 3688 observations removed because of separation.
+  warnings.warn(
+  [theta-7.0_dmin5.0] beta=-0.8335 gamma=-7.7227(0.8698) N=55,206 (2s)
+    GE home multiplier: median=0.0003073 USA=0.0004334 CAN=0.002121 (n=197, iters=167)
+/Users/ian/1A_Helfrich_ThesisResearch_May2024/Paper5_EffectiveDistance/.venv/lib/python3.12/site-packages/pyfixest/estimation/models/fepois_.py:568: UserWarning: 3688 observations removed because of separation.
+  warnings.warn(
+  [theta-7.0_dmin50.0] beta=-0.8329 gamma=-6.4623(0.8563) N=55,206 (2s)
+    GE home multiplier: median=0.001171 USA=0.001214 CAN=0.002877 (n=197, iters=105)
+/Users/ian/1A_Helfrich_ThesisResearch_May2024/Paper5_EffectiveDistance/.venv/lib/python3.12/site-packages/pyfixest/estimation/models/fepois_.py:568: UserWarning: 3688 observations removed because of separation.
+  warnings.warn(
+  [theta-7.0_dmin500.0] beta=-0.8311 gamma=-5.7743(0.8512) N=55,206 (2s)
+    GE home multiplier: median=0.002608 USA=0.002545 CAN=0.003575 (n=197, iters=90)
+
+Saved replication/data/avw_mr_reestimation.csv

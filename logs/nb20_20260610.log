@@ -1,0 +1,110 @@
+======================================================================
+nb20: panel PPML sweep, CRV1 clustered by country pair
+======================================================================
+[0] 258 country areas
+[1.2010] intra=218 inter=63,234
+[1.2015] intra=210 inter=63,234
+[1.2020] intra=225 inter=63,234
+[check] USA 2010 Wei proxy: $0.01T
+/Users/ian/1A_Helfrich_ThesisResearch_May2024/Paper5_EffectiveDistance/.venv/lib/python3.12/site-packages/pyfixest/estimation/models/fepois_.py:568: UserWarning: 12866 observations removed because of separation.
+  warnings.warn(
+  [A1_panel_baseline_cepii]  N=165,552 intra=584 log_d=-0.8235(0.0226) home=-5.6363(0.8439) ci=[-7.290,-3.982] (24s)
+/Users/ian/1A_Helfrich_ThesisResearch_May2024/Paper5_EffectiveDistance/.venv/lib/python3.12/site-packages/pyfixest/estimation/models/fepois_.py:568: UserWarning: 12866 observations removed because of separation.
+  warnings.warn(
+  [A2_panel_baseline_polygon]  N=165,621 intra=653 log_d=-0.8243(0.0226) home=-5.3548(0.8772) ci=[-7.074,-3.636] (1s)
+/Users/ian/1A_Helfrich_ThesisResearch_May2024/Paper5_EffectiveDistance/.venv/lib/python3.12/site-packages/pyfixest/estimation/models/fepois_.py:568: UserWarning: 12866 observations removed because of separation.
+  warnings.warn(
+  [Bprime_theta-3.0_dmin0.5]  N=165,621 intra=653 log_d=-0.8274(0.0229) home=-8.2331(0.9403) ci=[-10.076,-6.390] (1s)
+/Users/ian/1A_Helfrich_ThesisResearch_May2024/Paper5_EffectiveDistance/.venv/lib/python3.12/site-packages/pyfixest/estimation/models/fepois_.py:568: UserWarning: 12866 observations removed because of separation.
+  warnings.warn(
+  [Bprime_theta-3.0_dmin1.0]  N=165,621 intra=653 log_d=-0.8274(0.0229) home=-7.6751(0.9367) ci=[-9.511,-5.839] (1s)
+/Users/ian/1A_Helfrich_ThesisResearch_May2024/Paper5_EffectiveDistance/.venv/lib/python3.12/site-packages/pyfixest/estimation/models/fepois_.py:568: UserWarning: 12866 observations removed because of separation.
+  warnings.warn(
+  [Bprime_theta-3.0_dmin2.0]  N=165,621 intra=653 log_d=-0.8274(0.0229) home=-7.1370(0.9309) ci=[-8.961,-5.312] (1s)
+/Users/ian/1A_Helfrich_ThesisResearch_May2024/Paper5_EffectiveDistance/.venv/lib/python3.12/site-packages/pyfixest/estimation/models/fepois_.py:568: UserWarning: 12866 observations removed because of separation.
+  warnings.warn(
+  [Bprime_theta-3.0_dmin5.0]  N=165,621 intra=653 log_d=-0.8272(0.0228) home=-6.5274(0.9150) ci=[-8.321,-4.734] (1s)
+/Users/ian/1A_Helfrich_ThesisResearch_May2024/Paper5_EffectiveDistance/.venv/lib/python3.12/site-packages/pyfixest/estimation/models/fepois_.py:568: UserWarning: 12866 observations removed because of separation.
+  warnings.warn(
+  [Bprime_theta-3.0_dmin10.0]  N=165,621 intra=653 log_d=-0.8270(0.0228) home=-6.1023(0.9030) ci=[-7.872,-4.333] (1s)
+/Users/ian/1A_Helfrich_ThesisResearch_May2024/Paper5_EffectiveDistance/.venv/lib/python3.12/site-packages/pyfixest/estimation/models/fepois_.py:568: UserWarning: 12866 observations removed because of separation.
+  warnings.warn(
+  [Bprime_theta-3.0_dmin50.0]  N=165,621 intra=653 log_d=-0.8261(0.0227) home=-5.3547(0.8827) ci=[-7.085,-3.625] (1s)
+/Users/ian/1A_Helfrich_ThesisResearch_May2024/Paper5_EffectiveDistance/.venv/lib/python3.12/site-packages/pyfixest/estimation/models/fepois_.py:568: UserWarning: 12866 observations removed because of separation.
+  warnings.warn(
+  [Bprime_theta-3.0_dmin100.0]  N=165,621 intra=653 log_d=-0.8253(0.0226) home=-5.2154(0.8760) ci=[-6.932,-3.498] (1s)
+/Users/ian/1A_Helfrich_ThesisResearch_May2024/Paper5_EffectiveDistance/.venv/lib/python3.12/site-packages/pyfixest/estimation/models/fepois_.py:568: UserWarning: 12866 observations removed because of separation.
+  warnings.warn(
+  [Bprime_theta-3.0_dmin500.0]  N=165,621 intra=653 log_d=-0.8243(0.0226) home=-5.1116(0.8766) ci=[-6.830,-3.393] (1s)
+/Users/ian/1A_Helfrich_ThesisResearch_May2024/Paper5_EffectiveDistance/.venv/lib/python3.12/site-packages/pyfixest/estimation/models/fepois_.py:568: UserWarning: 12866 observations removed because of separation.
+  warnings.warn(
+  [Bprime_theta-5.0_dmin0.5]  N=165,621 intra=653 log_d=-0.8274(0.0229) home=-9.2083(0.9420) ci=[-11.055,-7.362] (1s)
+/Users/ian/1A_Helfrich_ThesisResearch_May2024/Paper5_EffectiveDistance/.venv/lib/python3.12/site-packages/pyfixest/estimation/models/fepois_.py:568: UserWarning: 12866 observations removed because of separation.
+  warnings.warn(
+  [Bprime_theta-5.0_dmin1.0]  N=165,621 intra=653 log_d=-0.8274(0.0229) home=-8.6503(0.9380) ci=[-10.489,-6.812] (1s)
+/Users/ian/1A_Helfrich_ThesisResearch_May2024/Paper5_EffectiveDistance/.venv/lib/python3.12/site-packages/pyfixest/estimation/models/fepois_.py:568: UserWarning: 12866 observations removed because of separation.
+  warnings.warn(
+  [Bprime_theta-5.0_dmin2.0]  N=165,621 intra=653 log_d=-0.8274(0.0229) home=-8.1110(0.9321) ci=[-9.938,-6.284] (1s)
+/Users/ian/1A_Helfrich_ThesisResearch_May2024/Paper5_EffectiveDistance/.venv/lib/python3.12/site-packages/pyfixest/estimation/models/fepois_.py:568: UserWarning: 12866 observations removed because of separation.
+  warnings.warn(
+  [Bprime_theta-5.0_dmin5.0]  N=165,621 intra=653 log_d=-0.8273(0.0228) home=-7.4846(0.9200) ci=[-9.288,-5.681] (1s)
+/Users/ian/1A_Helfrich_ThesisResearch_May2024/Paper5_EffectiveDistance/.venv/lib/python3.12/site-packages/pyfixest/estimation/models/fepois_.py:568: UserWarning: 12866 observations removed because of separation.
+  warnings.warn(
+  [Bprime_theta-5.0_dmin10.0]  N=165,621 intra=653 log_d=-0.8272(0.0228) home=-7.0429(0.9106) ci=[-8.828,-5.258] (1s)
+/Users/ian/1A_Helfrich_ThesisResearch_May2024/Paper5_EffectiveDistance/.venv/lib/python3.12/site-packages/pyfixest/estimation/models/fepois_.py:568: UserWarning: 12866 observations removed because of separation.
+  warnings.warn(
+  [Bprime_theta-5.0_dmin50.0]  N=165,621 intra=653 log_d=-0.8268(0.0228) home=-6.2048(0.8992) ci=[-7.967,-4.442] (1s)
+/Users/ian/1A_Helfrich_ThesisResearch_May2024/Paper5_EffectiveDistance/.venv/lib/python3.12/site-packages/pyfixest/estimation/models/fepois_.py:568: UserWarning: 12866 observations removed because of separation.
+  warnings.warn(
+  [Bprime_theta-5.0_dmin100.0]  N=165,621 intra=653 log_d=-0.8265(0.0227) home=-5.8683(0.8901) ci=[-7.613,-4.124] (1s)
+/Users/ian/1A_Helfrich_ThesisResearch_May2024/Paper5_EffectiveDistance/.venv/lib/python3.12/site-packages/pyfixest/estimation/models/fepois_.py:568: UserWarning: 12866 observations removed because of separation.
+  warnings.warn(
+  [Bprime_theta-5.0_dmin500.0]  N=165,621 intra=653 log_d=-0.8250(0.0226) home=-5.4616(0.8760) ci=[-7.179,-3.745] (1s)
+/Users/ian/1A_Helfrich_ThesisResearch_May2024/Paper5_EffectiveDistance/.venv/lib/python3.12/site-packages/pyfixest/estimation/models/fepois_.py:568: UserWarning: 12866 observations removed because of separation.
+  warnings.warn(
+  [Bprime_theta-7.0_dmin0.5]  N=165,621 intra=653 log_d=-0.8274(0.0229) home=-9.4463(0.9425) ci=[-11.294,-7.599] (1s)
+/Users/ian/1A_Helfrich_ThesisResearch_May2024/Paper5_EffectiveDistance/.venv/lib/python3.12/site-packages/pyfixest/estimation/models/fepois_.py:568: UserWarning: 12866 observations removed because of separation.
+  warnings.warn(
+  [Bprime_theta-7.0_dmin1.0]  N=165,621 intra=653 log_d=-0.8274(0.0229) home=-8.8884(0.9384) ci=[-10.728,-7.049] (1s)
+/Users/ian/1A_Helfrich_ThesisResearch_May2024/Paper5_EffectiveDistance/.venv/lib/python3.12/site-packages/pyfixest/estimation/models/fepois_.py:568: UserWarning: 12866 observations removed because of separation.
+  warnings.warn(
+  [Bprime_theta-7.0_dmin2.0]  N=165,621 intra=653 log_d=-0.8274(0.0229) home=-8.3491(0.9325) ci=[-10.177,-6.521] (1s)
+/Users/ian/1A_Helfrich_ThesisResearch_May2024/Paper5_EffectiveDistance/.venv/lib/python3.12/site-packages/pyfixest/estimation/models/fepois_.py:568: UserWarning: 12866 observations removed because of separation.
+  warnings.warn(
+  [Bprime_theta-7.0_dmin5.0]  N=165,621 intra=653 log_d=-0.8273(0.0228) home=-7.7226(0.9203) ci=[-9.526,-5.919] (1s)
+/Users/ian/1A_Helfrich_ThesisResearch_May2024/Paper5_EffectiveDistance/.venv/lib/python3.12/site-packages/pyfixest/estimation/models/fepois_.py:568: UserWarning: 12866 observations removed because of separation.
+  warnings.warn(
+  [Bprime_theta-7.0_dmin10.0]  N=165,621 intra=653 log_d=-0.8272(0.0228) home=-7.2808(0.9109) ci=[-9.066,-5.496] (1s)
+/Users/ian/1A_Helfrich_ThesisResearch_May2024/Paper5_EffectiveDistance/.venv/lib/python3.12/site-packages/pyfixest/estimation/models/fepois_.py:568: UserWarning: 12866 observations removed because of separation.
+  warnings.warn(
+  [Bprime_theta-7.0_dmin50.0]  N=165,621 intra=653 log_d=-0.8268(0.0228) home=-6.4427(0.8994) ci=[-8.205,-4.680] (1s)
+/Users/ian/1A_Helfrich_ThesisResearch_May2024/Paper5_EffectiveDistance/.venv/lib/python3.12/site-packages/pyfixest/estimation/models/fepois_.py:568: UserWarning: 12866 observations removed because of separation.
+  warnings.warn(
+  [Bprime_theta-7.0_dmin100.0]  N=165,621 intra=653 log_d=-0.8265(0.0227) home=-6.1061(0.8904) ci=[-7.851,-4.361] (1s)
+/Users/ian/1A_Helfrich_ThesisResearch_May2024/Paper5_EffectiveDistance/.venv/lib/python3.12/site-packages/pyfixest/estimation/models/fepois_.py:568: UserWarning: 12866 observations removed because of separation.
+  warnings.warn(
+  [Bprime_theta-7.0_dmin500.0]  N=165,621 intra=653 log_d=-0.8250(0.0226) home=-5.6990(0.8765) ci=[-7.417,-3.981] (1s)
+
+Final pivot, home coefficient (SE):
+theta   -7.0   -5.0   -3.0
+d_min                     
+0.5   -9.446 -9.208 -8.233
+1.0   -8.888 -8.650 -7.675
+2.0   -8.349 -8.111 -7.137
+5.0   -7.723 -7.485 -6.527
+10.0  -7.281 -7.043 -6.102
+50.0  -6.443 -6.205 -5.355
+100.0 -6.106 -5.868 -5.215
+500.0 -5.699 -5.462 -5.112
+theta   -7.0   -5.0   -3.0
+d_min                     
+0.5    0.942  0.942  0.940
+1.0    0.938  0.938  0.937
+2.0    0.932  0.932  0.931
+5.0    0.920  0.920  0.915
+10.0   0.911  0.911  0.903
+50.0   0.899  0.899  0.883
+100.0  0.890  0.890  0.876
+500.0  0.876  0.876  0.877
+
+Done.
